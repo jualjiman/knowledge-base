@@ -58,6 +58,24 @@ def startapp(app_name):
 
 
 @task
+def load_mandatory_dummy_data(*args):
+    """
+    Loads the dummy data for developing.
+    """
+    loaddata(
+        'areas.json',
+    )
+
+
+@task
+def load_dummy_data(*args):
+    """
+    Loads the dummy data for developing.
+    """
+    load_mandatory_dummy_data()
+
+
+@task
 def createsuperuser():
     """Create superuser.
 
@@ -66,7 +84,8 @@ def createsuperuser():
     Usage:
         >>> fab environment:vagrant createsuperuser.
     """
-    run('python manage.py createsuperuser')
+    with virtualenv():
+        run('python manage.py createsuperuser')
 
 
 @task
@@ -107,6 +126,7 @@ def bootstrap():
     # Build the DB schema and collect the static files.
     createdb()
     migrate()
+    load_dummy_data()
     collectstatic()
 
 

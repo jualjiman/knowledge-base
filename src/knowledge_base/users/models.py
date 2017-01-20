@@ -44,6 +44,7 @@ class UserManager(BaseUserManager):
         Creating new user superuser.
         """
         extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_active', True)
         extra_fields.setdefault('is_superuser', True)
         return self._create_user(email, password, **extra_fields)
 
@@ -53,7 +54,7 @@ def get_user_image_path(instance, filename):
     Get the upload path to the profile image.
     """
     return '{0}/{1}{2}'.format(
-        "users/profile_images/originals",
+        "users/originals",
         md5(filename).hexdigest(),
         os.path.splitext(filename)[-1]
     )
@@ -64,7 +65,7 @@ def get_user_thumbnail_path(instance, filename):
     Get the proper upload path to the thumbnail profile image.
     """
     return '{0}/{1}'.format(
-        "users/profile_images/thumbnails",
+        "users/thumbnails",
         filename
     )
 
@@ -121,13 +122,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     favorite_subjects = models.ManyToManyField(Subject)
     area = models.ForeignKey(
         Area,
+        null=True,
         related_name='users'
     )
 
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', ]
+    REQUIRED_FIELDS = ['name', ]
 
     def __unicode__(self):
         return self.get_full_name()

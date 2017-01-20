@@ -25,7 +25,9 @@ SECRET_KEY = '*+a9uub1)_lc7)fxhba4$%g2#&shao3o))4=_t&k7dyrr3)l47'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'kb.local'
+]
 
 
 # Application definition
@@ -176,3 +178,10 @@ STATICFILES_DIRS = (
 STATIC_ROOT = os.path.realpath(
     os.path.join(BASE_DIR, '..', '..', 'media', 'assets')
 )
+
+# User uploaded files
+MEDIA_ROOT = os.path.realpath(
+    os.path.join(BASE_DIR, '..', '..', 'media', 'uploads')
+)
+
+MEDIA_URL = '/media/uploads/'
