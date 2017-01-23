@@ -107,7 +107,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PAGINATION_CLASS': (
         # Your project default_pagination class project/utils/pagination.py
-        'ProjectDefaultPagination'
+        'knowledge_base.utils.pagination.ProjectDefaultPagination'
     ),
     'PAGE_SIZE': 24
 }
@@ -185,3 +185,5 @@ MEDIA_ROOT = os.path.realpath(
 )
 
 MEDIA_URL = '/media/uploads/'
+
+PRODUCTION = False

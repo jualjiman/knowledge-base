@@ -62,9 +62,6 @@ def load_mandatory_dummy_data(*args):
     """
     Loads the dummy data for developing.
     """
-    loaddata(
-        'areas.json',
-    )
 
 
 @task
@@ -72,7 +69,11 @@ def load_dummy_data(*args):
     """
     Loads the dummy data for developing.
     """
-    load_mandatory_dummy_data()
+    loaddata(
+        'areas_subjects.json',
+        'dummy_superuser.json',
+        'posts.json',
+    )
 
 
 @task
@@ -112,6 +113,7 @@ def resetdb():
     urun('dropdb knowledge_base')
     createdb()
     migrate()
+    load_dummy_data()
 
 
 @task

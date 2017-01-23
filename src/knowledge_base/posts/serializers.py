@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from knowledge_base.core.api.serializers import ModelSerializer
 from knowledge_base.posts.models import Area, Post, Subject
-from knowledge_base.users.serializers import UserSerializer
 
 
 class AreaSerializer(ModelSerializer):
@@ -29,6 +28,9 @@ class SubjectSerializer(ModelSerializer):
 
 
 class PostSerializer(ModelSerializer):
+    # to avoid cross importation.
+    from knowledge_base.users.serializers import UserSerializer
+
     subject = SubjectSerializer()
     author = UserSerializer()
 

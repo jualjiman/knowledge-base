@@ -137,10 +137,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_full_name(self):
         """
         Return full name user:
-             name last_name second_last_name
+             name last_name
         """
-        parts = [self.name, self.last_name, self.second_last_name]
-        return ' '.join(parts)
+        return u'{0} {1}'.format(
+            self.name, self.last_name
+        )
 
     def get_short_name(self):
         """

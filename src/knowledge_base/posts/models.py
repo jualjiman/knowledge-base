@@ -5,8 +5,6 @@ from hashlib import md5
 from django.conf import settings
 from django.db import models
 
-from django_markdown.models import MarkdownField
-
 from knowledge_base.core.db.models import CatalogueMixin
 
 
@@ -37,8 +35,8 @@ class Area(CatalogueMixin):
     """
     description = models.TextField(
         max_length=250,
-        null=False,
-        blank=False
+        null=True,
+        blank=True
     )
 
     photo = models.ImageField(
@@ -64,8 +62,8 @@ class Subject(CatalogueMixin):
     )
     description = models.TextField(
         max_length=250,
-        null=False,
-        blank=False
+        null=True,
+        blank=True
     )
 
 
@@ -77,7 +75,7 @@ class Post(CatalogueMixin):
         Subject,
         related_name='posts'
     )
-    content = MarkdownField()
+    content = models.TextField()
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name='posts',

@@ -1,0 +1,25 @@
+[
+{
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$24000$aEpXZjPtRWei$Pmcoz5AqQuHRIksUO9MWBnLigIGmDiz9I3kZQ1xtrAk=",
+        "last_login": "2017-01-22T23:55:44.264Z",
+        "is_superuser": true,
+        "email": "admin@admin.com",
+        "name": "admin",
+        "last_name": null,
+        "description": null,
+        "photo": "",
+        "thumbnail": "",
+        "register_date": "2017-01-22",
+        "last_modify_date": "2017-01-22",
+        "is_active": true,
+        "is_staff": true,
+        "area": null,
+        "groups": [],
+        "user_permissions": [],
+        "favorite_subjects": []
+    }
+}
+]
