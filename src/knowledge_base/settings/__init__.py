@@ -37,16 +37,21 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
     # Knowledge base apps
     'knowledge_base.users',
     'knowledge_base.posts',
+    'knowledge_base.authentication',
+    'knowledge_base.registration',
     # Third party apps.
     'rest_framework_swagger',
     'rest_framework',
 )
+
+SITE_ID = 1
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -65,7 +70,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.realpath(os.path.join(BASE_DIR, 'templates'))
+            os.path.realpath(os.path.join(BASE_DIR, '..', 'templates'))
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -183,6 +188,15 @@ STATIC_ROOT = os.path.realpath(
 MEDIA_ROOT = os.path.realpath(
     os.path.join(BASE_DIR, '..', '..', 'media', 'uploads')
 )
+
+# Email configurations.
+DEFAULT_FROM_EMAIL = 'Desarrollo <jualjiman@gmail.com>'
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+
+EMAIL_FILE_PATH = os.path.realpath(os.path.join(
+    BASE_DIR, '..', '..', 'media', 'email'
+))
 
 MEDIA_URL = '/media/uploads/'
 

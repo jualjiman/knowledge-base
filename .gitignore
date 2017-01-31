@@ -1,3 +1,5 @@
 .vagrant/
 *.pyc
 .tox
+media/email/
+*.swp

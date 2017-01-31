@@ -22,14 +22,10 @@ def reverse_with_querystrings(
 def get_query_params(request):
     query_params = {}
 
-    # Boolean strings.
-    false_strings = ['false', 'False']
-    true_strings = ['true', 'True']
-
     for key, value in request.query_params.iteritems():
-        if value in true_strings:
+        if value.lower() == 'true':
             query_params[key] = True
-        elif value in false_strings:
+        elif value.lower() == "false":
             query_params[key] = False
         else:
             query_params[key] = value

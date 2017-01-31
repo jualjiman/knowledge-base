@@ -1,0 +1,5 @@
+Activa tu cuenta
+
+Enlace: {{ activation_link }}
+
+Si tienes problemas con el enlace te sugerimos pegarlo en la barra de direcciones de tu navegador.

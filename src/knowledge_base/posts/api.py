@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from rest_framework.permissions import AllowAny
-from knowledge_base.api.v1.routers import router
 
+from knowledge_base.api.v1.routers import router
 from knowledge_base.core.api import mixins
 from knowledge_base.core.api.viewsets import GenericViewSet
 
@@ -18,7 +18,7 @@ class PostViewSet(
     mixins.DestroyModelMixin,
     GenericViewSet
 ):
-    permission_classes = [AllowAny,]
+    permission_classes = [AllowAny, ]
 
     serializers_class = serializers.PostSerializer
     create_serializer_class = serializers.PostSerializer
@@ -149,7 +149,7 @@ class PostViewSet(
     def get_queryset(self, *args, **kwargs):
         query_params = get_query_params(self.request)
         is_active = query_params.get('isActive', None)
-        
+
         queryset = Post.objects.all()
 
         if is_active is not None:

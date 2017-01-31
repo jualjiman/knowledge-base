@@ -118,12 +118,21 @@ class User(AbstractBaseUser, PermissionsMixin):
         default=False,
         verbose_name=_('is_staff')
     )
+    activation_code = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True
+    )
+
     # User preferences.
-    favorite_subjects = models.ManyToManyField(Subject)
+    favorite_subjects = models.ManyToManyField(
+        Subject,
+        blank=True
+    )
     area = models.ForeignKey(
         Area,
-        null=True,
-        related_name='users'
+        related_name='users',
+        null=True
     )
 
     objects = UserManager()
@@ -150,7 +159,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         """
         return self.name
 
-    def email_user(self, subject, body, html=None, from_email=None, **kwargs):
+    def send_email(self, subject, body, html=None, from_email=None, **kwargs):
         """
         Send an email to this user.
             Args:
@@ -171,6 +180,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         """
         if not from_email and settings.DEFAULT_FROM_EMAIL:
             from_email = settings.DEFAULT_FROM_EMAIL
+
 
         message = EmailMultiAlternatives(
             subject,
