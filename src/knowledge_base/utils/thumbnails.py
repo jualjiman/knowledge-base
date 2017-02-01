@@ -65,55 +65,56 @@ def cropped_thumbnail(img, size):
     return img.resize(target.size, Image.ANTIALIAS)
 
 
-def make_thumbnail(obj, field, thumbnail_field, size):
-
-    # Zip attributes in order to have a list of tupples with the necesary
-    # attributes to make the thumbnails [0]= thumnail_field [1]=size
-    zipped_attributes = zip(thumbnail_field, size)
-
+def make_thumbnail(obj, field, thumbnail_field, dimension):
     original_image_field = getattr(obj, field)
+    thumbnail_image_field = getattr(obj, thumbnail_field)
 
-    for attribute in zipped_attributes:
+    # Thumbnail dimension in a tuple (width, height).
+    cropping_dimension = tuple(int(v) for v in dimension.split('x'))
 
-        thumbnail_image_field = getattr(obj, attribute[0])
+    # Open original photo.
+    picture = Image.open(original_image_field.path)
 
-        # Thumbnail size in a tuple (width, height).
-        cropping_size = tuple(int(v) for v in attribute[1].split('x'))
+    # Crop/redimension image.
+    picture = cropped_thumbnail(picture, cropping_dimension)
 
-        # Open original photo.
-        picture = Image.open(original_image_field.path)
+    # Save the thumbnail,
+    image_buffer = StringIO()
+    try:
+        picture.save(image_buffer, 'jpeg')
+    except IOError:
+        picture = picture.convert('RGB')
+        picture.save(image_buffer, 'jpeg')
 
-        # Crop/resize image.
-        picture = cropped_thumbnail(picture, cropping_size)
+    image_buffer.seek(0)
 
-        # Save the thumbnail,
-        image_buffer = StringIO()
-        try:
-            picture.save(image_buffer, 'jpeg')
-        except IOError:
-            picture = picture.convert('RGB')
-            picture.save(image_buffer, 'jpeg')
+    # Saves the image to a SingleUploadedFile which can be
+    # saved into an ImageField.
 
-        image_buffer.seek(0)
+    original_image_name = os.path.split(original_image_field.name)[-1]
 
-        # Saves the image to a SingleUploadedFile which can be
-        # saved into an ImageField.
+    simple_uploaded_file = SimpleUploadedFile(
+        original_image_name,
+        image_buffer.read(),
+        content_type='image/jpeg'
+    )
 
-        original_image_name = os.path.split(original_image_field.name)[-1]
+    thumbnail_image_name = '{0}_{1}{2}'.format(
+        os.path.splitext(original_image_name)[0],
+        dimension,
+        os.path.splitext(original_image_name)[1]
+    )
 
-        simple_uploaded_file = SimpleUploadedFile(
-            original_image_name,
-            image_buffer.read(),
-            content_type='image/jpeg'
-        )
+    # add skip_signal attribute
 
-        thumbnail_image_name = '{0}_{1}.{2}'.format(
-            os.path.splitext(original_image_name)[0], attribute[1], 'jpg'
-        )
+    thumbnail_image_field.skip_signal = True
 
-        # Save SimpleUploadedFile into thumbnail field.
-        thumbnail_image_field.save(
-            thumbnail_image_name,
-            simple_uploaded_file,
-            save=False
-        )
+    # Save SimpleUploadedFile into thumbnail field.
+
+    thumbnail_image_field.save(
+        thumbnail_image_name,
+        simple_uploaded_file,
+        save=False
+    )
+
+    del thumbnail_image_field.skip_signal

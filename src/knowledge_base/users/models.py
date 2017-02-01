@@ -135,6 +135,17 @@ class User(AbstractBaseUser, PermissionsMixin):
         null=True
     )
 
+    @property
+    def thumbnail_settings(self):
+        """
+        Property used to configurate thumbnail creation settings.
+        """
+        return {
+            "dimension": "200x200",
+            "original_field": "photo",
+            "thumbnail_field": "thumbnail"
+        }
+
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
@@ -180,7 +191,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         """
         if not from_email and settings.DEFAULT_FROM_EMAIL:
             from_email = settings.DEFAULT_FROM_EMAIL
-
 
         message = EmailMultiAlternatives(
             subject,
