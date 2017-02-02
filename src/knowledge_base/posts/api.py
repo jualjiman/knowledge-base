@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 
 from knowledge_base.api.v1.routers import router
 from knowledge_base.core.api import mixins
@@ -18,13 +18,29 @@ class PostViewSet(
     mixins.DestroyModelMixin,
     GenericViewSet
 ):
-    permission_classes = [AllowAny, ]
+    permission_classes = [IsAuthenticated, ]
 
     serializers_class = serializers.PostSerializer
     create_serializer_class = serializers.PostSerializer
     list_serializer_class = serializers.PostSerializer
     retrieve_serializer_class = serializers.PostSerializer
     update_serializer_class = serializers.PostSerializer
+
+    def get_queryset(self, *args, **kwargs):
+        query_params = get_query_params(self.request)
+        is_active = query_params.get('isactive', None)
+
+        #
+        # This set of endpoints are used only to manage the posts of the
+        # request user, so only those post should be visible in all cases.
+        #
+        request_user = self.request.user
+        queryset = Post.objects.filter(author=request_user)
+
+        if is_active is not None:
+            queryset = queryset.filter(is_active=is_active)
+
+        return queryset
 
     def create(self, request, *args, **kwargs):
         """
@@ -104,7 +120,7 @@ class PostViewSet(
         response_serializer: serializers.PostSerializer
 
         parameters:
-            - name: isActive
+            - name: isactive
               description: if "true", returns only active registers.
               paramType: query
               type: boolean
@@ -145,17 +161,6 @@ class PostViewSet(
             - application/json
         """
         return super(PostViewSet, self).retrieve(request, pk)
-
-    def get_queryset(self, *args, **kwargs):
-        query_params = get_query_params(self.request)
-        is_active = query_params.get('isActive', None)
-
-        queryset = Post.objects.all()
-
-        if is_active is not None:
-            queryset = queryset.filter(is_active=is_active)
-
-        return queryset
 
 router.register(
     r'posts',

@@ -9,96 +9,7 @@ from django.utils.translation import ugettext as _
 
 from rest_framework import serializers
 
-from knowledge_base.registration.models import ResetPassword
 from knowledge_base.utils.refresh_token import create_token
-
-
-class ChangePasswordSerializer(serializers.Serializer):
-    """
-    Serializer for change password.
-    """
-    password = serializers.CharField(
-        max_length=150,
-        required=True
-    )
-    token = serializers.CharField(
-        max_length=40,
-        required=True
-    )
-
-    def validate_token(self, value):
-        """
-        Validation token
-        """
-        try:
-            status = ResetPassword.objects.get(activation_key=value)
-        except ResetPassword.DoesNotExist:
-            raise serializers.ValidationError(
-                _("The code does not exist")
-            )
-
-        if status.is_activated:
-            raise serializers.ValidationError(
-                _("The code has already been used")
-            )
-        if status.key_expired:
-            raise serializers.ValidationError(
-                _("The code already expired")
-            )
-        return value
-
-    def create(self, validated_data):
-        """
-        Change password
-        """
-        password = validated_data.get('password', None)
-        token = validated_data.get('token', None)
-        use_token = ResetPassword.objects.get(activation_key=token)
-        use_token.is_activated = True
-        use_token.save()
-        user = get_user_model.objects.get(id=use_token.user.id)
-        user.set_password(password)
-        user.save()
-
-        return user
-
-
-class NewPasswordSerializer(serializers.ModelSerializer):
-    """
-    Serializer for reset password.
-    """
-    email = serializers.CharField(
-        max_length=150,
-        required=True
-    )
-
-    class Meta:
-        model = get_user_model()
-        fields = (
-            'email',
-        )
-
-    def validate_email(self, value):
-        """
-        Validation email
-        """
-        try:
-            user_model = get_user_model()
-            user_model.objects.get(email=value)
-        except user_model.DoesNotExist:
-            raise serializers.ValidationError(
-                _("The email does not exist")
-            )
-
-        return value
-
-    def create(self, validated_data):
-        mail = validated_data.get('email', None)
-        user = ResetPassword.objects.reset_user_password(
-            email=mail,
-            request=self.context['request']
-        )
-        return user
 
 
 class RegistrationProfileSerializer(serializers.ModelSerializer):
@@ -148,7 +59,7 @@ class RegistrationProfileSerializer(serializers.ModelSerializer):
         )
         # Send a mail with the data for account activation
         user.send_email(
-            'Activa tu cuenta',
+            _('Activa tu cuenta'),
             message_text,
             message_html
         )
