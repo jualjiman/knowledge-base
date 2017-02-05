@@ -50,10 +50,10 @@ class SubjectResumeSerializer(ModelSerializer):
 
 class PostSerializer(ModelSerializer):
     # To avoid cross importation.
-    from knowledge_base.users.serializers import ProfileResumeSerializer
-
-    subject = SubjectResumeSerializer()
-    author = ProfileResumeSerializer()
+    # from knowledge_base.users.serializers import ProfileResumeSerializer
+    #
+    # subject = SubjectResumeSerializer()
+    # author = ProfileResumeSerializer()
 
     class Meta:
         model = Post
@@ -85,5 +85,16 @@ class PostCreateSerializer(ModelSerializer):
             'name',
             'content',
             'author',
+            'subject',
+        )
+
+
+class PostDocSerializer(ModelSerializer):
+    class Meta:
+        model = Post
+        fields = (
+            'id',
+            'name',
+            'content',
             'subject',
         )

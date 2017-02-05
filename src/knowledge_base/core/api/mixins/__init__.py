@@ -3,6 +3,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.settings import api_settings
 
+from django.http.request import QueryDict
+
 
 class CreateModelMixin(object):
     """
@@ -12,9 +14,12 @@ class CreateModelMixin(object):
         # Serializer that will be used to create the object.
         data = request.data
 
-        # Pass kwargs to data
-        if kwargs:
-            for key, value in kwargs.iteritems():
+        # Pass extra_data to request data.
+        if 'extra_data' in kwargs:
+            if isinstance(data, QueryDict):
+                data = {}
+
+            for key, value in kwargs['extra_data'].iteritems():
                 data.update({key: value})
 
         # Serializer that will be used to create the object.

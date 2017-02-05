@@ -11,25 +11,27 @@ from knowledge_base.core.api import mixins
 from knowledge_base.core.api.routers.single import SingleObjectRouter
 from knowledge_base.core.api.viewsets import GenericViewSet
 
-from knowledge_base.users import serializers
+from knowledge_base.users.serializers import (
+    ProfileSerializer, ProfileUpdateImageSerializer
+)
 
 
 class ProfileViewSet(mixins.RetrieveModelMixin,
                      mixins.PartialUpdateModelMixin,
                      GenericViewSet):
 
-    serializer_class = serializers.ProfileSerializer
-    retrieve_serializer_class = serializers.ProfileSerializer
-    update_serializer_class = serializers.ProfileSerializer
-    change_image_serializer_class = serializers.ProfileUpdateImageSerializer
+    serializer_class = ProfileSerializer
+    retrieve_serializer_class = ProfileSerializer
+    update_serializer_class = ProfileSerializer
+    change_image_serializer_class = ProfileUpdateImageSerializer
 
     permission_classes = (IsAuthenticated, )
 
     def retrieve(self, request, pk=None):
         """
-        Get a data for user profile
+        Gets the user profile information.
         ---
-        response_serializer: serializers.ProfileSerializer
+        response_serializer: ProfileSerializer
         omit_serializer: false
         responseMessages:
             - code: 200
@@ -49,10 +51,10 @@ class ProfileViewSet(mixins.RetrieveModelMixin,
 
     def partial_update(self, request):
         """
-        Update a user profile
+        Updates the user profile information.
         ---
-        request_serializer: serializers.ProfileSerializer
-        response_serializer: serializers.ProfileSerializer
+        request_serializer: ProfileSerializer
+        response_serializer: ProfileSerializer
         omit_serializer: false
         responseMessages:
             - code: 200
@@ -77,8 +79,8 @@ class ProfileViewSet(mixins.RetrieveModelMixin,
         """
         Allows the session's user to update his profile image.
         ---
-        request_serializer: serializers.ProfileUpdateImageSerializer
-        response_serializer: serializers.ProfileSerializer
+        request_serializer: ProfileUpdateImageSerializer
+        response_serializer: ProfileSerializer
         responseMessages:
             - code: 200
               message: OK
