@@ -1,5 +1,15 @@
+.cache/
+.tox/
+media/email/*
+media/uploads/*
+media/assets/*
 .vagrant/
+.DS_Store
+src/celerybeat-schedule
+htmlcov/
+*.coverage
 *.pyc
-.tox
-media/email/
+*.sql
+*.sqlite
 *.swp
+bower_components/

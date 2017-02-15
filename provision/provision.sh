@@ -13,7 +13,7 @@ apt-get install -y $PACKAGES
 
 
 echo "Setting up PostgreSQL server..."
-cp /tmp/templates/postgresql/pg_hba.conf /etc/postgresql/9.3/main/pg_hba.conf
+cp /tmp/templates/postgresql/pg_hba.conf /etc/postgresql/9.4/main/pg_hba.conf
 service postgresql restart
 
 USER_EXISTS=$(psql -U postgres -h localhost -tAc "SELECT 1 FROM pg_roles WHERE rolname='vagrant'" postgres)
@@ -63,6 +63,25 @@ REQUIREMENTS_FILE=/home/vagrant/src/requirements/local.txt
 
 if [ -f "$REQUIREMENTS_FILE" ]; then
     sudo -Hu vagrant bash -c "source $VIRTUALENV_DIR/bin/activate && pip install -r $REQUIREMENTS_FILE"
+fi
+
+
+echo "Configuring nodejs and bower with nvm..."
+NVM_DIR=/home/vagrant/env/nvm
+
+if [ ! -d "$NVM_DIR" ]; then
+    git clone https://github.com/creationix/nvm.git $NVM_DIR && cd $NVM_DIR && git checkout `git describe --abbrev=0 --tags`
+    chown -R vagrant:vagrant $NVM_DIR
+    sudo -Hu vagrant bash -c "source $NVM_DIR/nvm.sh && nvm install stable && npm install gulp bower -g"
+fi
+
+
+echo "Installing bower components..."
+BOWER_FILE=/home/vagrant/src/bower.json
+
+if [ -f "$BOWER_FILE" ]; then
+    BOWER_FILE_DIR=$(dirname $BOWER_FILE)
+    sudo -Hu vagrant bash -c "source $NVM_DIR/nvm.sh && nvm use stable && cd $BOWER_FILE_DIR && bower install"
 fi
 
 

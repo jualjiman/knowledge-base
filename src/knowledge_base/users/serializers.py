@@ -6,15 +6,28 @@ from rest_framework import serializers
 from knowledge_base.core.api.serializers import ModelSerializer
 
 
+class ProfileURISerializer(ModelSerializer):
+
+    class Meta:
+        model = get_user_model()
+        fields = (
+           'id',
+           'name',
+           'last_name',
+           'email',
+           'resource_uri',
+        )
+
+
 class ProfileSerializer(ModelSerializer):
     # To avoid cross importation.
     from knowledge_base.posts.serializers import (
-        AreaResumeSerializer,
-        SubjectResumeSerializer
+        AreaURISerializer,
+        SubjectURISerializer
     )
 
-    area = AreaResumeSerializer()
-    favorite_subjects = SubjectResumeSerializer(many=True)
+    area = AreaURISerializer()
+    favorite_subjects = SubjectURISerializer(many=True)
 
     class Meta:
         model = get_user_model()
@@ -30,16 +43,17 @@ class ProfileSerializer(ModelSerializer):
         )
 
 
-class ProfileResumeSerializer(ModelSerializer):
+class ProfileUpdateSerializer(ModelSerializer):
 
     class Meta:
         model = get_user_model()
         fields = (
            'id',
+           'email',
            'name',
            'last_name',
-           'email',
-           'resource_uri',
+           'description',
+           'area',
         )
 
 

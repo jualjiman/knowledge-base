@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from fabric.api import cd, env, require, run, task
 from fabric.colors import green, white
-from fabric.context_managers import contextmanager, shell_env
+from fabric.context_managers import contextmanager, prefix, shell_env
 from fabric.utils import puts
 
 from fabutils import arguments, join, options
@@ -206,6 +206,36 @@ def runserver():
         run('python manage.py runserver_plus 0.0.0.0:8000')
 
 
+@contextmanager
+def node():
+    """
+    Activates the node version in which the commands shall be run.
+    """
+
+    with cd(env.site_dir):
+        with prefix('nvm use stable'), shell_env(CI='true'):
+            yield
+
+
+@task
+def bower_install(*args, **kwargs):
+    """
+    Installs frontend dependencies with bower.
+    """
+    with node():
+        run(join('bower install',
+                 options(**kwargs), arguments(*args)))
+
+
+@task
+def npm_install():
+    """
+    Installs the nodejs dependencies defined in package.json
+    """
+    with node():
+        run('npm install')
+
+
 @task
 def deploy(git_ref, upgrade=False):
     """Deploy project.
@@ -272,6 +302,14 @@ def deploy(git_ref, upgrade=False):
             message = white('Migrating database')
             with cmd_msg(message, spaces=2):
                 run('python manage.py migrate --noinput')
+
+            message = 'Installing node modules'
+            with cmd_msg(message, spaces=2):
+                npm_install()
+
+            message = 'Installing bower components'
+            with cmd_msg(message, spaces=2):
+                bower_install()
 
             message = white('Collecting static files')
             with cmd_msg(message, spaces=2):

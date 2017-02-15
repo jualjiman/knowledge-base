@@ -12,7 +12,7 @@ from knowledge_base.core.api.routers.single import SingleObjectRouter
 from knowledge_base.core.api.viewsets import GenericViewSet
 
 from knowledge_base.users.serializers import (
-    ProfileSerializer, ProfileUpdateImageSerializer
+    ProfileSerializer, ProfileUpdateSerializer, ProfileUpdateImageSerializer
 )
 
 
@@ -22,7 +22,7 @@ class ProfileViewSet(mixins.RetrieveModelMixin,
 
     serializer_class = ProfileSerializer
     retrieve_serializer_class = ProfileSerializer
-    update_serializer_class = ProfileSerializer
+    update_serializer_class = ProfileUpdateSerializer
     change_image_serializer_class = ProfileUpdateImageSerializer
 
     permission_classes = (IsAuthenticated, )
@@ -139,9 +139,9 @@ class ProfileViewSet(mixins.RetrieveModelMixin,
 
     def perform_delete_image(self):
         user = self.request.user
-        if user.image and os.path.isfile(user.image.path):
-            os.remove(user.image.path)
-            user.image = None
+        if user.photo and os.path.isfile(user.photo.path):
+            os.remove(user.photo.path)
+            user.photo = None
             if user.thumbnail and os.path.isfile(user.thumbnail.path):
                 os.remove(user.thumbnail.path)
                 user.thumbnail = None

@@ -220,14 +220,14 @@ class ProfilePostViewSet(
     permission_classes = [IsAuthenticated, ]
 
     serializers_class = serializers.PostSerializer
-    create_serializer_class = serializers.PostCreateSerializer
     list_serializer_class = serializers.PostSerializer
     retrieve_serializer_class = serializers.PostSerializer
     update_serializer_class = serializers.PostSerializer
+    create_serializer_class = serializers.PostCreateSerializer
 
     def get_queryset(self, *args, **kwargs):
         query_params = get_query_params(self.request)
-        is_active = query_params.get('isactive', None)
+        is_active = query_params.get('isactive')
 
         #
         # This set of endpoints are used only to manage the posts of the
@@ -391,6 +391,9 @@ router.register_nested(
     depth_level=2
 )
 
+#
+# Set of endpoints used to manage user's posts.
+#
 router.register(
     r'me/posts',
     ProfilePostViewSet,

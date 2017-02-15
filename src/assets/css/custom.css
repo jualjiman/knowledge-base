@@ -1,0 +1,33 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+#header {
+    background: #f5f5f5;
+    color: white;
+    font-weight: bold;
+}
+#header .logo-box {
+    background: #2A3E61;
+    padding: 13px 65px;
+}
+
+#header .logo{
+    width: 40px;
+}
+
+#sidenav {
+    background: #19283F;
+}
+
+.md-nav-bar {
+    height: 65px;
+}
+.md-button._md-nav-button {
+    padding: 20px 16px; 
+}
+.md-nav-item:first-of-type {
+    margin-left: 0;
+}
+
+

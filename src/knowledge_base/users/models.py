@@ -80,9 +80,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         null=False
     )
     name = models.CharField(
-        max_length=50,
-        blank=True,
-        null=True
+        max_length=50
     )
     last_name = models.CharField(
         max_length=50,

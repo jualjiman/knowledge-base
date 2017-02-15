@@ -1,0 +1,9 @@
+{
+    "name": "knowledge-base",
+    "version": "0.0.1",
+    "authors": [
+        "Alberto Jimenez <jualjiman@gmail.com>"
+    ],
+    "description": "Knowledge base",
+    "directory": "./assets/bower_components/"
+}

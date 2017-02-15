@@ -1,5 +1,6 @@
 # Activate the Python virtual environment
 source /home/vagrant/env/bin/activate
+source /home/vagrant/env/nvm/nvm.sh
 
 # Go to src directory actumatically
 cd /home/vagrant/src

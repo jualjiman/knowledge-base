@@ -18,6 +18,8 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 
+from knowledge_base.views import PanelView
+
 urlpatterns = static(
     settings.MEDIA_URL,
     document_root=settings.MEDIA_ROOT
@@ -32,4 +34,16 @@ urlpatterns += [
             namespace='api'
         )
     ),
+    url(
+        r'^',
+        include(
+            'knowledge_base.registration.urls',
+            namespace='registration'
+        )
+    ),
+    url(
+        r'^.*',
+        PanelView.as_view(),
+        name='panel'
+    )
 ]

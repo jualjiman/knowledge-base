@@ -25,11 +25,16 @@ class RegistrationProfileSerializer(serializers.ModelSerializer):
         )
 
     def create(self, validated_data):
-        user = super(
-            RegistrationProfileSerializer,
-            self
-        ).create(validated_data)
+        #
+        # Getting url schema from request meta data.
+        #
+        request = self.context['request']
+        url_schema = request.META['wsgi.url_scheme']
 
+        user_model = get_user_model()
+
+        user = user_model(**validated_data)
+        user.set_password(user.password)
         salt = hashlib.sha1(str(random.random())).hexdigest()[:5]
         email = user.email
 
@@ -41,7 +46,7 @@ class RegistrationProfileSerializer(serializers.ModelSerializer):
         user.save()
 
         current_site = Site.objects.get_current()
-        url = 'https://{0}/activate/{1}'.format(current_site, key)
+        url = '{0}://{1}/activate/{2}'.format(url_schema, current_site, key)
 
         # Constructs the context to be passed to the renderer.
         context = {

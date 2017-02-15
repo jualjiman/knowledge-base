@@ -14,7 +14,7 @@ class AreaSerializer(ModelSerializer):
         )
 
 
-class AreaResumeSerializer(ModelSerializer):
+class AreaURISerializer(ModelSerializer):
     class Meta:
         model = Area
         fields = (
@@ -25,7 +25,7 @@ class AreaResumeSerializer(ModelSerializer):
 
 
 class SubjectSerializer(ModelSerializer):
-    area = AreaResumeSerializer()
+    area = AreaURISerializer()
 
     class Meta:
         model = Subject
@@ -37,7 +37,7 @@ class SubjectSerializer(ModelSerializer):
         )
 
 
-class SubjectResumeSerializer(ModelSerializer):
+class SubjectURISerializer(ModelSerializer):
 
     class Meta:
         model = Subject
@@ -50,10 +50,10 @@ class SubjectResumeSerializer(ModelSerializer):
 
 class PostSerializer(ModelSerializer):
     # To avoid cross importation.
-    # from knowledge_base.users.serializers import ProfileResumeSerializer
+    # from knowledge_base.users.serializers import ProfileURISerializer
     #
-    # subject = SubjectResumeSerializer()
-    # author = ProfileResumeSerializer()
+    # subject = SubjectURISerializer()
+    # author = ProfileURISerializer()
 
     class Meta:
         model = Post
@@ -66,7 +66,7 @@ class PostSerializer(ModelSerializer):
         )
 
 
-class PostResumeSerializer(ModelSerializer):
+class PostURISerializer(ModelSerializer):
 
     class Meta:
         model = Post
