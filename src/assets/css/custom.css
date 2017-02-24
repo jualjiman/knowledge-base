@@ -1,5 +1,10 @@
 body {
     font-family: 'Roboto', sans-serif;
+    background-color: #f5f5f5;
+}
+
+a {
+    color: #00BCD4;
 }
 
 #header {
@@ -20,6 +25,11 @@ body {
     background: #19283F;
 }
 
+.breadcrum {
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
 .md-nav-bar {
     height: 65px;
 }
@@ -30,4 +40,18 @@ body {
     margin-left: 0;
 }
 
+.mdl-card__title-text.card-title {
+    color: #fff;
+    font-weight: bold;
+}
 
+.mdl-data-table {
+    width: 100%;
+}
+
+.mdl-main-title {
+    font-size: 18px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: rgba(0,0,0,.54);
+}

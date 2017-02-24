@@ -1,0 +1,24 @@
+<div class="breadcrum">
+    <a ui-sref="panel.areas">Areas</a> /
+    <a ui-sref="panel.subjects({areaId: area.id})">{{ area.name }}</a> /
+    {{ subject.name }} /
+</div>
+<h4 class="mdl-main-title">Publicaciones</h4>
+<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+    <thead>
+        <tr>
+        <th class="mdl-data-table__cell--non-numeric">Nombre</th>
+        <th class="mdl-data-table__cell--non-numeric">Resumen</th>
+        </tr>
+    </thead>
+    <tbody ng-repeat="post in posts">
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+                <a ui-sref="panel.post({areaId: post.parentIds.areaId, subjectId: post.parentIds.subjectId, id: post.id})">{{ post.name }}</a>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+                {{ post.resume }}
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -76,6 +76,7 @@ class ModelSerializer(DynamicFieldsMixin, AbsoluteUriMixin,
     """
     lookup_field = 'pk'
     api_version = 'v1'
+    parent_kwargs = None
     resource_uri = serializers.SerializerMethodField()
 
     def get_resource_uri(self, obj):
@@ -90,6 +91,22 @@ class ModelSerializer(DynamicFieldsMixin, AbsoluteUriMixin,
             )
         )
 
-        return reverse(url, request=self.context.get('request', None), kwargs={
-            self.lookup_field: getattr(obj, self.lookup_field)
-        })
+        request = self.context.get('request')
+        kwargs = {self.lookup_field: getattr(obj, self.lookup_field)}
+
+        #
+        # Using custom kwargs if any.
+        #
+        if self.parent_kwargs:
+            for key, values in self.parent_kwargs.iteritems():
+                current_value = obj
+                for field in values:
+                    current_value = getattr(current_value, field)
+
+                kwargs[key] = current_value
+
+        return reverse(
+            url,
+            request=request,
+            kwargs=kwargs
+        )

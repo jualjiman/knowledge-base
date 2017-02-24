@@ -21,7 +21,7 @@ class AreaViewSet(
     permission_classes = [IsAuthenticated, ]
 
     serializers_class = serializers.AreaSerializer
-    list_serializer_class = serializers.AreaSerializer
+    list_serializer_class = serializers.AreaURISerializer
     retrieve_serializer_class = serializers.AreaSerializer
 
     def list(self, request, *args, **kwargs):
@@ -76,7 +76,7 @@ class SubjectViewSet(
     permission_classes = [IsAuthenticated, ]
 
     serializers_class = serializers.SubjectSerializer
-    list_serializer_class = serializers.SubjectSerializer
+    list_serializer_class = serializers.SubjectURISerializer
     retrieve_serializer_class = serializers.SubjectSerializer
 
     parent_model = Area
@@ -98,7 +98,7 @@ class SubjectViewSet(
         """
         Return a list of subjects that belongs to specific area.
         ---
-        response_serializer: serializers.SubjectSerializer
+        response_serializer: serializers.SubjectURISerializer
         responseMessages:
             - code: 200
               message: OK
@@ -146,7 +146,7 @@ class PostViewSet(
     permission_classes = [IsAuthenticated, ]
 
     serializers_class = serializers.PostSerializer
-    list_serializer_class = serializers.PostSerializer
+    list_serializer_class = serializers.PostURISerializer
     retrieve_serializer_class = serializers.PostSerializer
 
     parent_model = Subject

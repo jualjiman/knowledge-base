@@ -3,18 +3,41 @@
 <html ng-app="knowledgeBase" ng-cloak>
   <head>
     <meta charset="utf-8">
-    <title>Knowledge Base</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Material Design Lite</title>
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="images/android-desktop.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
+    <link rel="apple-touch-icon-precomposed" href="images/ios-desktop.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+    <meta name="msapplication-TileColor" content="#3372DF">
+
+    <link rel="shortcut icon" href="images/favicon.png">
+
 
     <!-- Third party application styles -->
-    <link rel="stylesheet" href="{% static 'bower_components/angular-material/angular-material.css' %}">
     <link rel="stylesheet" href="{% static 'bower_components/angular-toastr/dist/angular-toastr.min.css' %}">
-    <link rel="stylesheet" href="{% static 'bower_components/angular-material-icons/angular-material-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'bower_components/material-design-lite/material.min.css' %}">
+    <link rel="stylesheet" href="{% static 'bower_components/angular-toastr/dist/angular-toastr.min.css' %}">
+    <link rel="stylesheet" href="{% static 'bower_components/highlightjs/styles/monokai-sublime.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+
     <!-- End third party application styles -->
 
     <!-- Application styles -->
     <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+    <link rel="stylesheet" href="{% static 'css/panel.css' %}">
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
     <!-- End application styles -->
 
@@ -24,35 +47,37 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div ui-view="header" layout="column"></div>
-    
-    <section layout="row" flex>
-        <div ui-view="sidenav" flex="33"></div>
-        <div ui-view="content" flex="66"></div>
-    </section>
-
-    <div ui-view="footer"></div>
+    <div ui-view></div>
 
     <!-- Third party scripts -->
+    <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %} "></script>
     <script src="{% static 'bower_components/angular/angular.js' %} "></script>
-    <script src="{% static 'bower_components/angular-aria/angular-aria.min.js' %}"></script>
-    <script src="{% static 'bower_components/angular-animate/angular-animate.js' %} "></script>
-    <script src="{% static 'bower_components/angular-material/angular-material.js' %} "></script>
-    <script src="{% static 'bower_components/angular-material/angular-material.js' %} "></script>
+    <script src="{% static 'bower_components/material-design-lite/material.min.js' %}"></script>
     <script src="{% static 'bower_components/angular-resource/angular-resource.min.js' %}"></script>
+    <script src="{% static 'bower_components/angular-animate/angular-animate.min.js' %}"></script>
     <script src="{% static 'bower_components/angular-ui-router/release/angular-ui-router.min.js' %}"></script>
     <script src="{% static 'bower_components/ngstorage/ngStorage.min.js' %}"></script>
     <script src="{% static 'bower_components/angular-toastr/dist/angular-toastr.min.js' %}"></script>
-    <script src="{% static 'bower_components/angular-material-icons/angular-material-icons.min.js' %}"></script>
+    <script src="{% static 'bower_components/highlightjs/highlight.pack.min.js' %}"></script>
+    <script src="{% static 'bower_components/marked/marked.min.js' %}"></script>
+    <script src="{% static 'bower_components/angular-marked/dist/angular-marked.min.js' %}"></script>
     <!-- End third party scripts -->
     
     <!-- Application scripts -->
-    <script>var staticUrl = "{{ static_url }}";</script>
+    <script>
+        var staticUrl = "{{ static_url }}";
+    </script>
     <script src="{% static 'js/vo-angular-content.js' %}"></script>
+    <script src="{% static 'js/material-lite-component-reloader.js' %}"></script>
     <script src="{% static 'angular/js/app.js' %} "></script>
     <script src="{% static 'angular/js/config.js' %} "></script>
+    <script src="{% static 'angular/js/resources.js' %} "></script>
+    <script src="{% static 'angular/js/directives.js' %} "></script>
 
-    <script src="{% static 'angular/js/controllers/home.js' %} "></script>
+    <script src="{% static 'angular/js/controllers/login.js' %} "></script>
+    <script src="{% static 'angular/js/controllers/areas.js' %} "></script>
+    <script src="{% static 'angular/js/controllers/subjects.js' %} "></script>
+    <script src="{% static 'angular/js/controllers/posts.js' %} "></script>
     <!-- End application scripts -->
 
   </body>

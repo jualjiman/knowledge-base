@@ -12,5 +12,5 @@ def autodiscover():
     for app in settings.INSTALLED_APPS:
         try:
             import_module('.'.join((app, 'api')))
-        except ImportError:
-            pass
+        except ImportError as e:
+            print e

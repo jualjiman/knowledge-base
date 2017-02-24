@@ -51,6 +51,17 @@ class Area(CatalogueMixin):
         upload_to=get_area_thumbnail_path
     )
 
+    @property
+    def thumbnail_settings(self):
+        """
+        Property used to configurate thumbnail creation settings.
+        """
+        return {
+            "dimension": "300x200",
+            "original_field": "photo",
+            "thumbnail_field": "thumbnail"
+        }
+
 
 class Subject(CatalogueMixin):
     """
@@ -74,6 +85,9 @@ class Post(CatalogueMixin):
     subject = models.ForeignKey(
         Subject,
         related_name='posts'
+    )
+    resume = models.CharField(
+        max_length=150        
     )
     content = models.TextField()
     author = models.ForeignKey(

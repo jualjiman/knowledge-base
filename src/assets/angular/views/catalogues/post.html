@@ -1,0 +1,8 @@
+<div class="breadcrum">
+    <a ui-sref="panel.areas">Areas</a> /
+    <a ui-sref="panel.subjects({areaId: area.id})">{{ area.name }}</a> /
+    <a ui-sref="panel.posts({areaId: area.id, subjectId: subject.id})">{{ subject.name }}</a> /
+</div>
+<h4 class="mdl-main-title">{{ post.name }}</h4>
+
+<div marked="post.content"></div>

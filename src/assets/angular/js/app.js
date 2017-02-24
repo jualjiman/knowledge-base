@@ -1,9 +1,9 @@
 var app = angular.module('knowledgeBase', [
     'ui.router',
-    'ngMaterial',
     'ngResource',
     'ngStorage',
-    'ngMdIcons',
+    'ngAnimate',
     'toastr',
-    'vo.content',
+    'hc.marked',
+    'vo.content'
 ]);
