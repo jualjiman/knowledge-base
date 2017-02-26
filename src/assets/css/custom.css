@@ -4,7 +4,7 @@ body {
 }
 
 a {
-    color: #00BCD4;
+    color: #0084d4;
 }
 
 #header {
@@ -30,6 +30,23 @@ a {
     font-size: 13px;
 }
 
+pre {
+    background: #373c3e;
+    color: white;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.post {
+    color: #6b6b6b;
+    text-align: justify;
+}
+
+.margin-bottom-small {
+    margin-bottom: 10px;
+}
+
 .md-nav-bar {
     height: 65px;
 }
@@ -50,8 +67,21 @@ a {
 }
 
 .mdl-main-title {
-    font-size: 18px;
+    font-size: 20px;
+    font-weight: bold;
     font-weight: 500;
     text-transform: uppercase;
     color: rgba(0,0,0,.54);
+}
+
+.mdl-button.mdl-button--colored.blue-font {
+    color: #0084d4;
+}
+
+.mdl-form-textfield-container {
+    width: 70%;
+}
+
+.mdl-form-textfield {
+    height: 250px;
 }

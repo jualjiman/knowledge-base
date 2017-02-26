@@ -1,0 +1,24 @@
+<h4 class="mdl-main-title">Contribuciones</h4>
+<button ui-sref="panel.addContribution" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored margin-bottom-small" data-upgraded=",MaterialButton">
+  Agregar publicación
+</button>
+<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+    <thead>
+        <tr>
+        <th class="mdl-data-table__cell--non-numeric">Nombre</th>
+        <th class="mdl-data-table__cell--non-numeric">Tema</th>
+        <th class="mdl-data-table__cell--non-numeric">Area</th>
+        <th class="mdl-data-table__cell--non-numeric">Acciones</th>
+        </tr>
+    </thead>
+    <tbody ng-repeat="contribution in contributions">
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+                <a ui-sref=""</a>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+                {{ contribution.resume }}
+            </td>
+        </tr>
+    </tbody>
+</table>

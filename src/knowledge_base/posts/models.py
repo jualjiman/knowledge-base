@@ -87,7 +87,7 @@ class Post(CatalogueMixin):
         related_name='posts'
     )
     resume = models.CharField(
-        max_length=150        
+        max_length=150
     )
     content = models.TextField()
     author = models.ForeignKey(

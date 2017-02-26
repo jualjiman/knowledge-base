@@ -7,6 +7,7 @@ app.config([
         // Markdown library setup.
         markedProvider.setOptions({
             gfm: true,
+            tables: true,
             highlight: function (code, lang) {
                 if (lang) {
                     return hljs.highlight(lang, code, true).value;
@@ -64,10 +65,19 @@ app.config([
 
         /*
          * States.
-         * 
-         * Home states.
          */
         $stateProvider
+            /*
+             * Login states
+             */
+            .state('login', {
+                url: '/login',
+                templateUrl: $contentProvider.url('angular/views/login/main.html'),
+                controller: "AuthCtrl"
+            })
+            /*
+             * Panel states
+             */
             .state('panel', {
                 url: '/panel',
                 abstract: true,
@@ -119,13 +129,23 @@ app.config([
                     }
                 }
             })
-            /*
-             * Login states
-             */
-            .state('login', {
-                url: '/login',
-                templateUrl: $contentProvider.url('angular/views/login/main.html'),
-                controller: "AuthCtrl"
+            .state('panel.contributions', {
+                url: '/contributions',
+                views: {
+                    "content": {
+                        templateUrl: $contentProvider.url('angular/views/contributions/list.html'),
+                        controller: "ContributionsCtrl"
+                    }
+                }
+            })
+            .state('panel.addContribution', {
+                url: '/add-contribution',
+                views: {
+                    "content": {
+                        templateUrl: $contentProvider.url('angular/views/contributions/create.html'),
+                        controller: "ContributionsCtrl"
+                    }
+                }
             });
 
         return $urlRouterProvider.otherwise('/panel/areas');

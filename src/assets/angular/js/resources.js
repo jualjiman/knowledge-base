@@ -41,7 +41,7 @@ app
             );
         }
     ])
-    .factory('ProfilePost', [
+    .factory('ProfileContributions', [
         '$resource',
         function ($resource) {
             return $resource(
