@@ -76,19 +76,24 @@ class ModelSerializer(DynamicFieldsMixin, AbsoluteUriMixin,
     """
     lookup_field = 'pk'
     api_version = 'v1'
-    parent_kwargs = None
+    custom_kwargs = None
+    custom_base_name = None
     resource_uri = serializers.SerializerMethodField()
 
     def get_resource_uri(self, obj):
         """
         Return the uri of the given object.
         """
+        base_name = getattr(
+            self, 'resource_view_name',
+            self.Meta.model._meta.model_name
+        )
+        if self.custom_base_name:
+            base_name = self.custom_base_name
+
         url = 'api:%s:%s-detail' % (
             self.api_version,
-            getattr(
-                self, 'resource_view_name',
-                self.Meta.model._meta.model_name
-            )
+            base_name
         )
 
         request = self.context.get('request')
@@ -97,8 +102,9 @@ class ModelSerializer(DynamicFieldsMixin, AbsoluteUriMixin,
         #
         # Using custom kwargs if any.
         #
-        if self.parent_kwargs:
-            for key, values in self.parent_kwargs.iteritems():
+        if self.custom_kwargs is not None:
+            kwargs = {}
+            for key, values in self.custom_kwargs.iteritems():
                 current_value = obj
                 for field in values:
                     current_value = getattr(current_value, field)

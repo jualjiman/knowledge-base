@@ -13,6 +13,7 @@ app.directive('profileInfo', [
             }
             scope.profileInfo = {
                 name: $localStorage.profileInfo.name,
+                email: $localStorage.profileInfo.email,
                 thumbnail: thumbnail
             };
 

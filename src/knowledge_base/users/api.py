@@ -12,7 +12,7 @@ from knowledge_base.core.api.routers.single import SingleObjectRouter
 from knowledge_base.core.api.viewsets import GenericViewSet
 
 from knowledge_base.users.serializers import (
-    ProfileSerializer, ProfileUpdateSerializer, ProfileUpdateImageSerializer
+    ProfileSerializer, ProfileUpdateImageSerializer, ProfileUpdateSerializer
 )
 
 

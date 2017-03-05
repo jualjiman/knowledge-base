@@ -19,6 +19,7 @@ app.config([
 
         // Toastr configurations.
         angular.extend(toastrConfig, {
+            target: 'body',
             allowHtml: false,
             closeButton: false,
             closeHtml: '<button>&times;</button>',
@@ -143,16 +144,32 @@ app.config([
                 views: {
                     "content": {
                         templateUrl: $contentProvider.url('angular/views/contributions/create.html'),
-                        controller: "ContributionsCtrl"
+                        controller: "CreateContributionCtrl"
+                    }
+                }
+            })
+
+            .state('panel.editContribution', {
+                url: '/edit-contribution/:postId',
+                views: {
+                    "content": {
+                        templateUrl: $contentProvider.url('angular/views/contributions/create.html'),
+                        controller: "EditContributionCtrl"
                     }
                 }
             });
 
+
         return $urlRouterProvider.otherwise('/panel/areas');
     }
-]).run(['$rootScope', '$content', 
-    function($rootScope, $content){
+]).run(['$rootScope', '$content', '$state',
+    function($rootScope, $content, $state){
         // Importing vo-content provider to the entire project.
         $rootScope.$content = $content;
+
+
+        $rootScope.$on('unauthorized', function() {
+            $state.transitionTo('login');
+        });
     }
 ]);

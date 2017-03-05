@@ -2,6 +2,10 @@ app.controller('AuthCtrl', [
     '$scope', '$localStorage', '$state', 'toastr', 'Auth', 'Profile',
     function($scope, $localStorage, $state, toastr, Auth, Profile){
 
+        if ($localStorage.token) {
+            return $state.go('panel.areas');
+        }
+
         delete $localStorage.token;
         delete $localStorage.profileInfo;
 
@@ -11,7 +15,6 @@ app.controller('AuthCtrl', [
 
         $scope.login = function(){
             Auth.login($scope.credentials).$promise.then(function(response){
-                console.log(response);
                 $localStorage.token = response.token;
 
                 Profile.get().$promise.then(function(response){

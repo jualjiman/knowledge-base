@@ -17,7 +17,7 @@ class AreaSerializer(ModelSerializer):
 
 
 class AreaURISerializer(ModelSerializer):
-    parent_kwargs = {
+    custom_kwargs = {
         "pk": ['pk'],
     }
 
@@ -45,7 +45,7 @@ class SubjectSerializer(ModelSerializer):
 
 
 class SubjectURISerializer(ModelSerializer):
-    parent_kwargs = {
+    custom_kwargs = {
         "pk": ['pk'],
         "area_pk": ['area', 'pk'],
     }
@@ -73,10 +73,10 @@ class SubjectURISerializer(ModelSerializer):
 
 class PostSerializer(ModelSerializer):
     # To avoid cross importation.
-    # from knowledge_base.users.serializers import ProfileURISerializer
-    #
-    # subject = SubjectURISerializer()
-    # author = ProfileURISerializer()
+    from knowledge_base.users.serializers import ProfileURISerializer
+
+    subject = SubjectURISerializer()
+    author = ProfileURISerializer()
 
     class Meta:
         model = Post
@@ -87,11 +87,12 @@ class PostSerializer(ModelSerializer):
             'content',
             'author',
             'subject',
+            'is_active'
         )
 
 
 class PostURISerializer(ModelSerializer):
-    parent_kwargs = {
+    custom_kwargs = {
         "pk": ['pk'],
         "subject_pk": ['subject', 'pk'],
         "area_pk": ['subject', 'area', 'pk'],
@@ -106,6 +107,7 @@ class PostURISerializer(ModelSerializer):
             'resume',
             'parent_ids',
             'resource_uri',
+            'is_active',
         )
 
     def get_parent_ids(self, instance):
@@ -129,6 +131,7 @@ class PostCreateSerializer(ModelSerializer):
             'content',
             'author',
             'subject',
+            'is_active',
         )
 
 
@@ -141,4 +144,5 @@ class PostDocSerializer(ModelSerializer):
             'resume',
             'content',
             'subject',
+            'is_active',
         )

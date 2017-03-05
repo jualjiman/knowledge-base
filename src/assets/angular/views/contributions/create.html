@@ -1,20 +1,69 @@
-<h4 class="mdl-main-title">Agregar publicación</h4>
-<div class="breadcrum">
-    <a ui-sref="panel.contributions">Contribuciones</a> /
-    Agregar contribución /
-</div>
-    <form action="#">
-        <div class="mdl-cell mdl-cell--12-col">
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="text" id="sample3">
-                <label class="mdl-textfield__label" for="sample3">Nombre</label>
-            </div>
-        </div>
+<h5>Agregar publicación</h5>
 
-        <div class="mdl-cell mdl-cell--12-col">
-            <div class="mdl-textfield mdl-js-textfield mdl-form-textfield-container mdl-textfield--floating-label">
-                <textarea class="mdl-textfield__input mdl-form-textfield" type="text" id="sample5"></textarea>
-                <label class="mdl-textfield__label" for="sample5">Resumen</label>
+<div class="breadcrumb-box">
+    <a ui-sref="panel.contribution" class="breadcrumb">Contribuciones</a>
+    <span class="breadcrumb">Agregar contribución</span>
+</div>
+
+<form name="postForm" ng-submit="save()" novalidate>
+
+    <div class="input-field col s10">
+        <input ng-model="post.name" type="text" required>
+        <label for="last_name" class="">Titulo</label>
+    </div>
+
+    <div class="input-field col s10">
+        <select
+            ng-model="post.area"
+            ng-options="area.id as area.name for area in areas"
+            ng-change="loadSubjects();"
+            required>
+            <option ng-selected="true" value="">Selecciona un area</option>
+        </select>
+        <label>Area</label>
+    </div>
+
+    <div class="input-field col s10">
+        <select
+            ng-model="post.subject"
+            ng-options="subject.id as subject.name for subject in subjects"
+            required>
+            <option ng-selected="true" value="">Selecciona un tema</option>
+        </select>
+        <label>Tema</label>
+    </div>
+
+    <div class="input-field col s10">
+        <textarea ng-model="post.resume" class="materialize-textarea"></textarea>
+        <label for="textarea1">Resumen</label>
+    </div>
+
+    
+    <div class="col s10">
+        <ul id="tabs-swipe-demo" class="tabs">
+            <li class="tab col s3"><a class="active" href="#post-content">Contenido</a></li>
+            <li class="tab col s3"><a href="#post-preview">Preview</a></li>
+        </ul>
+        <div id="post-content" class="post-tab col s12">
+            <div class="input-field">
+                <textarea ng-model="post.content" class="materialize-textarea"></textarea required>
             </div>
         </div>
-    </form>
+        <div id="post-preview" marked="post.content" class="post post-tab col s12"></div>
+    </div>
+
+    <div class="input-field col s10">
+        <input ng-model="post.isActive" type="checkbox" id="isActive"/>
+        <label for="isActive">Activo</label>
+    </div>
+    
+    <div class="col s10 right-align">
+        <button
+            class="btn waves-effect waves-light"
+            type="submit"
+            ng-disabled="postForm.$invalid">
+            Guardar
+        </button>
+    </div>
+
+</form>

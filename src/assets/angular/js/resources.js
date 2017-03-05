@@ -41,14 +41,14 @@ app
             );
         }
     ])
-    .factory('ProfileContributions', [
+    .factory('ProfileContribution', [
         '$resource',
         function ($resource) {
             return $resource(
-                '/api/v1/posts/:id', {id: '@id'},
+                '/api/v1/me/posts/:id', {id: '@id'},
                 {
-                    update: {
-                        method: 'PATCH'
+                    'update': {
+                        method: 'patch'
                     }
                 }
             );

@@ -1,8 +1,15 @@
-<div class="breadcrum">
-    <a ui-sref="panel.areas">Areas</a> /
-    <a ui-sref="panel.subjects({areaId: area.id})">{{ area.name }}</a> /
-    <a ui-sref="panel.posts({areaId: area.id, subjectId: subject.id})">{{ subject.name }}</a> /
+<div class="breadcrumb-box">
+    <a ui-sref="panel.areas" class="breadcrumb">Areas</a>
+    <a ui-sref="panel.subjects({areaId: area.id})" class="breadcrumb">{{ area.name }}</a>
+    <a ui-sref="panel.posts({areaId: area.id, subjectId: subject.id})" class="breadcrumb">{{ subject.name }}</a>
 </div>
-<h4 class="mdl-main-title">{{ post.name }}</h4>
+
+<h5>{{ post.name }}</h5>
+
+<div class="chip">
+    <img src="{{ post.author.thumbnail }}" alt="Contact Person">
+    {{ post.author.fullName }} |
+    27/05/90 10:30pm
+</div>
 
 <div class="post" marked="post.content"></div>

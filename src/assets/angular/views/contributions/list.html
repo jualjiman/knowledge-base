@@ -1,24 +1,62 @@
-<h4 class="mdl-main-title">Contribuciones</h4>
-<button ui-sref="panel.addContribution" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored margin-bottom-small" data-upgraded=",MaterialButton">
-  Agregar publicación
+<h5>Contribuciones</h5>
+
+<button ui-sref="panel.addContribution" class="btn waves-effect waves-light" name="action">
+    Agregar contribución
 </button>
-<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-    <thead>
-        <tr>
-        <th class="mdl-data-table__cell--non-numeric">Nombre</th>
-        <th class="mdl-data-table__cell--non-numeric">Tema</th>
-        <th class="mdl-data-table__cell--non-numeric">Area</th>
-        <th class="mdl-data-table__cell--non-numeric">Acciones</th>
-        </tr>
-    </thead>
-    <tbody ng-repeat="contribution in contributions">
-        <tr>
-            <td class="mdl-data-table__cell--non-numeric">
-                <a ui-sref=""</a>
-            </td>
-            <td class="mdl-data-table__cell--non-numeric">
-                {{ contribution.resume }}
-            </td>
-        </tr>
-    </tbody>
-</table>
+
+<div ng-show="contributions.length > 0">
+    <table class="striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Resumen</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="post in contributions">
+                <td>
+                    <a ui-sref="panel.post({areaId: post.parentIds.areaId, subjectId: post.parentIds.subjectId, id: post.id})">{{ post.name }}</a>
+                </td>
+                <td>{{ post.resume }}</td>
+                <td>
+                    <button
+                       ui-sref="panel.editContribution({postId: post.id})"
+                        class="waves-effect waves-teal btn-flat tooltipped"
+                        data-position="bottom"
+                        data-delay="50"
+                        data-tooltip="Editar">
+                        <i class="material-icons">edit</i>
+                     </button>
+                     <button
+                        class="waves-effect waves-teal btn-flat tooltipped"
+                        data-position="bottom"
+                        data-delay="50"
+                        data-tooltip="Eliminar"
+                        ng-click="confirmDelete(post.id)">
+                        <i class="material-icons">delete</i>
+                     </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div ng-hide="contributions.length > 0">
+    <p>No has hecho ninguna contribución :(</p>
+</div>
+
+<div id="confirmation-modal" class="modal">
+    <div class="modal-content">
+        <h4>Eliminar contribución?</h4>
+        <p>Estas seguro de que deseas eliminar la publicación?</p>
+    </div>
+    <div class="modal-footer">
+        <button class="modal-action modal-close waves-effect waves-green btn-flat">
+            Confirmar
+        </button>
+        <button class="modal-action modal-close waves-effect waves-green btn-flat" ng-click="$('#confirmation-modal').modal('close');">
+            Cancelar
+        </button>
+    </div>
+</div>

@@ -29,6 +29,7 @@ app.controller('PostsCtrl', [
     .controller('PostCtrl', [
         '$scope', '$stateParams', 'Post', 'Subject', 'Area',
         function($scope, $stateParams, Post, Subject, Area){
+
             Post.get(
                 {
                     areaId: $stateParams.areaId,

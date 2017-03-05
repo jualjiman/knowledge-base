@@ -220,9 +220,9 @@ class ProfilePostViewSet(
     permission_classes = [IsAuthenticated, ]
 
     serializers_class = serializers.PostSerializer
-    list_serializer_class = serializers.PostSerializer
+    list_serializer_class = serializers.PostURISerializer
     retrieve_serializer_class = serializers.PostSerializer
-    update_serializer_class = serializers.PostSerializer
+    update_serializer_class = serializers.PostCreateSerializer
     create_serializer_class = serializers.PostCreateSerializer
 
     def get_queryset(self, *args, **kwargs):
@@ -293,6 +293,10 @@ class ProfilePostViewSet(
         produces:
             - application/json
         """
+        print "--------------------------------------------------"
+        print pk
+        print request.data
+        print "--------------------------------------------------"
         return super(ProfilePostViewSet, self).partial_update(request, pk)
 
     def destroy(self, request, pk=None):
