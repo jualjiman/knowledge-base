@@ -8,7 +8,6 @@ from knowledge_base.core.api.viewsets.nested import NestedViewset
 
 from knowledge_base.posts import serializers
 from knowledge_base.posts.models import Area, Post, Subject
-from knowledge_base.utils.urlresolvers import get_query_params
 
 
 class AreaViewSet(

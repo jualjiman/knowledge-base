@@ -23,13 +23,16 @@ app.controller('AuthCtrl', [
 
                 });
             }).catch(function(response){
-                toastr.error('Credenciales invalidas', 'Error');
+                toastr.error(prepareErrorMessages(response));
             });
         };
 
         $scope.register = function(){
-            Auth.signup().$promise.then(function(response){
-                $scope.areas = response;
+            Auth.signup($scope.registrationInfo).$promise.then(function(response){
+                $scope.registrationInfo = {};
+                toastr.success('Registrado correctamente, revisa tu correo electronico para activar tu cuenta');
+            }).catch(function(response){
+                toastr.error(prepareErrorMessages(response));
             });
         };
 

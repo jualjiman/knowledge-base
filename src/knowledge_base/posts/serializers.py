@@ -87,7 +87,8 @@ class PostSerializer(ModelSerializer):
             'content',
             'author',
             'subject',
-            'is_active'
+            'is_active',
+            'created_date'
         )
 
 

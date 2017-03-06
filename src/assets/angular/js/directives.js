@@ -67,7 +67,7 @@ app.directive('profileInfo', [
                     scope.value = response.thumbnail;
                     toastr.success('Imagen reemplazada correctamente');
                 }).catch(function(response){
-                    toastr.error('Error al reemplazar la imagen');
+                    toastr.error(prepareErrorMessagesWithTitles(response));
                 });
             });
 

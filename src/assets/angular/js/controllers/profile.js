@@ -25,7 +25,7 @@ app
                             $scope.profile.thumbnail = "http://placehold.it/200x200";
                             toastr.success('Imagen eliminada correctamente');
                         }).catch(function(response){
-                            toastr.error('Error al eliminar la imagen');
+                            toastr.error(prepareErrorMessagesWithTitles(response));
                         });
                     }
                 });
@@ -37,7 +37,7 @@ app
                     toastr.success('Perfil actualizado correctamente');
                     return $state.go('panel.areas', {}, { reload: true });
                 }).catch(function(response){
-                    toastr.error('Error al actualizar tu perfil');
+                    toastr.error(prepareErrorMessagesWithTitles(response));
                     return $state.go('panel.areas', {}, { reload: true });
                 });
             };

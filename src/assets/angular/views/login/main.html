@@ -56,18 +56,18 @@
                             <label for="registrationEmail">Email</label>
                         </div>
                         <div class="input-field col s12">
-                            <input id="registrationPassword" type="text" class="validate" ng-model="registrationInfo.password" required>
+                            <input id="registrationPassword" type="password" class="validate" ng-model="registrationInfo.password" required>
                             <label for="registrationPassword">Contraseña</label>
                         </div>
                         <div class="input-field col s12">
-                            <input id="registrationRepeatPassword" type="text" class="validate" ng-model="registrationInfo.repeatPassword" required>
+                            <input id="registrationRepeatPassword" type="password" class="validate" ng-model="registrationInfo.repeatPassword" required>
                             <label for="registrationRepeatPassword">Repite contraseña</label>
                         </div>
                     </div>
                 </div>
                 <div class="card-action">
                     <div class="row">
-                        <div class="input-field col s6">
+                        <div class="input-field col m6">
                             <button 
                                 class="btn waves-effect waves-light"
                                 type="submit" 
@@ -75,7 +75,7 @@
                                 Registrarse
                             </button>
                         </div>
-                        <div class="input-field col s6">
+                        <div class="input-field col m6">
                             <button 
                                 class="waves-effect waves-teal btn-flat"
                                 ng-click="toggleOperation()">

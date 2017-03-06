@@ -6,9 +6,9 @@
 <h5>{{ post.name }}</h5>
 
 <div class="chip">
-    <img src="{{ post.author.thumbnail }}" alt="Contact Person">
+    <img ng-show="post.author.thumbnail" src="{{ post.author.thumbnail }}" alt="Contact Person">
     {{ post.author.fullName }} |
-    27/05/90 10:30pm
+    {{ post.createdDate | date:'dd/MM/yyyy HH:mm'}}
 </div>
 
 <div class="post" marked="post.content"></div>
