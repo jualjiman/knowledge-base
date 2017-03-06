@@ -10,7 +10,7 @@ app.controller('ContributionsCtrl', [
         }
 
         $scope.confirmDelete = function(postId){
-            mbox.confirm('Drugs are bad, are you sure you want to use them?', function(yes) {
+            mbox.confirm('¿Eliminar publicación?', function(yes) {
                 if (yes) {
                     ProfileContribution.remove({id: postId}).$promise.then(function(){
                         toastr.success('Publicación eliminada correctamente.');
@@ -23,6 +23,32 @@ app.controller('ContributionsCtrl', [
         loadContributions();
         //Initializing modal.
         $('.modal').modal();
+    }
+])
+
+.controller('ContributionCtrl', [
+    '$scope', '$stateParams', 'ProfileContribution', 'Subject', 'Area',
+    function($scope, $stateParams, ProfileContribution, Subject, Area){
+
+        ProfileContribution.get({id: $stateParams.postId}).$promise.then(function(response){
+            $scope.post = response;
+
+            response.subject.parentIds.areaId,
+            Subject.get(
+                {
+                    areaId: response.subject.parentIds.areaId,
+                    id: response.subject.id
+                }
+            ).$promise.then(function(response){
+                $scope.subject = response;
+            });
+
+            Area.get(
+                {id: response.subject.parentIds.areaId}
+            ).$promise.then(function(response){
+                $scope.area = response;
+            });
+        });
     }
 ])
 
@@ -58,8 +84,8 @@ app.controller('ContributionsCtrl', [
                 toastr.success('Publicación creada correctamente');
                 return $state.go('panel.contributions');
             }).catch(function(response){
-                console.log(response);
                 toastr.error('Error al crear la publicación');
+                return $state.go('panel.contributions');
             });
         };
 
@@ -105,7 +131,6 @@ app.controller('ContributionsCtrl', [
                 toastr.success('Publicación actualizada correctamente');
                 return $state.go('panel.contributions');
             }).catch(function(response){
-                console.log(response);
                 toastr.error('Error al actualizar la publicación');
             });
         };

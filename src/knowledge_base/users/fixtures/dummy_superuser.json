@@ -8,7 +8,6 @@
         "is_superuser": true,
         "email": "admin@admin.com",
         "name": "admin",
-        "last_name": null,
         "description": null,
         "photo": "",
         "thumbnail": "",

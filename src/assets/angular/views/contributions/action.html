@@ -1,15 +1,17 @@
-<h5>Agregar publicación</h5>
+<h5 ng-hide="post.id">Agregar publicación</h5>
+<h5 ng-show="post.id">Editar publicación</h5>
 
 <div class="breadcrumb-box">
     <a ui-sref="panel.contribution" class="breadcrumb">Contribuciones</a>
-    <span class="breadcrumb">Agregar contribución</span>
+    <span class="breadcrumb" ng-hide="post.id">Agregar contribución</span>
+    <span class="breadcrumb" ng-show="post.id">Editar contribución</span>
 </div>
 
 <form name="postForm" ng-submit="save()" novalidate>
 
     <div class="input-field col s10">
-        <input ng-model="post.name" type="text" required>
-        <label for="last_name" class="">Titulo</label>
+        <input ng-model="post.name" type="text" name="text" required>
+        <label for="title" class="">Titulo</label>
     </div>
 
     <div class="input-field col s10">
@@ -34,8 +36,8 @@
     </div>
 
     <div class="input-field col s10">
-        <textarea ng-model="post.resume" class="materialize-textarea"></textarea>
-        <label for="textarea1">Resumen</label>
+        <textarea name="resume" ng-model="post.resume" class="materialize-textarea"></textarea>
+        <label for="resume">Resumen</label>
     </div>
 
     

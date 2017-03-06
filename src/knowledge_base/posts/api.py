@@ -226,18 +226,12 @@ class ProfilePostViewSet(
     create_serializer_class = serializers.PostCreateSerializer
 
     def get_queryset(self, *args, **kwargs):
-        query_params = get_query_params(self.request)
-        is_active = query_params.get('isactive')
-
         #
         # This set of endpoints are used only to manage the posts of the
         # request user, so only those post should be visible in all cases.
         #
         request_user = self.request.user
         queryset = Post.objects.filter(author=request_user)
-
-        if is_active is not None:
-            queryset = queryset.filter(is_active=is_active)
 
         return queryset
 
@@ -293,10 +287,6 @@ class ProfilePostViewSet(
         produces:
             - application/json
         """
-        print "--------------------------------------------------"
-        print pk
-        print request.data
-        print "--------------------------------------------------"
         return super(ProfilePostViewSet, self).partial_update(request, pk)
 
     def destroy(self, request, pk=None):

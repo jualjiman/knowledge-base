@@ -17,7 +17,7 @@
         <tbody>
             <tr ng-repeat="post in contributions">
                 <td>
-                    <a ui-sref="panel.post({areaId: post.parentIds.areaId, subjectId: post.parentIds.subjectId, id: post.id})">{{ post.name }}</a>
+                    <a ui-sref="panel.contribution({postId: post.id})">{{ post.name }}</a>
                 </td>
                 <td>{{ post.resume }}</td>
                 <td>

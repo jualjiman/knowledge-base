@@ -1,0 +1,56 @@
+app
+.controller('EditProfileCtrl', [
+    '$scope', '$state', '$stateParams', '$localStorage', 'Area', 'Profile', 'toastr',
+    function($scope, $state, $stateParams, $localStorage, Area, Profile, toastr){
+
+
+        Area.get().$promise.then(function(response){
+            $scope.areas = response.results;
+
+            Profile.get().$promise.then(function(response){
+
+                updateProfileObject(response); 
+
+                // Area is not a mandatory field.
+                if(response.area){
+                    $scope.profile.area = response.area.id;
+                }
+
+                // Initializing select fields.
+                reloadSelectFields();
+                $('ul.tabs').tabs();
+            });
+
+            $scope.save = function(){
+                Profile.update($scope.profile).$promise.then(function(response){
+                    toastr.success('Perfil actualizado correctamente');
+                    return $state.go('panel.areas');
+                }).catch(function(response){
+                    toastr.error('Error al actualizar tu perfil');
+                    return $state.go('panel.areas');
+                });
+            };
+        });
+
+        function updateProfileObject(response){
+            $localStorage.profileInfo = response;
+            $scope.profile = {
+                id: response.id,
+                name: response.name,
+                description: response.description,
+                email: response.email,
+                thumbnail: response.thumbnail
+            };
+
+            return $scope.profile;
+            
+        };
+
+        function reloadSelectFields(){
+            setTimeout(function(){
+                $('select').material_select();
+                Materialize.updateTextFields();
+            }, 100);
+        }
+     }
+]);

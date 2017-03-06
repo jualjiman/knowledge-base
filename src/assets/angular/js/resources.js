@@ -10,11 +10,11 @@ app
                 {
                     login: {
                         url: '/api/v1/auth/login',
-                        method: 'POST'
+                        method: 'post'
                     },
                     signup: {
                         url: '/api/v1/auth/signup',
-                        method: 'POST'
+                        method: 'post'
                     }
                 }
             );
@@ -29,25 +29,32 @@ app
             return $resource(
                 '/api/v1/me', null,
                 {
+                    update: {
+                        method: 'patch'
+                    },
                     changeImage: {
                         url: '/api/v1/me/change-image',
-                        method: 'PUT'
+                        method: 'put',
+                        headers: {
+                            'Content-Type': void 0
+                        }
                     },
                     deleteImage: {
                         url: '/api/v1/me/delete-image',
-                        method: 'DELETE'
+                        method: 'delete'
                     }
                 }
             );
         }
     ])
+
     .factory('ProfileContribution', [
         '$resource',
         function ($resource) {
             return $resource(
                 '/api/v1/me/posts/:id', {id: '@id'},
                 {
-                    'update': {
+                    update: {
                         method: 'patch'
                     }
                 }

@@ -82,11 +82,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(
         max_length=50
     )
-    last_name = models.CharField(
-        max_length=50,
-        blank=True,
-        null=True
-    )
     description = models.TextField(
         max_length=250,
         blank=True,
@@ -155,16 +150,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_full_name(self):
         """
         Return full name user:
-             name last_name
         """
-        return u'{0} {1}'.format(
-            self.name, self.last_name
-        )
+        return u'{0}'.format(self.name)
 
     def get_short_name(self):
         """
         Return short name user:
-            name last_name
         """
         return self.name
 

@@ -42,7 +42,6 @@ class ProfileSerializer(ModelSerializer):
            'id',
            'email',
            'name',
-           'last_name',
            'description',
            'thumbnail',
            'area',
@@ -58,7 +57,6 @@ class ProfileUpdateSerializer(ModelSerializer):
            'id',
            'email',
            'name',
-           'last_name',
            'description',
            'area',
         )

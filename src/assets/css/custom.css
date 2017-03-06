@@ -170,3 +170,18 @@ main {
 .tabs .indicator {
   background-color: #26a69a;
 }
+
+.dropdown-content {
+    min-width: 150px;
+}
+
+.form-profile-image {
+    margin: 25px 0;
+}
+#profile-change-image {
+    display: none;
+}
+
+.form-profile-image label {
+    cursor: pointer;
+}

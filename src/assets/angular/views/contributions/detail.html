@@ -1,0 +1,14 @@
+<div class="breadcrumb-box">
+    <a ui-sref="panel.contribution" class="breadcrumb">Contribuciones</a>
+    <span class="breadcrumb">Visualizar contribución</span>
+</div>
+
+<h5>{{ post.name }}</h5>
+
+<div class="chip">
+    <img src="{{ post.author.thumbnail }}" alt="Contact Person">
+    {{ post.author.fullName }} |
+    27/05/90 10:30pm
+</div>
+
+<div class="post" marked="post.content"></div>

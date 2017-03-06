@@ -130,6 +130,7 @@ app.config([
                     }
                 }
             })
+
             .state('panel.contributions', {
                 url: '/contributions',
                 views: {
@@ -139,11 +140,22 @@ app.config([
                     }
                 }
             })
+
+            .state('panel.contribution', {
+                url: '/contribution/:postId',
+                views: {
+                    "content": {
+                        templateUrl: $contentProvider.url('angular/views/contributions/detail.html'),
+                        controller: "ContributionCtrl"
+                    }
+                }
+            })
+
             .state('panel.addContribution', {
                 url: '/add-contribution',
                 views: {
                     "content": {
-                        templateUrl: $contentProvider.url('angular/views/contributions/create.html'),
+                        templateUrl: $contentProvider.url('angular/views/contributions/action.html'),
                         controller: "CreateContributionCtrl"
                     }
                 }
@@ -153,8 +165,18 @@ app.config([
                 url: '/edit-contribution/:postId',
                 views: {
                     "content": {
-                        templateUrl: $contentProvider.url('angular/views/contributions/create.html'),
+                        templateUrl: $contentProvider.url('angular/views/contributions/action.html'),
                         controller: "EditContributionCtrl"
+                    }
+                }
+            })
+
+            .state('panel.editProfile', {
+                url: '/edit-profile',
+                views: {
+                    "content": {
+                        templateUrl: $contentProvider.url('angular/views/profile/edit.html'),
+                        controller: "EditProfileCtrl"
                     }
                 }
             });
