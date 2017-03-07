@@ -1,4 +1,6 @@
 # # -*- coding: utf-8 -*-
+from django.db.models import Q
+
 from rest_framework.permissions import IsAuthenticated
 
 from knowledge_base.api.v1.routers import router
@@ -156,14 +158,18 @@ class PostViewSet(
         """
         Return active posts for specific subject or all items.
         """
-        queryset = Post.objects.filter(is_active=True)
+        queryset = Post.objects.all()
 
-        if self.parent_lookup_field in kwargs:
-            queryset = queryset.filter(
-                subject=kwargs[self.parent_lookup_field]
+        if self.parent_lookup_field in self.kwargs:
+            return queryset.filter(
+                Q(is_active=True) &
+                (
+                    Q(subject=self.kwargs[self.parent_lookup_field]) |
+                    Q(available_to=self.request.user)
+                )
             )
 
-        return queryset
+        return queryset.none()
 
     def list(self, request, *args, **kwargs):
         """
@@ -317,12 +323,6 @@ class ProfilePostViewSet(
         Return a list of posts.
         ---
         response_serializer: serializers.PostSerializer
-
-        parameters:
-            - name: isactive
-              description: if "true", returns only active registers.
-              paramType: query
-              type: boolean
 
         responseMessages:
             - code: 200

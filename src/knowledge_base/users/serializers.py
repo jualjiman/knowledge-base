@@ -6,6 +6,22 @@ from rest_framework import serializers
 from knowledge_base.core.api.serializers import ModelSerializer
 
 
+class SearchUserSerializer(ModelSerializer):
+    text = serializers.SerializerMethodField()
+
+    class Meta:
+        model = get_user_model()
+        fields = (
+           'id',
+           'name',
+           'email',
+           'text',
+        )
+
+    def get_text(self, instance):
+        return instance.email
+
+
 class ProfileURISerializer(ModelSerializer):
     custom_base_name = 'me'
     custom_kwargs = {}

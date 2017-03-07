@@ -31,8 +31,8 @@
     <link rel="stylesheet" href="{% static 'bower_components/highlightjs/styles/monokai-sublime.css' %}">
     <link rel="stylesheet" href="{% static 'bower_components/materialize/dist/css/materialize.min.css' %}">
     <link rel="stylesheet" href="{% static 'bower_components/angular-toastr/dist/angular-toastr.min.css' %}">
-    <link href="//cdn.bri.io/mbox/dist/mbox-0.0.1.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="{% static 'local_components/mbox/mbox-0.0.1.min.css' %}">
+    <link rel="stylesheet" href="{% static 'local_components/materialize-autocomplete/materialize-autocomplete.css' %}">
     <!-- End third party application styles -->
 
     <!-- Application styles -->
@@ -59,7 +59,9 @@
     <script src="{% static 'bower_components/marked/marked.min.js' %}"></script>
     <script src="{% static 'bower_components/angular-marked/dist/angular-marked.min.js' %}"></script>
     <script src="{% static 'bower_components/materialize/dist/js/materialize.min.js' %}"></script>
-    <script src="//cdn.bri.io/mbox/dist/mbox-0.0.1.min.js"></script>
+    <script src="{% static 'bower_components/materialize/dist/js/materialize.min.js' %}"></script>
+    <script src="{% static 'bower_components/materialize-autocomplete/jquery.materialize-autocomplete.min.js' %}"></script>
+    <script src="{% static 'local_components/mbox/mbox-0.0.1.min.js' %}"></script>
     <!-- End third party scripts -->
     
     <!-- Application scripts -->

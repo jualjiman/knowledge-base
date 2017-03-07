@@ -48,13 +48,13 @@ app.controller('ContributionsCtrl', [
             ).$promise.then(function(response){
                 $scope.area = response;
             });
-        });
+        });    
     }
 ])
 
 .controller('CreateContributionCtrl', [
-    '$scope', '$state', 'Area', 'Subject', 'ProfileContribution', 'toastr',
-    function($scope, $state, Area, Subject, ProfileContribution, toastr){
+    '$scope', '$state', 'Area', 'Subject', 'User', 'ProfileContribution', 'toastr',
+    function($scope, $state, Area, Subject, User, ProfileContribution, toastr){
         $scope.post = {
             isActive: true  
         };
@@ -78,8 +78,35 @@ app.controller('ContributionsCtrl', [
             }
             reloadSelectFields();
         };
-        
+
+        //
+        // Autocomplete field.
+        //
+        $scope.availableTo = $('#multipleInput').materialize_autocomplete({
+            multiple: {
+                enable: true
+            },
+            appender: {
+                el: '.ac-users'
+            },
+            dropdown: {
+                el: '#multipleDropdown'
+            },
+            getData: function(value, callback){
+                User.get({q: value}).$promise.then(function(response){
+                    var data = response.results;
+                    callback(value, data);
+                });
+            }
+        });
+
         $scope.save = function(){
+            $scope.post.listAvailableTo = [];
+
+            angular.forEach($scope.availableTo.value, function(item){
+                $scope.post.listAvailableTo.push(item.id);
+            });
+
             ProfileContribution.save($scope.post).$promise.then(function(){
                 toastr.success('Publicación creada correctamente');
                 return $state.go('panel.contributions');
@@ -101,8 +128,8 @@ app.controller('ContributionsCtrl', [
 ])
 
 .controller('EditContributionCtrl', [
-    '$scope', '$state', '$stateParams', 'Area', 'Subject', 'ProfileContribution', 'toastr',
-    function($scope, $state, $stateParams, Area, Subject, ProfileContribution, toastr){
+    '$scope', '$state', '$stateParams', 'Area', 'Subject', 'User', 'ProfileContribution', 'toastr',
+    function($scope, $state, $stateParams, Area, Subject, User, ProfileContribution, toastr){
 
         Area.get().$promise.then(function(response){
             $scope.areas = response.results;
@@ -120,6 +147,32 @@ app.controller('ContributionsCtrl', [
                 $scope.loadSubjects();
                 $scope.post.subject = response.subject.id;
 
+                //
+                // Autocomplete field.
+                //
+                $scope.availableTo = $('#multipleInput').materialize_autocomplete({
+                    multiple: {
+                        enable: true
+                    },
+                    appender: {
+                        el: '.ac-users'
+                    },
+                    dropdown: {
+                        el: '#multipleDropdown'
+                    },
+                    getData: function(value, callback){
+                        User.get({q: value}).$promise.then(function(response){
+                            var data = response.results;
+                            callback(value, data);
+                        });
+                    }
+                });
+
+                angular.forEach(response.availableTo, function(item){
+                    $scope.availableTo.setValue(item);
+                });
+
+
                 // Initializing select fields.
                 reloadSelectFields();
                 $('ul.tabs').tabs();
@@ -127,6 +180,12 @@ app.controller('ContributionsCtrl', [
         });
 
         $scope.save = function(){
+            $scope.post.listAvailableTo = [];
+
+            angular.forEach($scope.availableTo.value, function(item){
+                $scope.post.listAvailableTo.push(item.id);
+            });
+
             ProfileContribution.update({id: $stateParams.postId}, $scope.post).$promise.then(function(){
                 toastr.success('Publicación actualizada correctamente');
                 return $state.go('panel.contributions');

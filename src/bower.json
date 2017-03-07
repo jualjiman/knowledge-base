@@ -12,7 +12,8 @@
     "angular-marked": "1.2.2",
     "highlightjs": "9.9.0",
     "materialize": "0.98.0",
-    "angular-dialog-service": "5.3.0"
+    "angular-dialog-service": "5.3.0",
+    "materialize-autocomplete": "1.0.7"
   },
   "devDependencies": {}
 }

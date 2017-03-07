@@ -95,3 +95,6 @@ class Post(CatalogueMixin):
         related_name='posts',
         verbose_name='author'
     )
+    available_to = models.ManyToManyField(
+        settings.AUTH_USER_MODEL
+    )

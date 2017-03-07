@@ -48,6 +48,18 @@ app
         }
     ])
 
+    .factory('User', [
+        '$resource',
+        function ($resource) {
+            return $resource(
+                '/api/v1/users/search',
+                {
+                    q: '@q'
+                }
+            );
+        }
+    ])
+
     .factory('ProfileContribution', [
         '$resource',
         function ($resource) {
@@ -85,6 +97,7 @@ app
             );
         }
     ])
+
     .factory('Post', [
         '$resource',
         function ($resource) {

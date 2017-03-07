@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from django.contrib.auth import get_user_model
+
 from rest_framework import serializers
 
 from knowledge_base.core.api.serializers import ModelSerializer
@@ -73,10 +75,14 @@ class SubjectURISerializer(ModelSerializer):
 
 class PostSerializer(ModelSerializer):
     # To avoid cross importation.
-    from knowledge_base.users.serializers import ProfileURISerializer
+    from knowledge_base.users.serializers import (
+        ProfileURISerializer,
+        SearchUserSerializer
+    )
 
     subject = SubjectURISerializer()
     author = ProfileURISerializer()
+    available_to = SearchUserSerializer(many=True)
 
     class Meta:
         model = Post
@@ -88,7 +94,8 @@ class PostSerializer(ModelSerializer):
             'author',
             'subject',
             'is_active',
-            'created_date'
+            'created_date',
+            'available_to',
         )
 
 
@@ -123,6 +130,10 @@ class PostURISerializer(ModelSerializer):
 
 
 class PostCreateSerializer(ModelSerializer):
+    list_available_to = serializers.ListField(
+        required=False
+    )
+
     class Meta:
         model = Post
         fields = (
@@ -133,7 +144,47 @@ class PostCreateSerializer(ModelSerializer):
             'author',
             'subject',
             'is_active',
+            'list_available_to',
         )
+
+    def create(self, validated_data):
+        list_available_to = validated_data.pop('list_available_to', None)
+
+        instance = super(PostCreateSerializer, self).create(validated_data)
+
+        if list_available_to:
+            user_model = get_user_model()
+            users = user_model.objects.filter(
+                id__in=list_available_to
+            )
+
+            for user in users:
+                instance.available_to.add(user)
+
+        return instance
+
+    def update(self, instance, validated_data):
+        list_available_to = validated_data.pop('list_available_to', None)
+
+        instance = super(PostCreateSerializer, self).update(
+            instance,
+            validated_data
+        )
+
+        #
+        # Deleting current users to save new ones.
+        #
+        instance.available_to.through.objects.all().delete()
+        if list_available_to:
+            user_model = get_user_model()
+            users = user_model.objects.filter(
+                id__in=list_available_to
+            )
+
+            for user in users:
+                instance.available_to.add(user)
+
+        return instance
 
 
 class PostDocSerializer(ModelSerializer):

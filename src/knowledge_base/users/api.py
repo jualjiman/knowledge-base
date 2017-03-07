@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
 
+from django.contrib.auth import get_user_model
+
 from rest_framework import status
 from rest_framework.decorators import detail_route
 from rest_framework.permissions import IsAuthenticated
@@ -12,8 +14,10 @@ from knowledge_base.core.api.routers.single import SingleObjectRouter
 from knowledge_base.core.api.viewsets import GenericViewSet
 
 from knowledge_base.users.serializers import (
-    ProfileSerializer, ProfileUpdateImageSerializer, ProfileUpdateSerializer
+    ProfileSerializer, ProfileUpdateImageSerializer,
+    ProfileUpdateSerializer, SearchUserSerializer
 )
+from knowledge_base.utils.urlresolvers import get_query_params
 
 
 class ProfileViewSet(mixins.RetrieveModelMixin,
@@ -149,9 +153,58 @@ class ProfileViewSet(mixins.RetrieveModelMixin,
             user.save()
 
 
+class SearchUserViewSet(mixins.ListModelMixin, GenericViewSet):
+
+    serializer_class = SearchUserSerializer
+    list_serializer_class = SearchUserSerializer
+    permission_classes = (IsAuthenticated, )
+
+    def get_queryset(self, *args, **kwargs):
+
+        queryset = get_user_model().objects.all()
+        query_params = get_query_params(self.request)
+        q = query_params.get('q')
+
+        if q:
+            queryset = queryset.filter(email__icontains=q)
+
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        """
+        Return a list of users, that matches with the given word.
+        ---
+        response_serializer: SearchUserSerializer
+
+        parameters:
+            - name: q
+              description: Search word.
+              paramType: query
+              type: string
+
+        responseMessages:
+            - code: 200
+              message: OK
+            - code: 403
+              message: FORBIDDEN
+            - code: 500
+              message: INTERNAL SERVER ERROR
+        consumes:
+            - application/json
+        produces:
+            - application/json
+        """
+        return super(SearchUserViewSet, self).list(request, *args, **kwargs)
+
 router.register(
     'me',
     ProfileViewSet,
     base_name='me',
     router_class=SingleObjectRouter
+)
+
+router.register(
+    r'users/search',
+    SearchUserViewSet,
+    base_name='users-search'
 )
