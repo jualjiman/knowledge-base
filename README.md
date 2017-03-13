@@ -1,5 +1,5 @@
-# Luke
-Simple scripts and templates for scaffolding a basic Django project
+# Knowledge base
+Simple django/angular application that allows to share information in a group of users.
 
 
 ## Prerequisites
@@ -10,90 +10,142 @@ Simple scripts and templates for scaffolding a basic Django project
 + [fabutils](https://github.com/vinco/fabutils)
 
 
-## Usage
-1. Download the repository's tarball and extract it to your project's directory
+## Configuring your virtual environment
+1. Fork the repo with your Github's user
+
+2. Clone your fork
 
     ```bash
-    $ mkdir myproject
-    $ cd myproject
-    $ wget https://github.com/vinco/luke/archive/master.tar.gz -O - | tar -xz --strip 1
-    ```
-
-2. Set your project's name in `evironments.json`, `fabfile.py` and `provision/provision.sh`
-
-    ```json
-    # myproject/environments.json
-    {
-        "vagrant": {
-            "django_settings": "myproject.settings.devel",
-        }
-    }
-    ```
-
-    ```python
-    # myproject/fabfile.py
-    ...
-    # urun('createdb luke -l en_US.UTF-8 -E UTF8 -T template0')
-    urun('createdb myproject -l en_US.UTF-8 -E UTF8 -T template0')
-    ... 
-    # urun('dropdb luke')
-    urun('dropdb myproject')
-    ...
-    ```
-
-    ```bash
-    # myproject/provision/provision.sh
-    ...
-    # PROJECT_NAME=luke
-    PROJECT_NAME=myproject
-    ...
+    $ git clone --recursive git@github.com:{ your username  }/redsep.git
     ```
 
 3. Create the virtual machine
 
     ```bash
+    $ cd redsep
     $ vagrant up
     ```
-4. Redirect the required domains to your localhost
+4.  Development environment configuration for localhost to work in redsep.local
+
     ```bash
     # /etc/hosts
-    192.168.33.2  http://luke.local/
+    192.168.33.23       redsep.local
     ```
 
 5. Build the environment inside the virtual machine
-    
+
     ```bash
     $ fab environment:vagrant bootstrap
     ```
 
 6. Run the development server
-    
-    ```bash
+
+```
     $ fab environment:vagrant runserver
     ```
 
-7. Init your repository
+6. Open your web browser and check the project at `redsep.local`
+
+
+## Useful fabric commands
+
+### makemigrations \[app\]\[,options\]
+Create new migrations based on the changes detected in the project's model. [\[\+\]](https://docs.djangoproject.com/en/1.8/ref/django-admin/#django-admin-makemigrations)
+```bash
+# Creating migrations for the whole project
+$ fab environment:vagrant makemigrations
+
+# Creating migrations for a specific app
+$ fab environment:vagrant makemigrations:some_app
+
+# Passing options to the command
+$ fab environment:vagrant makemigrations:some_app,empty=true
+```
+
+### migrate \[app \[,migration\]\]\[,options\]
+Sync the database with the current set of models and migrations. [\[\+\]](https://docs.djangoproject.com/en/1.8/ref/django-admin/#migrate)
+```bash
+# Syncing the whole project
+$ fab environment:vagrant migrate
+
+# Syncing a specific app
+$ fab environment:vagrant migrate:some_app
+
+# Syncing a specific app to a specific migration state
+$ fab environment:vagrant migrate:some_app,0001
+
+# Passing options to the command
+$ fab environment:vagrant migrate:some_app,0001,fake=true
+```
+
+### resetdb
+Drop and rebuild a fresh database instance for the project.
+```bash
+$ fab environment:vagrant resetdb
+```
+
+### install_requirements
+Install the Python dependencies for the project specified in the proper requirements file for the given environment.
+```bash
+# Installing dependencies
+$ fab environment:vagrant install_requirements
+
+# Install and upgrading dependencies
+$fab environment:vagrant install_requirements:upgrade=True
+```
+
+
+### runserver
+Run the development server inside the virtual machine.
+```bash
+$ fab environment:vagrant runserver
+```
+
+### maintenance \[on|off\]
+Put the previously selected production/staging environment in maintenance mode
+(on) or bring it back to serve the application (off).
+Note that when the environment is in maintenance mode it will return an `HTTP
+503` code to all requests and show a temporary placeholder page. This page must
+be located at `maintenance/index.html` and can only reference assets from the
+`maintenance/assets` directory.
+```bash
+# Activate maintenance mode in staging environment
+$ fab environment:staging maintenance:on
+
+# Deactivate maintenance mode in staging environment
+$ fab environment:staging maintenance:off
+```
+
+### deploy \[reference\]\[,upgrade=boolean\]
+Deploy the code from the given git reference (a branch or commit) to the
+previously selected production/staging environment.
+```bash
+# Deploy to staging environment from commit abcdefg
+$ fab environment:staging deploy:abcdefg
+
+# Deploy to production environment from master branch
+$ fab environment:production deploy:master
+
+# Tell to the deploy task to upgrade the project's requirements during the
+# deployment process
+$ fab environment:production deploy:master,upgrade=true
+```
+
+## Fixtures
+
+1. Loads the proper information from fixtures for development environment
 
     ```bash
-    $ git init
+    fab environment:vagrant load_dummy_data
     ```
 
+2. Loads the proper information from fixtures for production environment (this information is necessary for the functioning of the system)
+
+    ```bash
+    fab environment:vagrant load_mandatory_dummy_data
+    ```
 
 # Testing
-
-1. Set your project's name in `tox.ini`.
-    
-    ```bash
-    # change name
-    application-import-names = myproject
-
-    DJANGO_SETTINGS_MODULE = myproject.settings.testing
-
-    norecursedirs =
-        .*
-        src/requirements
-        src/myproject/settings
-    ```
 
 1. Open vagrant environment from ssh:
     ```bash
@@ -126,332 +178,5 @@ $ tox -e py27-django
 $ tox -r
 
 # Run the test suite to a specific file.
-$ tox -e py27-django src/luke/core/api/tests/test_serializers.py
-
-
-## Usage API
-
-* To create serializers from luke mixins.
-```python
-# -*- coding: utf-8 -*-
-# luke/application/serializers.py
-
-from rest_framework import serializers
-
-from luke.application.models import Todo
-
-from luke.core.api.serializers import ModelSerializer
-
-
-class TodoSerializer(ModelSerializer):
-
-    #
-    # If your model have a wrong name and you want to change it, only use the
-    # property 'source' with the wrong field, after, you put the nice name into
-    # fields of your serializer.
-    #
-    nice_name = serializers.BooleanField(
-        source='wrong_name'
-    )
-
-    #
-    # If you need add a field in your serializer but it is not in your model,
-    # you can use SerializerMethodField and this function will search the method
-    # name get_name_of_your_field.
-    #
-    custom_field = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Todo
-        fields = (
-            'id',
-            'name',
-            'is_active',
-            'nice_name',
-            'custom_field',
-        )
-
-    def get_custom_field(self, instance):
-        #
-        # Put your code here. 
-        #
-        return "my custom field"
-
-    #
-    # You can rewrite all functions of Django Rest Framework like validate,
-    # validate_custom_field, create, update, etc.
-    #
-    def validate(self, data):
-        if not data['is_active']:
-            serializers.ValidationError("To do is not active.")
-
-        return data
-
-    def create(self, validated_data):
-        todo = Todo(**validated_data)
-        todo.save()
-        #
-        # The actions that you want to do after of save the object.
-        #
-        
-
-```
-
-* Create a viewset based in luke mixins. With the next code you should can
-generate a full API without define the post, get, patch, retrive or delete
-functions.
-```python
-# luke/application/api.py or luke/application/viewsets.py
-# -*- coding: utf-8 -*-
-
-from luke.api.v1.routers import router
-from luke.application import serializers
-from luke.core.api import mixins, viewsets
-
-
-class TodoViewSet(
-        mixins.CreateModelMixin,  # inherit only if you will use create
-        mixins.ListModelMixin,  # inherit only if you will use get list
-        mixins.DestroyModelMixin,  # inherit only if you will use delete
-        mixins.RetrieveModelMixin,  # inherit only if you will get retrive
-        mixins.PartialUpdateModelMixin,  # inherit only if you will use patch
-        viewsets.GenericViewSet):
-
-    permission_classes = ()
-
-    #
-    # Define the general serilizer
-    #
-    serializer_class = serializers.TodoSerializer
-
-    #
-    # Define the serializer wich the app use when the API use Post method.
-    #
-    create_serializer_class = serializers.TodoSerializer
-
-    #
-    # Define the serializer wich the app use when the API use Patch method.
-    #
-    update_serializer_class = serializers.TodoSerializer
-
-    #
-    # Define the serializer wich the app use when the API use Delete method. For
-    # example, in this case we didn't define the serializer to this actions, then,
-    # the app will use the general serializer.
-    #
-    destroy_serializer_class = serializers.TodoSerializer
-
-    #
-    # Define the serializer wich the app use when the API use Get method without
-    # pk in kwargs.
-    #
-    list_serializer_class = serializers.TodoSerializer
-
-    #
-    # Define the serializer wich the app use when the API use Get method without
-    # pk in kwargs.
-    #
-    retrieve_serializer_class = serializers.TodoSerializer
-
-    #
-    # You can rewrite the normal functions like get_queryset, get_object ...
-    #
-    def get_queryset(self):
-        self.model.objects.all()
-
-
-router.register(
-    r'todos',
-    TodoViewSet,
-    base_name="todos"
-)
-
-```
-
-* If you need use documentation with swagger, then, you need rewrite the functions
-create, update, retrive, etc. And put your documentation after of functions.
-```python
-# luke/application/api.py or luke/application/viewsets.py
-# -*- coding: utf-8 -*-
-
-from luke.api.v1.routers import router
-from luke.application import serializers
-from luke.core.api import mixins, viewsets
-
-
-class TodoViewSet(
-        mixins.CreateModelMixin,
-        mixins.RetrieveModelMixin,
-        viewsets.GenericViewSet):
-
-    permission_classes = ()
-
-    #
-    # Define the general serilizer
-    #
-    serializer_class = serializers.TodoSerializer
-    create_serializer_class = serializers.TodoSerializer
-    retrieve_serializer_class = serializers.TodoSerializer
-
-    def create(self, request, *args, **kwargs):
-        """
-        Allows the session's user to add todo's.
-        ---
-        request_serializer: serializers.TodoSerializer
-        response_serializer: serializers.TodoSerializer
-
-        responseMessages:
-            - code: 201
-              message: CREATED
-            - code: 400
-              message: BAD REQUEST
-            - code: 500
-              message: INTERNAL SERVER ERROR
-
-        consumes:
-            - application/json
-        produces:
-            - application/json
-        """
-        return super(TodoViewSet, self).create(request, *args, **kwargs)
-
-
-    def retrieve(self, request, *args, **kwargs):
-        """
-        Allows the session's user get the information for certain todo.
-        ---
-        request_serializer: serializers.TodoSerializer
-        response_serializer: serializers.TodoSerializer
-
-        responseMessages:
-            - code: 200
-              message: OK
-            - code: 404
-              message: NOT FOUND
-            - code: 400
-              message: BAD REQUEST
-            - code: 500
-              message: INTERNAL SERVER ERROR
-
-        consumes:
-            - application/json
-        produces:
-            - application/json
-        """
-        return super(TodoViewSet, self).retrieve(request, *args, **kwargs)
-
-    def get_queryset(self):
-        self.model.objects.filter(is_active)
-
-
-router.register(
-    r'todos',
-    TodoViewSet,
-    base_name="todos"
-)
-
-```
-
-
-* If you need nested routes, with mixins is posible.
-```python
-# luke/application/api.py or luke/application/viewsets.py
-# -*- coding: utf-8 -*-
-
-from luke.api.v1.routers import router
-from luke.chores import serializers
-from luke.core.api import mixins, viewsets
-
-
-class ChoreViewSet(
-        mixins.ListModelMixin,
-        viewsets.NestedViewset):
-
-    permission_classes = ()
-
-    serializer_class = serializers.ChoreSerializer
-    list_serializer_class = serializers.ChoreSerializer
-
-    def list(self, request, *args, **kwargs):
-        return super(ChoreViewSet, self).list(request, *args, **kwargs)
-
-    def get_queryset(self):
-        self.model.objects.filter(
-            todo=self.kwargs['todo']  # get pk by name defined in the router
-        )
-
-#
-# The url will be: luke/api/v1/todos/pk/chores
-#
-router.register_nested(
-    r'todos',  # parent prefix
-    r'chores',  # prefix
-    ChoreViewSet,  # viewset
-    parent_lookup_name='todo',  # parent lookup name
-    base_name='chores',  # base name
-    depth_level=1  # deph level
-)
-
-#
-# You can change the deph level from 1 - n. By default is 1
-#
-
-```
-
-* Also is possible define detail routes.
-```python
-# luke/application/api.py or luke/application/viewsets.py
-# -*- coding: utf-8 -*-
-
-from luke.api.v1.routers import router
-from luke.application import serializers
-from luke.application.permissions import IsAdminOrIsSelf
-from luke.core.api import viewsets
-
-class TodoViewSet(viewsets.GenericViewSet):
-
-    serializer_class = serializers.CustomSerializer
-    #
-    # Define the serializer of your custom detail_route. The name should be
-    # name_of_action_serializer_class.
-    #
-    custom_action_serializer_class = serializers.CustomSerializer
-    
-    #
-    # You can do custom your detail route. For example, you can define the HHTP
-    # method, also, the permission_classes can be defined right here. Finally,
-    # if you need that the URL will be different to method name, just you
-    # define it in the parameter url_path
-    #
-    @detail_route(
-        methods=['PUT'],
-        permission_classes=[IsAdminOrIsSelf],
-        url_path='custom-action'
-    )
-    def custom_action(self, request, *args, **kwars):
-
-        # Serializer that will be used to validate the information.
-        update_serializer = self.get_serializer(
-            request.user,
-            data=request.data,
-            partial=True,
-            action='custom_action'
-        )
-
-        update_serializer.is_valid(raise_exception=True)
-        serializer = update_serializer.save()
-
-        retrieve_serializer = self.get_serializer(
-            serializer,
-            action='retrieve'
-        )
-        return Response(retrieve_serializer.data)
-
-# The url will be: luke/api/v1/todos/custom-action
-router.register(
-    r'todos',
-    TodoViewSet,
-    base_name="todos"
-)
-
+$ tox -e py27-django src/redsep/core/api/tests/test_serializers.py
 ```
