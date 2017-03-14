@@ -90,8 +90,10 @@ class SubjectViewSet(
         """
         queryset = Subject.objects.filter(is_active=True)
 
-        if self.parent_lookup_field in kwargs:
-            queryset = queryset.filter(area=kwargs[self.parent_lookup_field])
+        if self.parent_lookup_field in self.kwargs:
+            queryset = queryset.filter(
+                area=self.kwargs[self.parent_lookup_field]
+            )
 
         return queryset
 

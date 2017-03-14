@@ -29,6 +29,7 @@ class AreaURISerializer(ModelSerializer):
             'id',
             'name',
             'thumbnail',
+            'description',
             'resource_uri'
         )
 
