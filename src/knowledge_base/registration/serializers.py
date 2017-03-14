@@ -46,7 +46,11 @@ class RegistrationProfileSerializer(serializers.ModelSerializer):
         user.save()
 
         current_site = Site.objects.get_current()
-        url = '{0}://{1}/activate/{2}'.format(url_schema, current_site, key)
+        url = '{0}://{1}/activate/{2}'.format(
+            url_schema,
+            current_site.domain,
+            key
+        )
 
         # Constructs the context to be passed to the renderer.
         context = {
