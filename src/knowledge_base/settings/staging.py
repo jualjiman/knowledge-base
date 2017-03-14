@@ -13,6 +13,7 @@ DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = [
+    'kb.pythonballz.com'
 ]
 
 # Application definition
