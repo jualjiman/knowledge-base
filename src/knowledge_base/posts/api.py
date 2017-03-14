@@ -178,7 +178,11 @@ class PostViewSet(
                     #
                     # Or if available user wasn't defined.
                     #
-                    Q(available_to__isnull=True)
+                    Q(available_to__isnull=True) |
+                    #
+                    # Or if the post was created by the session's user.
+                    #
+                    Q(author=self.request.user)
                 )
             )
 
