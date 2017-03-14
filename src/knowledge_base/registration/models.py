@@ -31,44 +31,6 @@ class ActivationKeysManager(models.Manager):
         return user
 
 
-class RegistrationProfile(TimeStampedMixin):
-    """
-    Mapping table registration_profile in iptouch.
-    """
-    user = models.OneToOneField(User)
-
-    activation_key = models.CharField(
-        max_length=40,
-        unique=True,
-        verbose_name=_('activation key')
-    )
-    is_activated = models.BooleanField(
-        default=False,
-        verbose_name=_('is activated')
-    )
-
-    objects = ActivationKeysManager()
-
-    class Meta:
-        verbose_name = _('Registration Profile')
-        verbose_name_plural = _('Registration Profiles')
-
-    @property
-    def key_expired(self):
-        """
-        Tells wheter the activation key of the current profile is expired.
-        The key is expired if the user was already activated or the current
-        date is greater than the user's date that the user was joined plus
-        the validity minutes of the key.
-        Returns a boolean.
-        """
-        if not self.is_activated:
-            return (True if (now() - self.created_date) >
-                    timedelta(days=1) else False)
-
-        return True
-
-
 class ResetPassword(TimeStampedMixin):
     """
     Mapping table reset password for users.
