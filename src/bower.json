@@ -15,5 +15,8 @@
     "angular-dialog-service": "5.3.0",
     "materialize-autocomplete": "1.0.7"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "resolutions": {      
+    "angular": "1.6.2"
+  }
 }
