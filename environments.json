@@ -8,5 +8,17 @@
             "/home/vagrant/env/bin/activate",
             "/home/vagrant/env/nvm/nvm.sh"
         ]
+    },
+    "staging": {
+        "user": "kb",
+        "group": "kb",
+        "hosts": ["kb.pythonballz.com"],
+        "site_dir": "/var/www/vhosts/kb.pythonballz.com/public/",
+        "uploads_dir": "/var/www/kb.pythonballz.com/storage/media",
+        "django_settings": "knowledge_base.settings.staging",
+        "command_prefixes": [
+            "/var/www/vhosts/kb.pythonballz.com/env/python/bin/activate",
+            "/var/www/vhosts/kb.pythonballz.com/env/envvars"
+        ]
     }
 }
