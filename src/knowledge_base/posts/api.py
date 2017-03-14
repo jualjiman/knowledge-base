@@ -163,9 +163,20 @@ class PostViewSet(
         if self.parent_lookup_field in self.kwargs:
             return queryset.filter(
                 Q(is_active=True) &
+                Q(subject=self.kwargs[self.parent_lookup_field]) &
                 (
-                    Q(subject=self.kwargs[self.parent_lookup_field]) |
-                    Q(available_to=self.request.user)
+                    #
+                    # If available users are defined, and the request user was
+                    # included.
+                    #
+                    (
+                        Q(available_to__isnull=False) &
+                        Q(available_to=self.request.user)
+                    ) |
+                    #
+                    # Or if available user wasn't defined.
+                    #
+                    Q(available_to__isnull=True)
                 )
             )
 
