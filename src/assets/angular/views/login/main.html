@@ -61,6 +61,7 @@
                         </div>
                         <div class="input-field col s12">
                             <input id="registrationRepeatPassword" type="password" class="validate" ng-model="registrationInfo.repeatPassword" required>
+                            <strong ng-show="registrationInfo.password !== registrationInfo.repeatPassword">Password fields doesn't match.</strong>
                             <label for="registrationRepeatPassword">Repite contraseña</label>
                         </div>
                     </div>
@@ -71,7 +72,7 @@
                             <button 
                                 class="btn waves-effect waves-light"
                                 type="submit" 
-                                ng-disabled="registerForm.$invalid">
+                                ng-disabled="registerForm.$invalid && registrationInfo.password !== registrationInfo.repeatPassword">
                                 Registrarse
                             </button>
                         </div>
