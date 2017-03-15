@@ -189,7 +189,7 @@ app.config([
             });
 
 
-        return $urlRouterProvider.otherwise('/panel/areas');
+        return $urlRouterProvider.otherwise('/login');
     }
 ]).run(['$rootScope', '$content', '$state',
     function($rootScope, $content, $state){
