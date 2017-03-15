@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Bienvenido a Knowledge Base</title>
-</head>
-<body>
-    <h1>Bienvenido a Knowledge Base</h1>
-    <p>Seras redirigido al sitio en breve, gracias por usar KB.</p>
-    <script>
-    </script>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Bienvenido a Knowledge Base</title>
+    </head>
+    <body>
+        <h1>Bienvenido a Knowledge Base</h1>
+        <p>Seras redirigido al sitio en breve, gracias por usar KB.</p>
+        <script>
+            setTimeout(function(){
+                // redirecting to main page.
+                window.location.href = "{{ url }}";
+            }, 4000);
+        </script>
+    </body>
 </html>

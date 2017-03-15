@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import url
-from django.views.generic.base import TemplateView
 
-from knowledge_base.registration.views import ActivateView
+from knowledge_base.registration.views import ActivateView, WelcomeView
 
 urlpatterns = [
     url(
@@ -12,7 +11,7 @@ urlpatterns = [
     ),
     url(
         r'^welcome$',
-        TemplateView.as_view(template_name='users/welcome.html'),
+        WelcomeView.as_view(),
         name='welcome'
     ),
 ]
