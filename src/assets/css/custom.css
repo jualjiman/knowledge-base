@@ -33,12 +33,18 @@ a {
     font-size: 13px;
 }
 
-pre {
+span > pre {
     background: #373c3e;
     color: white;
     padding: 10px;
     border-radius: 3px;
     font-size: 13px;
+}
+
+span > code {
+    background: #ebebeb;
+    padding: 0 5px;
+    border-radius: 8px;
 }
 
 .btn {

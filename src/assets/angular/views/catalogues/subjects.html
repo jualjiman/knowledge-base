@@ -12,7 +12,6 @@
             <tr>
                 <th data-field="name">Nombre</th>
                 <th data-field="description">Descripción</th>
-                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -21,15 +20,6 @@
                     <a ui-sref="panel.posts({areaId: subject.parentIds.areaId, subjectId: subject.id})">{{ subject.name }}</a>
                 </td>
                 <td>{{ subject.description }}</td>
-                <td>
-                     <button
-                         class="waves-effect waves-teal btn-flat tooltipped"
-                         ng-click="confirmDelete(post.id)"
-                         data-position="bottom" data-delay="50"
-                         data-tooltip="Marcar como favorito">
-                        <i class="material-icons">favorite</i>
-                     </button>
-                </td>
             </tr>
         </tbody>
     </table>
