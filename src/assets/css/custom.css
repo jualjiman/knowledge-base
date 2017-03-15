@@ -53,7 +53,7 @@ pre {
 }
 
 .post {
-    color: #6b6b6b;
+    color: #595959;
     text-align: justify;
     line-height: 1.7;
     font-family: 'Merriweather', serif;
@@ -148,7 +148,11 @@ main {
 }
 
 .post-tab {
-    min-height: 60px !important;;
+    min-height: 60px !important;
+    background: #f0f0f0;
+    margin-bottom: 15px;
+    border: solid 1px #e9e9e9;
+    border-radius: 0 0 5px 5px;
 }
 
 .btn, .btn-large, .btn-flat {
@@ -184,4 +188,17 @@ main {
 
 .form-profile-image label {
     cursor: pointer;
+}
+
+.card .card-image .card-title {
+    font-weight: bold;
+}
+
+.col.remove-padding {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.main-actions {
+    padding: 14px 0;
 }

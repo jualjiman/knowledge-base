@@ -130,6 +130,15 @@ app.config([
                     }
                 }
             })
+            .state('panel.addPost', {
+                url: '/areas/:areaId/subjects/:subjectId/add-contribution',
+                views: {
+                    "content": {
+                        templateUrl: $contentProvider.url('angular/views/contributions/action.html'),
+                        controller: "CreatePostCtrl"
+                    }
+                }
+            })
 
             .state('panel.contributions', {
                 url: '/contributions',
@@ -150,7 +159,6 @@ app.config([
                     }
                 }
             })
-
             .state('panel.addContribution', {
                 url: '/add-contribution',
                 views: {
@@ -160,7 +168,6 @@ app.config([
                     }
                 }
             })
-
             .state('panel.editContribution', {
                 url: '/edit-contribution/:postId',
                 views: {

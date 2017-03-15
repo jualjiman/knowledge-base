@@ -1,8 +1,16 @@
-<h5>Contribuciones</h5>
-
-<button ui-sref="panel.addContribution" class="btn waves-effect waves-light" name="action">
-    Agregar contribución
-</button>
+<div class="col s6 remove-padding">
+    <h5>Contribuciones</h5>
+</div>
+<div class="col s6 remove-padding">
+    <div class="right main-actions">
+        <button
+            ui-sref="panel.addContribution"
+            class="btn waves-effect waves-light"
+            name="action">
+            <i class="material-icons">library_add</i>
+        </button>
+    </div>
+</div>
 
 <div ng-show="contributions.length > 0">
     <table class="striped">
@@ -23,17 +31,12 @@
                 <td>
                     <button
                        ui-sref="panel.editContribution({postId: post.id})"
-                        class="waves-effect waves-teal btn-flat tooltipped"
-                        data-position="bottom"
-                        data-delay="50"
-                        data-tooltip="Editar">
+                        class="btn-flat waves-effect waves-light"
+                        name="action">
                         <i class="material-icons">edit</i>
                      </button>
                      <button
-                        class="waves-effect waves-teal btn-flat tooltipped"
-                        data-position="bottom"
-                        data-delay="50"
-                        data-tooltip="Eliminar"
+                        class="btn-flat waves-effect waves-light"
                         ng-click="confirmDelete(post.id)">
                         <i class="material-icons">delete</i>
                      </button>

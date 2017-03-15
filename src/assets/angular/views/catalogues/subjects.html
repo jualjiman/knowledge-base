@@ -5,29 +5,35 @@
 
 <h6>Temas del área:</h6>
 <h5>{{ area.name }}</h5>
-<table class="striped">
-    <thead>
-        <tr>
-            <th data-field="name">Nombre</th>
-            <th data-field="description">Descripción</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="subject in subjects">
-            <td>
-                <a ui-sref="panel.posts({areaId: subject.parentIds.areaId, subjectId: subject.id})">{{ subject.name }}</a>
-            </td>
-            <td>{{ subject.description }}</td>
-            <td>
-                 <button
-                     class="waves-effect waves-teal btn-flat tooltipped"
-                     ng-click="confirmDelete(post.id)"
-                     data-position="bottom" data-delay="50"
-                     data-tooltip="Marcar como favorito">
-                    <i class="material-icons">favorite</i>
-                 </button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+
+<div ng-show="subjects.length > 0">
+    <table class="striped">
+        <thead>
+            <tr>
+                <th data-field="name">Nombre</th>
+                <th data-field="description">Descripción</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="subject in subjects">
+                <td>
+                    <a ui-sref="panel.posts({areaId: subject.parentIds.areaId, subjectId: subject.id})">{{ subject.name }}</a>
+                </td>
+                <td>{{ subject.description }}</td>
+                <td>
+                     <button
+                         class="waves-effect waves-teal btn-flat tooltipped"
+                         ng-click="confirmDelete(post.id)"
+                         data-position="bottom" data-delay="50"
+                         data-tooltip="Marcar como favorito">
+                        <i class="material-icons">favorite</i>
+                     </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div ng-hide="subjects.length > 0">
+    <p>No existe ningun tema para el area {{ area.name }} :(</p>
+</div>

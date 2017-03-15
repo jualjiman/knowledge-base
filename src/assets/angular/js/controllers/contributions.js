@@ -21,8 +21,6 @@ app.controller('ContributionsCtrl', [
         };
         
         loadContributions();
-        //Initializing modal.
-        $('.modal').modal();
     }
 ])
 
@@ -49,6 +47,91 @@ app.controller('ContributionsCtrl', [
                 $scope.area = response;
             });
         });    
+    }
+])
+
+.controller('CreatePostCtrl', [
+    '$scope', '$state', '$stateParams','Area', 'Subject', 'User', 'ProfileContribution', 'toastr',
+    function($scope, $state, $stateParams, Area, Subject, User, ProfileContribution, toastr){
+        $scope.post = {
+            isActive: true
+        };
+
+        Area.get().$promise.then(function(response){
+            $scope.areas = response.results;
+
+            reloadSelectFields();
+            $scope.post.area = parseInt($stateParams.areaId);
+            $scope.loadSubjects();
+        });
+
+        $scope.loadSubjects = function(){
+            if($scope.post.area){
+                Subject.get(
+                    {
+                        areaId: $scope.post.area
+                    }
+                ).$promise.then(function(response){
+                    $scope.subjects = response.results;
+                });
+            } else {
+                $scope.subjects = null;
+            }
+            reloadSelectFields();
+        };
+        
+        //
+        // Adding preloaded subject field.
+        //
+        $scope.loadSubjects();
+        $scope.post.subject = parseInt($stateParams.subjectId);
+
+        //
+        // Autocomplete field.
+        //
+        $scope.availableTo = $('#multipleInput').materialize_autocomplete({
+            multiple: {
+                enable: true
+            },
+            appender: {
+                el: '.ac-users'
+            },
+            dropdown: {
+                el: '#multipleDropdown'
+            },
+            getData: function(value, callback){
+                User.get({q: value}).$promise.then(function(response){
+                    var data = response.results;
+                    callback(value, data);
+                });
+            }
+        });
+
+        $scope.save = function(){
+            $scope.post.listAvailableTo = [];
+
+            angular.forEach($scope.availableTo.value, function(item){
+                $scope.post.listAvailableTo.push(item.id);
+            });
+
+            ProfileContribution.save($scope.post).$promise.then(function(){
+                toastr.success('Publicación creada correctamente');
+                return $state.go('panel.contributions');
+            }).catch(function(response){
+                toastr.error('Error al crear la publicación');
+                return $state.go('panel.contributions');
+            });
+        };
+
+        function reloadSelectFields(){
+            setTimeout(function(){
+                $('select').material_select();
+            }, 100);
+        }
+
+        // Initializing materialize fields.
+        $('ul.tabs').tabs();
+
     }
 ])
 
@@ -122,7 +205,7 @@ app.controller('ContributionsCtrl', [
             }, 100);
         }
 
-        // Initializing select fields.
+        // Initializing materialize fields.
         $('ul.tabs').tabs();
     }
 ])

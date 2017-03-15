@@ -41,14 +41,15 @@
     </div>
 
     
-    <div class="col s10">
+    <div class="col s10 tabs-container">
         <ul id="tabs-swipe-demo" class="tabs">
             <li class="tab col s3"><a class="active" href="#post-content">Contenido</a></li>
             <li class="tab col s3"><a href="#post-preview">Preview</a></li>
         </ul>
         <div id="post-content" class="post-tab col s12">
             <div class="input-field">
-                <textarea ng-model="post.content" class="materialize-textarea"></textarea required>
+                <textarea name="content" ng-model="post.content" class="materialize-textarea" required></textarea>
+                <label for="content">Markdown soportado</label>
             </div>
         </div>
         <div id="post-preview" marked="post.content" class="post post-tab col s12"></div>
@@ -58,7 +59,7 @@
         <div class="autocomplete" id="multiple">
             <div class="ac-users"></div>
             <div class="ac-input">
-                <input type="text" id="multipleInput" placeholder="Please input some letters" data-activates="multipleDropdown" data-beloworigin="true" autocomplete="off">
+                <input type="text" id="multipleInput" placeholder="escribe el email del usuario" data-activates="multipleDropdown" data-beloworigin="true" autocomplete="off">
             </div>
             <ul id="multipleDropdown" class="dropdown-content ac-dropdown"></ul>
             <input type="hidden" name="multipleHidden" />

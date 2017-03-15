@@ -4,8 +4,21 @@
     <span class="breadcrumb">{{ subject.name }}</span>
 </div>
 
-<h6>Publicaciones del tema:</h6>
-<h5>{{ subject.name }}</h5>
+<div class="col s6 remove-padding">
+    <h6>Publicaciones del tema:</h6>
+    <h5>{{ subject.name }}</h5>
+</div>
+<div class="col s6 remove-padding">
+    <div class="right main-actions">
+        <button
+            ui-sref="panel.addPost({areaId: area.id, subjectId: subject.id})"
+            class="btn waves-effect waves-light"
+            name="action">
+            <i class="material-icons">library_add</i>
+        </button>
+    </div>
+</div>
+
 <div ng-show="posts.length > 0">
     <table class="striped">
         <thead>

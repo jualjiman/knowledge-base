@@ -28,8 +28,8 @@ class AreaURISerializer(ModelSerializer):
         fields = (
             'id',
             'name',
-            'thumbnail',
             'description',
+            'thumbnail',
             'resource_uri'
         )
 
