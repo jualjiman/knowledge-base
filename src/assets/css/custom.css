@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Merriweather:300');
+@import url('https://fonts.googleapis.com/css?family=Inconsolata');
 
 body {
     font-family: 'Roboto', sans-serif;
@@ -62,7 +62,7 @@ span > code {
     color: #595959;
     text-align: justify;
     line-height: 1.7;
-    font-family: 'Merriweather', serif;
+    font-family: 'Inconsolata', monospace;
     font-size: 14px;
 }
 
