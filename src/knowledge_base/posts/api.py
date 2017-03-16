@@ -17,7 +17,7 @@ class AreaViewSet(
     mixins.ListModelMixin,
     GenericViewSet
 ):
-    queryset = Area.objects.filter(is_active=True)
+    queryset = Area.objects.filter(is_active=True).order_by('name')
 
     permission_classes = [IsAuthenticated, ]
 
