@@ -126,7 +126,7 @@ app.controller('ContributionsCtrl', [
         function reloadSelectFields(){
             setTimeout(function(){
                 $('select').material_select();
-            }, 100);
+            }, 300);
         }
 
         // Initializing materialize fields.
@@ -202,7 +202,7 @@ app.controller('ContributionsCtrl', [
         function reloadSelectFields(){
             setTimeout(function(){
                 $('select').material_select();
-            }, 100);
+            }, 300);
         }
 
         // Initializing materialize fields.
@@ -296,7 +296,7 @@ app.controller('ContributionsCtrl', [
             setTimeout(function(){
                 $('select').material_select();
                 Materialize.updateTextFields();
-            }, 100);
+            }, 300);
         }
     }
 ]);
