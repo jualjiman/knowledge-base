@@ -96,6 +96,7 @@ class PostSerializer(ModelSerializer):
             'subject',
             'is_active',
             'created_date',
+            'last_modified',
             'available_to',
         )
 

@@ -8,7 +8,7 @@
 <div class="chip" title="{{ post.author.email }}">
     <img ng-show="post.author.thumbnail" src="{{ post.author.thumbnail }}" alt="Contact Person">
     {{ post.author.fullName }} |
-    {{ post.createdDate | date:'dd/MM/yyyy HH:mm'}}
+    {{ post.lastModified | date:'dd/MM/yyyy HH:mm'}}
 </div>
 
 <div class="markdown" marked="post.content"></div>
