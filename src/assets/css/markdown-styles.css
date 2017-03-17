@@ -20,10 +20,14 @@
     padding-start: 40px;
 }
 
-.markdown li {
+.markdown ul > li {
     display: list-item;
     text-align: -webkit-match-parent;
     list-style-type: disc !important;
+}
+
+.markdown ol > li {
+    list-style-type: decimal !important;
 }
 
 .markdown blockquote { 
