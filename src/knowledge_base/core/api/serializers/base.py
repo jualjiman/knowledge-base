@@ -76,9 +76,21 @@ class ModelSerializer(DynamicFieldsMixin, AbsoluteUriMixin,
     """
     lookup_field = 'pk'
     api_version = 'v1'
-    custom_kwargs = None
+    custom_lookup_fields = None
     custom_base_name = None
     resource_uri = serializers.SerializerMethodField()
+
+    def clean_lookup_fields(self):
+        """
+        Returns a list with the properties that will be lookup by
+        get_resource_uri function
+        """
+        custom_lookup_fields = {}
+        for key, string_values in self.custom_lookup_fields.iteritems():
+            values = string_values.split('__')
+            custom_lookup_fields[key] = values
+
+        return custom_lookup_fields
 
     def get_resource_uri(self, obj):
         """
@@ -102,9 +114,11 @@ class ModelSerializer(DynamicFieldsMixin, AbsoluteUriMixin,
         #
         # Using custom kwargs if any.
         #
-        if self.custom_kwargs is not None:
+        if self.custom_lookup_fields is not None:
             kwargs = {}
-            for key, values in self.custom_kwargs.iteritems():
+            lookup_fields = self.clean_lookup_fields()
+
+            for key, values in lookup_fields.iteritems():
                 current_value = obj
                 for field in values:
                     current_value = getattr(current_value, field)

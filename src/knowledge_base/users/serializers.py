@@ -24,7 +24,7 @@ class SearchUserSerializer(ModelSerializer):
 
 class ProfileURISerializer(ModelSerializer):
     custom_base_name = 'me'
-    custom_kwargs = {}
+    custom_lookup_fields = {}
 
     full_name = serializers.SerializerMethodField()
 

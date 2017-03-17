@@ -19,8 +19,8 @@ class AreaSerializer(ModelSerializer):
 
 
 class AreaURISerializer(ModelSerializer):
-    custom_kwargs = {
-        "pk": ['pk'],
+    custom_lookup_fields = {
+        "pk": 'pk',
     }
 
     class Meta:
@@ -48,9 +48,9 @@ class SubjectSerializer(ModelSerializer):
 
 
 class SubjectURISerializer(ModelSerializer):
-    custom_kwargs = {
-        "pk": ['pk'],
-        "area_pk": ['area', 'pk'],
+    custom_lookup_fields = {
+        "pk": 'pk',
+        "area_pk": 'area__pk',
     }
     parent_ids = serializers.SerializerMethodField()
 
@@ -102,10 +102,10 @@ class PostSerializer(ModelSerializer):
 
 
 class PostURISerializer(ModelSerializer):
-    custom_kwargs = {
-        "pk": ['pk'],
-        "subject_pk": ['subject', 'pk'],
-        "area_pk": ['subject', 'area', 'pk'],
+    custom_lookup_fields = {
+        "pk": 'pk',
+        "subject_pk": 'subject__pk',
+        "area_pk": 'subject__area__pk',
     }
     parent_ids = serializers.SerializerMethodField()
 
