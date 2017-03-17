@@ -6,10 +6,10 @@
 
 <h5>{{ post.name }}</h5>
 
-<div class="chip">
+<div class="chip" title="{{ post.author.email }}">
     <img ng-show="post.author.thumbnail" src="{{ post.author.thumbnail }}">
     {{ post.author.fullName }} |
     {{ post.createdDate | date:'dd/MM/yyyy HH:mm'}}
 </div>
 
-<div class="post" marked="post.content"></div>
+<div class="markdown" marked="post.content"></div>

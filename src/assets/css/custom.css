@@ -31,20 +31,6 @@ a {
     font-size: 13px;
 }
 
-span > pre {
-    background: #373c3e;
-    color: white;
-    padding: 10px;
-    border-radius: 3px;
-    font-size: 13px;
-}
-
-span > code {
-    background: #ebebeb;
-    padding: 0 5px;
-    border-radius: 8px;
-}
-
 .btn {
     background-color: #38d57a !important;
 }
@@ -54,13 +40,6 @@ span > code {
 
 .light-blue.darken-2 {
     background-color: #38d57a !important;
-}
-
-.post {
-    color: #595959;
-    text-align: justify;
-    line-height: 1.7;
-    font-size: 14px;
 }
 
 .brand-logo {

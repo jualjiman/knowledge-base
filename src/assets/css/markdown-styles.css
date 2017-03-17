@@ -1,0 +1,61 @@
+.markdown {
+    color: #6f6f6f;
+    text-align: justify;
+    line-height: 1.7;
+    font-size: 15px;
+}
+
+.markdown ul {
+    display: block;
+    list-style-type: disc;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 40px;
+    margin-before: 1em;
+    margin-after: 1em;
+    margin-start: 0px;
+    margin-end: 0px;
+    padding-start: 40px;
+}
+
+.markdown li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+    list-style-type: disc !important;
+}
+
+.markdown blockquote { 
+    padding: 0 1em;
+    color: #6a737d;
+    border-left: 0.25em solid #dfe2e5;
+}
+
+.markdown h1 {
+    font-size: 2rem;
+}
+.markdown h2 {
+    font-size: 1.4rem;
+}
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+    font-size: 1rem;
+}
+
+.markdown span > pre {
+    background: #373c3e;
+    color: white;
+    padding: 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.markdown span > code {
+    background: #ebebeb;
+    padding: 0 7px;
+    border-radius: 8px;
+}

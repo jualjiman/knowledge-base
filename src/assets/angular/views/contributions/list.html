@@ -4,6 +4,7 @@
 <div class="col s6 remove-padding">
     <div class="right main-actions">
         <button
+            title="Agregar"
             ui-sref="panel.addContribution"
             class="btn waves-effect waves-light"
             name="action">
@@ -30,12 +31,14 @@
                 <td>{{ post.resume }}</td>
                 <td>
                     <button
+                       title="Editar"
                        ui-sref="panel.editContribution({postId: post.id})"
                         class="btn-flat waves-effect waves-light"
                         name="action">
                         <i class="material-icons">edit</i>
                      </button>
                      <button
+                        title="Eliminar"
                         class="btn-flat waves-effect waves-light"
                         ng-click="confirmDelete(post.id)">
                         <i class="material-icons">delete</i>

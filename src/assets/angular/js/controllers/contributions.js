@@ -129,6 +129,8 @@ app.controller('ContributionsCtrl', [
             }, 300);
         }
 
+        $('#content').keydown(textareaAllowTabs);
+
         // Initializing materialize fields.
         $('ul.tabs').tabs();
 
@@ -204,6 +206,8 @@ app.controller('ContributionsCtrl', [
                 $('select').material_select();
             }, 300);
         }
+
+        $('#content').keydown(textareaAllowTabs);
 
         // Initializing materialize fields.
         $('ul.tabs').tabs();
@@ -298,5 +302,7 @@ app.controller('ContributionsCtrl', [
                 Materialize.updateTextFields();
             }, 300);
         }
+
+        $('#content').keydown(textareaAllowTabs);
     }
 ]);

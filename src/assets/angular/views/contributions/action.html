@@ -48,11 +48,11 @@
         </ul>
         <div id="post-content" class="post-tab col s12">
             <div class="input-field">
-                <textarea name="content" ng-model="post.content" class="materialize-textarea" required></textarea>
+                <textarea name="content" id="content" ng-model="post.content" class="materialize-textarea" required></textarea>
                 <label for="content">Markdown soportado</label>
             </div>
         </div>
-        <div id="post-preview" marked="post.content" class="post post-tab col s12"></div>
+        <div id="post-preview" marked="post.content" class="markdown post-tab col s12"></div>
     </div>
 
     <div class="input-field col s10">
@@ -69,7 +69,7 @@
 
     <div class="input-field col s10">
         <input ng-model="post.isActive" type="checkbox" id="isActive"/>
-        <label for="isActive">Activo</label>
+        <label for="isActive">Es publico</label>
     </div>
     
     <div class="col s10 right-align">

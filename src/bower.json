@@ -13,10 +13,11 @@
     "highlightjs": "9.9.0",
     "materialize": "0.98.0",
     "angular-dialog-service": "5.3.0",
-    "materialize-autocomplete": "1.0.7"
+    "materialize-autocomplete": "1.0.7",
+    "normalize-css": "5.0.0"
   },
   "devDependencies": {},
-  "resolutions": {      
+  "resolutions": {
     "angular": "1.6.2"
   }
 }
