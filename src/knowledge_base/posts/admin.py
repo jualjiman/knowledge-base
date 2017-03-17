@@ -30,19 +30,30 @@ class SubjectAdmin(admin.ModelAdmin):
         'description'
     )
 
+    list_filter = ('area', )
+
 
 class PostAdmin(admin.ModelAdmin):
     list_display = (
         'name',
         'subject',
+        'area',
         'author',
         'is_active'
+    )
+
+    list_filter = (
+        'subject__area',
+        'subject',
     )
 
     search_fields = (
         'name',
         'subject'
     )
+
+    def area(self, instance):
+        return instance.subject.area.name
 
 admin.site.register(Area, AreaAdmin)
 admin.site.register(Subject, SubjectAdmin)
