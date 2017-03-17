@@ -95,7 +95,7 @@ class SubjectViewSet(
                 area=self.kwargs[self.parent_lookup_field]
             )
 
-        return queryset
+        return queryset.order_by('name')
 
     def list(self, request, *args, **kwargs):
         """
@@ -184,7 +184,7 @@ class PostViewSet(
                     #
                     Q(author=self.request.user)
                 )
-            )
+            ).order_by('name')
 
         return queryset.none()
 
@@ -253,7 +253,11 @@ class ProfilePostViewSet(
         # request user, so only those post should be visible in all cases.
         #
         request_user = self.request.user
-        queryset = Post.objects.filter(author=request_user)
+        queryset = Post.objects.filter(author=request_user).order_by(
+            'subject__area',
+            'subject',
+            'name',
+        )
 
         return queryset
 
