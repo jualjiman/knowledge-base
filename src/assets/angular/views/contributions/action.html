@@ -9,12 +9,12 @@
 
 <form name="postForm" ng-submit="save()" novalidate>
 
-    <div class="input-field col s10">
+    <div class="input-field col s12 m10">
         <input ng-model="post.name" type="text" name="text" required>
         <label for="title" class="">Titulo</label>
     </div>
 
-    <div class="input-field col s10">
+    <div class="input-field col s12 m10">
         <select
             ng-model="post.area"
             ng-options="area.id as area.name for area in areas"
@@ -25,7 +25,7 @@
         <label>Area</label>
     </div>
 
-    <div class="input-field col s10">
+    <div class="input-field col s12 m10">
         <select
             ng-model="post.subject"
             ng-options="subject.id as subject.name for subject in subjects"
@@ -35,13 +35,13 @@
         <label>Tema</label>
     </div>
 
-    <div class="input-field col s10">
+    <div class="input-field col s12 m10">
         <textarea name="resume" ng-model="post.resume" class="materialize-textarea"></textarea>
         <label for="resume">Resumen</label>
     </div>
 
     
-    <div class="col s10 tabs-container">
+    <div class="col s12 m10 tabs-container">
         <ul id="tabs-swipe-demo" class="tabs">
             <li class="tab col s3"><a class="active" href="#post-content">Contenido</a></li>
             <li class="tab col s3"><a href="#post-preview">Preview</a></li>
@@ -55,7 +55,7 @@
         <div id="post-preview" marked="post.content" class="markdown post-tab col s12"></div>
     </div>
 
-    <div class="input-field col s10">
+    <div class="input-field col s12 m10">
         <div class="autocomplete" id="multiple">
             <div class="ac-users"></div>
             <div class="ac-input">
@@ -67,12 +67,12 @@
         <label class="active" for="multipleInput">Disponible para:</label>
     </div>
 
-    <div class="input-field col s10">
+    <div class="input-field col s12 m10">
         <input ng-model="post.isActive" type="checkbox" id="isActive"/>
         <label for="isActive">Disponible</label>
     </div>
     
-    <div class="col s10 right-align">
+    <div class="col s12 m10 right-align">
         <button
             class="btn waves-effect waves-light"
             type="submit"
