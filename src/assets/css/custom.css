@@ -26,6 +26,12 @@ a {
     background: #19283F;
 }
 
+#toggle-sidenav-button {
+    display: block;
+    margin: 10px;
+    color: gray;
+}
+
 .breadcrum {
     margin-bottom: 10px;
     font-size: 13px;
@@ -79,6 +85,7 @@ a {
 
 .card-content {
     color: #5f6571;
+    min-height: 90px;
 }
 
 .breadcrumb-box {
