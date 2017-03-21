@@ -3,12 +3,26 @@
     <span class="breadcrumb">Visualizar contribución</span>
 </div>
 
-<h5>{{ post.name }}</h5>
-
-<div class="chip" title="{{ post.author.email }}">
-    <img ng-show="post.author.thumbnail" src="{{ post.author.thumbnail }}" alt="Contact Person">
-    {{ post.author.fullName }} |
-    {{ post.lastModified | date:'dd/MM/yyyy HH:mm'}}
+<div class="col s10 remove-padding">
+    <h5>{{ post.name }}</h5>
+    <div class="chip" title="{{ post.author.email }}">
+        <img ng-show="post.author.thumbnail" src="{{ post.author.thumbnail }}" alt="Contact Person">
+        {{ post.author.fullName }} |
+        {{ post.lastModified | date:'dd/MM/yyyy HH:mm'}}
+    </div>
+</div>
+<div class="col s2 remove-padding" ng-if="profileInfo.id === post.author.id">
+    <div class="right main-actions">
+        <button
+           title="Editar"
+           ui-sref="panel.editContribution({postId: post.id})"
+            class="btn waves-effect waves-light"
+            name="action">
+            <i class="material-icons">edit</i>
+         </button>
+    </div>
 </div>
 
-<div class="markdown" marked="post.content"></div>
+<div class="col s12 remove-padding">
+    <div class="markdown" marked="post.content"></div>
+</div>

@@ -25,8 +25,10 @@ app.controller('ContributionsCtrl', [
 ])
 
 .controller('ContributionCtrl', [
-    '$scope', '$stateParams', 'ProfileContribution', 'Subject', 'Area',
-    function($scope, $stateParams, ProfileContribution, Subject, Area){
+    '$scope', '$stateParams', '$localStorage', 'ProfileContribution', 'Subject', 'Area',
+    function($scope, $stateParams, $localStorage, ProfileContribution, Subject, Area){
+
+        $scope.profileInfo = $localStorage.profileInfo;
 
         ProfileContribution.get({id: $stateParams.postId}).$promise.then(function(response){
             $scope.post = response;
