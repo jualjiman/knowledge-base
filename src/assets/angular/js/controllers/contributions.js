@@ -33,10 +33,9 @@ app.controller('ContributionsCtrl', [
         ProfileContribution.get({id: $stateParams.postId}).$promise.then(function(response){
             $scope.post = response;
 
-            response.subject.parentIds.areaId,
             Subject.get(
                 {
-                    areaId: response.subject.parentIds.areaId,
+                    areaId: response.subject.area.id,
                     id: response.subject.id
                 }
             ).$promise.then(function(response){
@@ -44,7 +43,7 @@ app.controller('ContributionsCtrl', [
             });
 
             Area.get(
-                {id: response.subject.parentIds.areaId}
+                {id: response.subject.area.id}
             ).$promise.then(function(response){
                 $scope.area = response;
             });
@@ -226,7 +225,7 @@ app.controller('ContributionsCtrl', [
             ProfileContribution.get({id: $stateParams.postId}).$promise.then(function(response){
                 $scope.post = {
                     id: response.id,
-                    area: response.subject.parentIds.areaId,
+                    area: response.subject.area.id,
                     content: response.content,
                     resume: response.resume,
                     name: response.name,

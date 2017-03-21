@@ -19,6 +19,9 @@
             <tr>
                 <th>Nombre</th>
                 <th>Resumen</th>
+                <th>Tema</th>
+                <th>Área</th>
+                <th>Disponible</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -29,6 +32,12 @@
                     <a ui-sref="panel.contribution({postId: post.id})">{{ post.name }}</a>
                 </td>
                 <td>{{ post.resume }}</td>
+                <td>{{ post.subject.name }}</td>
+                <td>{{ post.subject.area.name }}</td>
+                <td>
+                    <i class="material-icons color-green" ng-show="post.isActive">check</i>
+                    <i class="material-icons color-red" ng-hide="post.isActive">clear</i>
+                </td>
                 <td>
                     <button
                        title="Editar"

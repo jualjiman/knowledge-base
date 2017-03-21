@@ -17,7 +17,7 @@
         <tbody>
             <tr ng-repeat="subject in subjects">
                 <td>
-                    <a ui-sref="panel.posts({areaId: subject.parentIds.areaId, subjectId: subject.id})">{{ subject.name }}</a>
+                    <a ui-sref="panel.posts({areaId: subject.area.id, subjectId: subject.id})">{{ subject.name }}</a>
                 </td>
                 <td>{{ subject.description }}</td>
             </tr>

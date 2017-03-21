@@ -52,7 +52,7 @@ class SubjectURISerializer(ModelSerializer):
         "pk": 'pk',
         "area_pk": 'area__pk',
     }
-    parent_ids = serializers.SerializerMethodField()
+    area = AreaURISerializer()
 
     class Meta:
         model = Subject
@@ -60,18 +60,9 @@ class SubjectURISerializer(ModelSerializer):
             'id',
             'name',
             'description',
+            'area',
             'resource_uri',
-            'parent_ids',
         )
-
-    def get_parent_ids(self, instance):
-        """
-        When using nested endpoints, is useful to provide nested id values,
-        instead of request every endpoint in every nested level.
-        """
-        return {
-            "area_id": instance.area.id
-        }
 
 
 class PostSerializer(ModelSerializer):
@@ -102,12 +93,16 @@ class PostSerializer(ModelSerializer):
 
 
 class PostURISerializer(ModelSerializer):
+    # To avoid cross importation.
+    from knowledge_base.users.serializers import ProfileURISerializer
+
     custom_lookup_fields = {
         "pk": 'pk',
         "subject_pk": 'subject__pk',
         "area_pk": 'subject__area__pk',
     }
-    parent_ids = serializers.SerializerMethodField()
+    subject = SubjectURISerializer()
+    author = ProfileURISerializer()
 
     class Meta:
         model = Post
@@ -115,20 +110,11 @@ class PostURISerializer(ModelSerializer):
             'id',
             'name',
             'resume',
-            'parent_ids',
+            'subject',
+            'author',
             'resource_uri',
             'is_active',
         )
-
-    def get_parent_ids(self, instance):
-        """
-        When using nested endpoints, is useful to provide nested id values,
-        instead of request every endpoint in every nested level.
-        """
-        return {
-            "area_id": instance.subject.area.id,
-            "subject_id": instance.subject.id
-        }
 
 
 class PostCreateSerializer(ModelSerializer):

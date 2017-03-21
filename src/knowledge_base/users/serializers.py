@@ -26,20 +26,15 @@ class ProfileURISerializer(ModelSerializer):
     custom_base_name = 'me'
     custom_lookup_fields = {}
 
-    full_name = serializers.SerializerMethodField()
-
     class Meta:
         model = get_user_model()
         fields = (
            'id',
-           'full_name',
+           'name',
            'email',
            'thumbnail',
            'resource_uri',
         )
-
-    def get_full_name(self, instance):
-        return instance.get_full_name()
 
 
 class ProfileSerializer(ModelSerializer):
