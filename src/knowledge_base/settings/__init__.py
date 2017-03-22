@@ -49,6 +49,8 @@ INSTALLED_APPS = (
     # Third party apps.
     'rest_framework_swagger',
     'rest_framework',
+    'drf_haystack',
+    'haystack',
 )
 
 SITE_ID = 1
@@ -162,7 +164,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Mexico_City'
 
 USE_I18N = True
 
@@ -201,3 +203,11 @@ EMAIL_FILE_PATH = os.path.realpath(os.path.join(
 MEDIA_URL = '/media/uploads/'
 
 PRODUCTION = False
+
+# Haystack Connections
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+        'URL': 'http://localhost:8983/solr/collection1/'
+    },
+}

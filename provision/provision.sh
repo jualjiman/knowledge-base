@@ -8,8 +8,24 @@ PACKAGES="build-essential zsh git vim-nox tree htop libjpeg-dev libfreetype6-dev
 PACKAGES="$PACKAGES python python-setuptools python-pip python-dev"
 PACKAGES="$PACKAGES postgresql-9.3 postgresql-server-dev-9.3"
 PACKAGES="$PACKAGES nginx"
+PACKAGES="$PACKAGES default-jre"
 
 apt-get install -y $PACKAGES
+
+echo "Installing Sorl search engine..."
+SOLR_DIR=/home/vagrant/solr
+
+if [ ! -d $SOLR_DIR ]; then
+    SOLR_VERSION=4.10.2
+    mkdir $SOLR_DIR
+    curl -o $SOLR_DIR/solr.tgz https://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/solr-$SOLR_VERSION.tgz
+    tar xvzf $SOLR_DIR/solr.tgz -C $SOLR_DIR --strip-components=1
+
+    # Replacing schema file.
+    rm $SOLR_DIR/example/solr/collection1/conf/schema.xml
+    cp /home/vagrant/src/templates/search_configuration/solr.xml $SOLR_DIR/example/solr/collection1/conf/schema.xml
+    chown -R vagrant:vagrant $SOLR_DIR
+fi
 
 
 echo "Setting up PostgreSQL server..."

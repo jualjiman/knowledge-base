@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth import get_user_model
 
+from drf_haystack import serializers as haystack_serializers
+
 from rest_framework import serializers
 
 from knowledge_base.core.api.serializers import ModelSerializer
 from knowledge_base.posts.models import Area, Post, Subject
+from knowledge_base.posts.search_indexes import PostIndex
 
 
 class AreaSerializer(ModelSerializer):
@@ -185,4 +188,18 @@ class PostDocSerializer(ModelSerializer):
             'content',
             'subject',
             'is_active',
+        )
+
+
+class PostSearchSerializer(haystack_serializers.HaystackSerializer):
+
+    class Meta:
+        index_classes = (PostIndex, )
+        fields = (
+            'id',
+            'name',
+            'resume',
+            'content',
+            'subject',
+            'author',
         )

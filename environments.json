@@ -3,6 +3,7 @@
         "user": "vagrant",
         "hosts": ["192.168.33.66"],
         "site_dir": "/home/vagrant/src/",
+        "solr_dir": "/home/vagrant/solr/example/",
         "django_settings": "knowledge_base.settings.local",
         "command_prefixes": [
             "/home/vagrant/env/bin/activate",
@@ -21,5 +22,14 @@
             "/var/www/vhosts/kb.pythonballz.com/env/envvars",
             "/var/www/vhosts/kb.pythonballz.com/env/nvm/nvm.sh"
         ]
+    },
+    "solr": {
+        "user": "solr",
+        "group": "solr",
+        "hosts": ["0.0.0.0"],
+        "schema_local_path": "src/templates/search_configuration/sorl.xml",
+        "schema_remote_path": {
+            "staging": "/opt/solr/example/solr/collection1/conf/schema.xml"
+        }
     }
 }

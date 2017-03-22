@@ -2,6 +2,7 @@
 from fabric.api import cd, env, require, run, task
 from fabric.colors import green, white
 from fabric.context_managers import contextmanager, prefix, shell_env
+from fabric.operations import put
 from fabric.utils import puts
 
 from fabutils import arguments, join, options
@@ -384,3 +385,57 @@ def inspectdb(filename=""):
             run('python manage.py inspectdb')
         else:
             run(join('python manage.py inspectdb > ', filename))
+
+
+# Haystack index tasks
+@task
+def rebuild_index():
+    """
+    rebuilds index for haystack search_indexes.
+    """
+    with virtualenv():
+        run('python manage.py rebuild_index --noinput')
+
+
+# Solr tasks
+@task
+def run_solr():
+    """
+    Starts the Sorl demo search engine.
+    """
+    update_solr_schema()
+    require('solr_dir')
+    with cd(env.solr_dir):
+        run('java -jar start.jar')
+
+
+@task
+def update_solr_schema():
+    """
+    Replaces project schema file into local solr.
+    """
+    require('solr_dir', 'site_dir')
+    command = (
+        'cp {}templates/search_configuration/solr.xml '
+        '{}solr/collection1/conf/schema.xml'
+    ).format(
+        env.site_dir,
+        env.solr_dir
+    )
+    run(command)
+
+
+@task
+def replace_solr_schema(core):
+    """
+    Replaces solr schema for the given environment.
+    example:
+    - fab environment:solr replace_solr_schema:staging
+    - fab environment:solr replace_solr_schema:production
+    """
+    require('schema_remote_path', "schema_local_path")
+    put(
+        env.schema_local_path,
+        env.schema_remote_path[core]
+    )
+    run('sudo systemctl restart solr')

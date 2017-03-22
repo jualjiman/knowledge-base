@@ -70,3 +70,13 @@ EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 EMAIL_PORT = int(os.environ['EMAIL_HOST_PORT'])
 EMAIL_USE_TLS = os.environ['EMAIL_USE_TLS'] == 'True'
 DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
+
+# Haystack Connections
+if 'HAYSTACK_CONNECTION_URL' in os.environ:
+
+    HAYSTACK_CONNECTIONS = {
+        'default': {
+            'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+            'URL': os.environ['HAYSTACK_CONNECTION_URL']
+        },
+    }

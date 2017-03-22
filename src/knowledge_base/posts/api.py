@@ -1,7 +1,11 @@
 # # -*- coding: utf-8 -*-
 from django.db.models import Q
 
+from drf_haystack.generics import HaystackGenericAPIView
+
+from rest_framework.mixins import ListModelMixin
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.viewsets import ViewSetMixin
 
 from knowledge_base.api.v1.routers import router
 from knowledge_base.core.api import mixins
@@ -10,6 +14,7 @@ from knowledge_base.core.api.viewsets.nested import NestedViewset
 
 from knowledge_base.posts import serializers
 from knowledge_base.posts.models import Area, Post, Subject
+from knowledge_base.posts.serializers import PostSearchSerializer
 
 
 class AreaViewSet(
@@ -231,6 +236,13 @@ class PostViewSet(
         return super(PostViewSet, self).retrieve(request, *args, **kwargs)
 
 
+class PostSearchViewSet(ListModelMixin, ViewSetMixin, HaystackGenericAPIView):
+    index_models = [Post]
+    serializer_class = PostSearchSerializer
+
+    permission_classes = [IsAuthenticated, ]
+
+
 class ProfilePostViewSet(
     mixins.RetrieveModelMixin,
     mixins.ListModelMixin,
@@ -386,6 +398,12 @@ router.register(
     r'areas',
     AreaViewSet,
     base_name='area'
+)
+
+router.register(
+    r'posts/search',
+    PostSearchViewSet,
+    base_name="post-search"
 )
 
 router.register_nested(
