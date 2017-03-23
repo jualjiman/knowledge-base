@@ -130,6 +130,15 @@ app.config([
                     }
                 }
             })
+            .state('panel.searchPosts', {
+                url: '/posts/search',
+                views: {
+                    "content": {
+                        templateUrl: $contentProvider.url('angular/views/catalogues/searchPosts.html'),
+                        controller: "SearchPostsCtrl"
+                    }
+                }
+            })
             .state('panel.addPost', {
                 url: '/areas/:areaId/subjects/:subjectId/add-contribution',
                 views: {

@@ -266,6 +266,31 @@ class PostSearchViewSet(ListModelMixin, ViewSetMixin, HaystackGenericAPIView):
 
         return queryset
 
+    def list(self, request):
+        """
+        List all matching posts.
+        ---
+        response_serializer: PostSearchSerializer
+        parameters:
+            - name: q
+              description: search into text field of the post.
+              paramType: query
+              type: integer
+
+        responseMessages:
+            - code: 200
+              message: OK
+            - code: 403
+              message: FORBIDDEN
+            - code: 500
+              message: INTERNAL SERVER ERROR
+        consumes:
+            - application / querystring
+        produces:
+            - application / json
+        """
+        return super(PostSearchViewSet, self).list(request)
+
 
 class ProfilePostViewSet(
     mixins.RetrieveModelMixin,
