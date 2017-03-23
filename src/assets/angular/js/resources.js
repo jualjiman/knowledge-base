@@ -106,7 +106,14 @@ app
                 {
                     areaId: '@areaId',
                     subjectId: '@subjectId',
-                    id: '@id'
+                    id: '@id',
+                    q: '@q'
+                },
+                {
+                    search: {
+                        url: '/api/v1/posts/search',
+                        method: 'get'
+                    }
                 }
             );
         }

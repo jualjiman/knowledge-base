@@ -4,9 +4,10 @@
 </a>
 <nav>
     <div class="nav-wrapper grey lighten-4">
-        <form>
+        <form ng-submit="submit()">
             <div class="input-field">
-                <input id="search" type="search" required>
+                <input id="search" type="search" ng-model="q" required>
+
                 <label for="search"><i class="material-icons grey-text text-darken-1">search</i></label>
                 <i class="material-icons icon-close">close</i>
             </div>

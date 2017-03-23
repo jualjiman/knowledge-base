@@ -192,6 +192,9 @@ class PostDocSerializer(ModelSerializer):
 
 
 class PostSearchSerializer(haystack_serializers.HaystackSerializer):
+    id = serializers.IntegerField(source="post_id")
+    author = serializers.SerializerMethodField()
+    subject = serializers.SerializerMethodField()
 
     class Meta:
         index_classes = (PostIndex, )
@@ -199,14 +202,26 @@ class PostSearchSerializer(haystack_serializers.HaystackSerializer):
             'id',
             'name',
             'resume',
-            'content',
             'subject',
             'author',
             'content_auto',
         )
 
-        ignore_fields = ('content_auto', )
+        ignore_fields = (
+            'content_auto',
+        )
 
         field_aliases = {
             "q": "content_auto",
         }
+
+    def get_author(self, instance):
+        from knowledge_base.users.serializers import ProfileURISerializer
+        author = get_user_model().objects.get(id=instance.author_id)
+
+        return ProfileURISerializer(author).data
+
+    def get_subject(self, instance):
+        subject = Subject.objects.get(id=instance.subject_id)
+
+        return SubjectURISerializer(subject).data

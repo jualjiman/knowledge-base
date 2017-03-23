@@ -5,13 +5,12 @@ from knowledge_base.posts.models import Post
 
 
 class PostIndex(indexes.SearchIndex, indexes.Indexable):
-    post_id = indexes.CharField(model_attr='id')
+    post_id = indexes.IntegerField(model_attr='id')
     name = indexes.CharField(model_attr='name')
     resume = indexes.CharField(model_attr='resume')
     content = indexes.CharField(model_attr='content')
-    author = indexes.CharField(model_attr='author__name')
     author_id = indexes.IntegerField(model_attr='author__id')
-    subject = indexes.CharField(model_attr='subject__name')
+    subject_id = indexes.CharField(model_attr='subject__id')
     available_to = indexes.MultiValueField()
 
     text = indexes.CharField(document=True, use_template=True)

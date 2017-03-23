@@ -58,4 +58,33 @@ app.controller('PostsCtrl', [
                 $scope.area = response;
             });
         }
+    ])
+
+    .controller('HeaderSearchCtrl', [
+        '$scope','$state' ,'$stateParams', 'Post',
+        function($scope, $state, $stateParams, Post){
+            $scope.q = '';
+
+            $scope.submit = function(){
+                $state.go('panel.searchPosts', {q: $scope.q});
+                $scope.q = '';
+            };
+        }
+    ])
+
+    .controller('SearchPostsCtrl', [
+        '$scope', '$stateParams', 'Post',
+        function($scope, $stateParams, Post){
+
+            $scope.q = $stateParams.q;
+
+            Post.search(
+                {
+                    q: $stateParams.q,
+                }
+            ).$promise.then(function(response){
+                $scope.matches = response.results;
+                $scope.totalMatches = response.count;
+            });
+        }
     ]);

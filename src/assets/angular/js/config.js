@@ -88,6 +88,7 @@ app.config([
                     },
                     "header@panel": {
                         templateUrl: $contentProvider.url('angular/views/panel/header.html'),
+                        controller: "HeaderSearchCtrl"
                     },
                     "sidenav@panel": {
                         templateUrl: $contentProvider.url('angular/views/panel/sidenav.html'),
@@ -130,8 +131,9 @@ app.config([
                     }
                 }
             })
+
             .state('panel.searchPosts', {
-                url: '/posts/search',
+                url: '/posts/search?:q',
                 views: {
                     "content": {
                         templateUrl: $contentProvider.url('angular/views/catalogues/searchPosts.html'),
@@ -139,6 +141,7 @@ app.config([
                     }
                 }
             })
+
             .state('panel.addPost', {
                 url: '/areas/:areaId/subjects/:subjectId/add-contribution',
                 views: {
