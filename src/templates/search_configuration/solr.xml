@@ -183,6 +183,8 @@
 
     <field name="author" type="text_en" indexed="true" stored="true" multiValued="false" />
 
+    <field name="author_id" type="long" indexed="true" stored="true" multiValued="false" />
+
     <field name="subject" type="text_en" indexed="true" stored="true" multiValued="false" />
 
     <field name="content_auto" type="accented_edge_ngram" indexed="true" stored="true" multiValued="false" />

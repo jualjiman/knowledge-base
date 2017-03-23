@@ -242,6 +242,30 @@ class PostSearchViewSet(ListModelMixin, ViewSetMixin, HaystackGenericAPIView):
 
     permission_classes = [IsAuthenticated, ]
 
+    def get_queryset(self, index_models=[]):
+        queryset = super(PostSearchViewSet, self).get_queryset()
+
+        queryset = queryset.filter(
+            #
+            # If available users are defined, and the request user was
+            # included.
+            #
+            (
+                Q(available_to__isnull=False) &
+                Q(available_to=self.request.user.id)
+            ) |
+            #
+            # Or if available user wasn't defined.
+            #
+            Q(available_to__isnull=True) |
+            #
+            # Or if the post was created by the session's user.
+            #
+            Q(author_id=self.request.user.id)
+        )
+
+        return queryset
+
 
 class ProfilePostViewSet(
     mixins.RetrieveModelMixin,

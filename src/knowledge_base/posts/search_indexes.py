@@ -10,6 +10,7 @@ class PostIndex(indexes.SearchIndex, indexes.Indexable):
     resume = indexes.CharField(model_attr='resume')
     content = indexes.CharField(model_attr='content')
     author = indexes.CharField(model_attr='author__name')
+    author_id = indexes.IntegerField(model_attr='author__id')
     subject = indexes.CharField(model_attr='subject__name')
     available_to = indexes.MultiValueField()
 

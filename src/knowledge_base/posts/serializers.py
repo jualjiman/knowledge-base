@@ -202,4 +202,11 @@ class PostSearchSerializer(haystack_serializers.HaystackSerializer):
             'content',
             'subject',
             'author',
+            'content_auto',
         )
+
+        ignore_fields = ('content_auto', )
+
+        field_aliases = {
+            "q": "content_auto",
+        }
