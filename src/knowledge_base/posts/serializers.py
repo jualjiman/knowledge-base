@@ -205,10 +205,12 @@ class PostSearchSerializer(haystack_serializers.HaystackSerializer):
             'subject',
             'author',
             'content_auto',
+            'available_to',
         )
 
         ignore_fields = (
             'content_auto',
+            'available_to',
         )
 
         field_aliases = {
