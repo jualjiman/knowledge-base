@@ -26,8 +26,8 @@
     "solr": {
         "user": "solr",
         "group": "solr",
-        "hosts": ["0.0.0.0"],
-        "schema_local_path": "src/templates/search_configuration/sorl.xml",
+        "hosts": ["kb.pythonballz.com"],
+        "schema_local_path": "src/templates/search_configuration/solr.xml",
         "schema_remote_path": {
             "staging": "/opt/solr/example/solr/collection1/conf/schema.xml"
         }
