@@ -117,7 +117,13 @@ app.controller('ContributionsCtrl', [
 
             ProfileContribution.save($scope.post).$promise.then(function(){
                 toastr.success('Publicación creada correctamente');
-                return $state.go('panel.contributions');
+                return $state.go(
+                    'panel.posts',
+                    {
+                        areaId: $scope.post.area,
+                        subjectId: $scope.post.subject
+                    }
+                );
             }).catch(function(response){
                 var errorData = prepareErrorMessages(response)
                 toastr.error(errorData.info, errorData.statusText);
