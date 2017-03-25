@@ -12,6 +12,7 @@ class PostIndex(indexes.SearchIndex, indexes.Indexable):
     author_id = indexes.IntegerField(model_attr='author__id')
     subject_id = indexes.CharField(model_attr='subject__id')
     available_to = indexes.MultiValueField()
+    is_available_to = indexes.BooleanField()
 
     text = indexes.CharField(document=True, use_template=True)
     content_auto = indexes.EdgeNgramField(use_template=True)
@@ -24,6 +25,11 @@ class PostIndex(indexes.SearchIndex, indexes.Indexable):
             user.id
             for user in obj.available_to.all()
         ]
+
+    def prepare_is_available_to(self, obj):
+        if obj.available_to.all().count() > 0:
+            return True
+        return False
 
     def index_queryset(self, using=None):
         return self.get_model().objects.filter(is_active=True)

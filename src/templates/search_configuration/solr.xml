@@ -175,6 +175,8 @@
 
     <field name="text" type="text_en" indexed="true" stored="true" multiValued="false" />
 
+    <field name="is_available_to" type="boolean" indexed="true" stored="true" multiValued="false" />
+
     <field name="available_to" type="text_en" indexed="true" stored="true" multiValued="true" />
 
     <field name="content" type="text_en" indexed="true" stored="true" multiValued="false" />
