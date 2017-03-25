@@ -25,7 +25,8 @@ app
                             $scope.profile.thumbnail = "http://placehold.it/200x200";
                             toastr.success('Imagen eliminada correctamente');
                         }).catch(function(response){
-                            toastr.error(prepareErrorMessagesWithTitles(response));
+                            var errorData = prepareErrorMessages(response)
+                            return toastr.error(errorData.info, errorData.statusText);
                         });
                     }
                 });
@@ -37,7 +38,8 @@ app
                     toastr.success('Perfil actualizado correctamente');
                     return $state.go('panel.areas', {}, { reload: true });
                 }).catch(function(response){
-                    toastr.error(prepareErrorMessagesWithTitles(response));
+                    var errorData = prepareErrorMessages(response)
+                    toastr.error(errorData.info, errorData.statusText);
                     return $state.go('panel.areas', {}, { reload: true });
                 });
             };

@@ -119,7 +119,8 @@ app.controller('ContributionsCtrl', [
                 toastr.success('Publicación creada correctamente');
                 return $state.go('panel.contributions');
             }).catch(function(response){
-                toastr.error('Error al crear la publicación');
+                var errorData = prepareErrorMessages(response)
+                toastr.error(errorData.info, errorData.statusText);
                 return $state.go('panel.contributions');
             });
         };
@@ -197,7 +198,8 @@ app.controller('ContributionsCtrl', [
                 toastr.success('Publicación creada correctamente');
                 return $state.go('panel.contributions');
             }).catch(function(response){
-                toastr.error('Error al crear la publicación');
+                var errorData = prepareErrorMessages(response)
+                toastr.error(errorData.info, errorData.statusText);
                 return $state.go('panel.contributions');
             });
         };
@@ -278,7 +280,9 @@ app.controller('ContributionsCtrl', [
                 toastr.success('Publicación actualizada correctamente');
                 return $state.go('panel.contributions');
             }).catch(function(response){
-                toastr.error('Error al actualizar la publicación');
+                var errorData = prepareErrorMessages(response)
+                toastr.error(errorData.info, errorData.statusText);
+                return $state.go('panel.contributions');
             });
         };
 
