@@ -2,4 +2,6 @@
 {{ object.name }}
 {{ object.resume }}
 {{ object.content }}
+{{ object.subject.name }}
+{{ object.subject.area.name }}
 {{ object.author }}
