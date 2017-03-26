@@ -310,11 +310,16 @@ app.controller('ContributionsCtrl', [
                     }
                 ).$promise.then(function(response){
                     $scope.subjects = response.results;
+                    //
+                    // this function should be executed here, because
+                    // material select field should be updated when data is ready.
+                    //
+                    reloadSelectFields();
                 });
             } else {
                 $scope.subjects = null;
+                reloadSelectFields();
             }
-            reloadSelectFields();
         };
 
         function reloadSelectFields(){
