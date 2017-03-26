@@ -262,6 +262,10 @@ class PostSearchViewSet(ListModelMixin, ViewSetMixin, HaystackGenericAPIView):
             # Or if the post was created by the session's user.
             #
             Q(author_id=self.request.user.id)
+        ).order_by(
+            'area_name',
+            'subject_name',
+            'name'
         )
 
         return queryset
