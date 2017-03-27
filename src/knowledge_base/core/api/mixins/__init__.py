@@ -56,8 +56,16 @@ class ListModelMixin(object):
     """
     List a queryset.
     """
-    def list(self, request, response_serializer='list', *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
+    def list(
+        self,
+        request,
+        response_serializer='list',
+        queryset=None,
+        *args,
+        **kwargs
+    ):
+        if queryset is None:
+            queryset = self.filter_queryset(self.get_queryset())
 
         page = self.paginate_queryset(queryset)
         if page is not None:
