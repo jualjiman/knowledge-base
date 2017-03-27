@@ -189,7 +189,7 @@ class PostViewSet(
                     #
                     Q(author=self.request.user)
                 )
-            ).order_by('name')
+            ).distinct().order_by('name')
 
         return queryset.none()
 
