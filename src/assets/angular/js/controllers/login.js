@@ -23,7 +23,8 @@ app.controller('AuthCtrl', [
 
                 });
             }).catch(function(response){
-                toastr.error(prepareErrorMessages(response));
+                var errorData = prepareErrorMessages(response)
+                return toastr.error(errorData.info, errorData.statusText);
             });
         };
 
@@ -31,8 +32,10 @@ app.controller('AuthCtrl', [
             Auth.signup($scope.registrationInfo).$promise.then(function(response){
                 $scope.registrationInfo = {};
                 toastr.success('Registrado correctamente, revisa tu correo electronico para activar tu cuenta');
+                $scope.is_login_operation = true;
             }).catch(function(response){
-                toastr.error(prepareErrorMessages(response));
+                var errorData = prepareErrorMessages(response)
+                return toastr.error(errorData.info, errorData.statusText);
             });
         };
 

@@ -161,7 +161,7 @@ class SearchUserViewSet(mixins.ListModelMixin, GenericViewSet):
 
     def get_queryset(self, *args, **kwargs):
 
-        queryset = get_user_model().objects.all()
+        queryset = get_user_model().objects.filter(is_active=True)
         query_params = get_query_params(self.request)
         q = query_params.get('q')
 

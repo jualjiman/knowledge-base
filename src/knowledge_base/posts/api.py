@@ -251,17 +251,21 @@ class PostSearchViewSet(ListModelMixin, ViewSetMixin, HaystackGenericAPIView):
             # included.
             #
             (
-                Q(available_to__isnull=False) &
+                Q(is_available_to=True) &
                 Q(available_to=self.request.user.id)
             ) |
             #
             # Or if available user wasn't defined.
             #
-            Q(available_to__isnull=True) |
+            Q(is_available_to=False) |
             #
             # Or if the post was created by the session's user.
             #
             Q(author_id=self.request.user.id)
+        ).order_by(
+            'area_name',
+            'subject_name',
+            'name'
         )
 
         return queryset

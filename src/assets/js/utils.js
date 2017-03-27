@@ -7,11 +7,19 @@ function prepareErrorMessagesWithTitles(response){
 }
 
 function prepareErrorMessages(response){
-    var errors = "";
+    var info = "";
     $.map(response.data, function(value, index) {
-        errors = errors + "\n" + value[0];
+        if(Array.isArray(value)){
+            info = info + "\n" + value[0];
+        } else {
+            info = info + "\n" + value;
+        }
     });
-    return errors;
+
+    return {
+        "statusText": response.statusText,
+        "info": info
+    };
 }
 
 function textareaAllowTabs(e) {

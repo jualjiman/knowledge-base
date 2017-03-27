@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+from django.http.request import QueryDict
+
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.settings import api_settings
-
-from django.http.request import QueryDict
 
 
 class CreateModelMixin(object):
@@ -56,12 +56,24 @@ class ListModelMixin(object):
     """
     List a queryset.
     """
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
+    def list(
+        self,
+        request,
+        response_serializer='list',
+        queryset=None,
+        *args,
+        **kwargs
+    ):
+        if queryset is None:
+            queryset = self.filter_queryset(self.get_queryset())
 
         page = self.paginate_queryset(queryset)
         if page is not None:
-            serializer = self.get_serializer(page, many=True, action='list')
+            serializer = self.get_serializer(
+                page,
+                many=True,
+                action=response_serializer
+            )
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
@@ -72,9 +84,19 @@ class RetrieveModelMixin(object):
     """
     Retrieve a model instance.
     """
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, action='retrieve')
+    def retrieve(
+        self,
+        request,
+        pk=None,
+        instance=None,
+        response_serializer='retrieve',
+        *args,
+        **kwargs
+    ):
+        if instance is None:
+            instance = self.get_object()
+
+        serializer = self.get_serializer(instance, action=response_serializer)
         return Response(serializer.data)
 
 
@@ -82,15 +104,25 @@ class UpdateModelMixin(object):
     """
     Update a model instance.
     """
-    def update(self, request, *args, **kwargs):
-        instance = self.get_object()
+    def update(
+        self,
+        request,
+        pk=None,
+        instance=None,
+        request_serializer='update',
+        response_serializer='retrieve',
+        *args,
+        **kwargs
+    ):
+        if instance is None:
+            instance = self.get_object()
 
         # Serializer that will be used to update the object.
         update_serializer = self.get_serializer(
             instance,
             data=request.data,
             partial=False,
-            action='update'
+            action=request_serializer
         )
         update_serializer.is_valid(raise_exception=True)
         updated_object = update_serializer.save()
@@ -98,7 +130,7 @@ class UpdateModelMixin(object):
         # Serializer that will be used to retrieve the object.
         retrieve_serializer = self.get_serializer(
             updated_object,
-            action='retrieve'
+            action=response_serializer
         )
         return Response(retrieve_serializer.data)
 
@@ -107,15 +139,25 @@ class PartialUpdateModelMixin(object):
     """
     Update a model instance (partially).
     """
-    def partial_update(self, request, *args, **kwargs):
-        instance = self.get_object()
+    def partial_update(
+        self,
+        request,
+        pk=None,
+        instance=None,
+        request_serializer='update',
+        response_serializer='retrieve',
+        *args,
+        **kwargs
+    ):
+        if instance is None:
+            instance = self.get_object()
 
         # Serializer that will be used to update the object.
         update_serializer = self.get_serializer(
             instance,
             data=request.data,
             partial=True,
-            action='update'
+            action=request_serializer
         )
         update_serializer.is_valid(raise_exception=True)
         updated_object = update_serializer.save()
@@ -123,7 +165,7 @@ class PartialUpdateModelMixin(object):
         # Serializer that will be used to retrieve the object.
         retrieve_serializer = self.get_serializer(
             updated_object,
-            action='retrieve'
+            action=response_serializer
         )
         return Response(retrieve_serializer.data)
 
@@ -132,8 +174,10 @@ class DestroyModelMixin(object):
     """
     Destroy a model instance.
     """
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
+    def destroy(self, request, pk=None, instance=None, *args, **kwargs):
+        if instance is None:
+            instance = self.get_object()
+
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
 

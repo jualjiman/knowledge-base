@@ -52,8 +52,8 @@ app.controller('ContributionsCtrl', [
 ])
 
 .controller('CreatePostCtrl', [
-    '$scope', '$state', '$stateParams','Area', 'Subject', 'User', 'ProfileContribution', 'toastr',
-    function($scope, $state, $stateParams, Area, Subject, User, ProfileContribution, toastr){
+    '$scope', '$state', '$stateParams','Area', 'Subject', 'User', 'ProfileContribution', 'toastr', 'marked',
+    function($scope, $state, $stateParams, Area, Subject, User, ProfileContribution, toastr, marked){
         $scope.post = {
             isActive: true
         };
@@ -74,11 +74,16 @@ app.controller('ContributionsCtrl', [
                     }
                 ).$promise.then(function(response){
                     $scope.subjects = response.results;
+                    //
+                    // this function should be executed here, because
+                    // material select field should be updated when data is ready.
+                    //
+                    reloadSelectFields();
                 });
             } else {
                 $scope.subjects = null;
+                reloadSelectFields();
             }
-            reloadSelectFields();
         };
         
         //
@@ -117,11 +122,22 @@ app.controller('ContributionsCtrl', [
 
             ProfileContribution.save($scope.post).$promise.then(function(){
                 toastr.success('Publicación creada correctamente');
-                return $state.go('panel.contributions');
+                return $state.go(
+                    'panel.posts',
+                    {
+                        areaId: $scope.post.area,
+                        subjectId: $scope.post.subject
+                    }
+                );
             }).catch(function(response){
-                toastr.error('Error al crear la publicación');
+                var errorData = prepareErrorMessages(response)
+                toastr.error(errorData.info, errorData.statusText);
                 return $state.go('panel.contributions');
             });
+        };
+
+        $scope.generatePreview = function(){
+            $scope.post.previewContent = marked($scope.post.content);
         };
 
         function reloadSelectFields(){
@@ -139,8 +155,8 @@ app.controller('ContributionsCtrl', [
 ])
 
 .controller('CreateContributionCtrl', [
-    '$scope', '$state', 'Area', 'Subject', 'User', 'ProfileContribution', 'toastr',
-    function($scope, $state, Area, Subject, User, ProfileContribution, toastr){
+    '$scope', '$state', 'Area', 'Subject', 'User', 'ProfileContribution', 'toastr', 'marked',
+    function($scope, $state, Area, Subject, User, ProfileContribution, toastr, marked){
         $scope.post = {
             isActive: true  
         };
@@ -158,11 +174,16 @@ app.controller('ContributionsCtrl', [
                     }
                 ).$promise.then(function(response){
                     $scope.subjects = response.results;
+                    //
+                    // this function should be executed here, because
+                    // material select field should be updated when data is ready.
+                    //
+                    reloadSelectFields();
                 });
             } else {
                 $scope.subjects = null;
+                reloadSelectFields();
             }
-            reloadSelectFields();
         };
 
         //
@@ -197,9 +218,14 @@ app.controller('ContributionsCtrl', [
                 toastr.success('Publicación creada correctamente');
                 return $state.go('panel.contributions');
             }).catch(function(response){
-                toastr.error('Error al crear la publicación');
+                var errorData = prepareErrorMessages(response)
+                toastr.error(errorData.info, errorData.statusText);
                 return $state.go('panel.contributions');
             });
+        };
+
+        $scope.generatePreview = function(){
+            $scope.post.previewContent = marked($scope.post.content);
         };
 
         function reloadSelectFields(){
@@ -216,8 +242,8 @@ app.controller('ContributionsCtrl', [
 ])
 
 .controller('EditContributionCtrl', [
-    '$scope', '$state', '$stateParams', 'Area', 'Subject', 'User', 'ProfileContribution', 'toastr',
-    function($scope, $state, $stateParams, Area, Subject, User, ProfileContribution, toastr){
+    '$scope', '$state', '$stateParams', 'Area', 'Subject', 'User', 'ProfileContribution', 'toastr', 'marked',
+    function($scope, $state, $stateParams, Area, Subject, User, ProfileContribution, toastr, marked){
 
         Area.get().$promise.then(function(response){
             $scope.areas = response.results;
@@ -278,8 +304,14 @@ app.controller('ContributionsCtrl', [
                 toastr.success('Publicación actualizada correctamente');
                 return $state.go('panel.contributions');
             }).catch(function(response){
-                toastr.error('Error al actualizar la publicación');
+                var errorData = prepareErrorMessages(response)
+                toastr.error(errorData.info, errorData.statusText);
+                return $state.go('panel.contributions');
             });
+        };
+
+        $scope.generatePreview = function(){
+            $scope.post.previewContent = marked($scope.post.content);
         };
 
         $scope.loadSubjects = function(){
@@ -290,11 +322,16 @@ app.controller('ContributionsCtrl', [
                     }
                 ).$promise.then(function(response){
                     $scope.subjects = response.results;
+                    //
+                    // this function should be executed here, because
+                    // material select field should be updated when data is ready.
+                    //
+                    reloadSelectFields();
                 });
             } else {
                 $scope.subjects = null;
+                reloadSelectFields();
             }
-            reloadSelectFields();
         };
 
         function reloadSelectFields(){

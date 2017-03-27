@@ -29,7 +29,7 @@
         "hosts": ["kb.pythonballz.com"],
         "schema_local_path": "src/templates/search_configuration/solr.xml",
         "schema_remote_path": {
-            "staging": "/opt/solr/example/solr/collection1/conf/schema.xml"
+            "staging": "/opt/solr/example/solr/kb/conf/schema.xml"
         }
     }
 }

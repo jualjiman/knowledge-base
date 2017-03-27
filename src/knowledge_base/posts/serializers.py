@@ -152,6 +152,8 @@ class PostCreateSerializer(ModelSerializer):
             for user in users:
                 instance.available_to.add(user)
 
+            instance.save()
+
         return instance
 
     def update(self, instance, validated_data):
@@ -165,7 +167,8 @@ class PostCreateSerializer(ModelSerializer):
         #
         # Deleting current users to save new ones.
         #
-        instance.available_to.through.objects.all().delete()
+        instance.available_to.through.objects.filter(post=instance).delete()
+
         if list_available_to:
             user_model = get_user_model()
             users = user_model.objects.filter(
@@ -174,6 +177,8 @@ class PostCreateSerializer(ModelSerializer):
 
             for user in users:
                 instance.available_to.add(user)
+
+            instance.save()
 
         return instance
 

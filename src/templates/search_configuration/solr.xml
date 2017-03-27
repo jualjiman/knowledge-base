@@ -175,6 +175,8 @@
 
     <field name="text" type="text_en" indexed="true" stored="true" multiValued="false" />
 
+    <field name="is_available_to" type="boolean" indexed="true" stored="true" multiValued="false" />
+
     <field name="available_to" type="text_en" indexed="true" stored="true" multiValued="true" />
 
     <field name="content" type="text_en" indexed="true" stored="true" multiValued="false" />
@@ -184,6 +186,10 @@
     <field name="author_id" type="long" indexed="true" stored="true" multiValued="false" />
 
     <field name="subject_id" type="long" indexed="true" stored="true" multiValued="false" />
+
+    <field name="area_name" type="text_en" indexed="true" stored="true" multiValued="false" />
+
+    <field name="subject_name" type="text_en" indexed="true" stored="true" multiValued="false" />
 
     <field name="content_auto" type="accented_edge_ngram" indexed="true" stored="true" multiValued="false" />
 

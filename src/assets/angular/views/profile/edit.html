@@ -21,22 +21,22 @@
         </label>
     </div>
 
-    <div class="input-field col s12 m10">
+    <div class="input-field col m12 l11">
         <input ng-model="profile.name" type="text" required>
         <label for="name" class="">Nombre</label>
     </div>
 
-    <div class="input-field col s12 m10">
+    <div class="input-field col m12 l11">
         <textarea maxlength="250" ng-model="profile.description" class="materialize-textarea"></textarea>
         <label for="textarea1">Biografia (250 char)</label>
     </div>
 
-    <div class="input-field col s12 m10">
+    <div class="input-field col m12 l11">
         <input ng-model="profile.email" type="email" required>
         <label for="name" class="">Email</label>
     </div>
 
-    <div class="input-field col s12 m10">
+    <div class="input-field col m12 l11">
         <select
             ng-model="profile.area"
             ng-options="area.id as area.name for area in areas">
@@ -45,7 +45,7 @@
         <label>Area</label>
     </div>
     
-    <div class="col s12 m10 right-align">
+    <div class="col m12 l11 right-align">
         <button
             class="btn waves-effect waves-light"
             type="submit"
