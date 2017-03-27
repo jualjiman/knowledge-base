@@ -111,6 +111,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         default=False,
         verbose_name=_('is_staff')
     )
+    can_contribute = models.BooleanField(
+        default=False,
+        verbose_name=_('can_contribute')
+    )
     activation_code = models.CharField(
         max_length=100,
         blank=True,

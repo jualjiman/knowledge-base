@@ -1,6 +1,8 @@
 app.controller('ContributionsCtrl', [
-    '$scope', 'ProfileContribution', 'toastr',
-    function($scope, ProfileContribution, toastr){
+    '$scope', '$localStorage', 'ProfileContribution', 'toastr',
+    function($scope, $localStorage, ProfileContribution, toastr){
+
+        $scope.profileInfo = $localStorage.profileInfo;
 
         // Loading contributions.
         function loadContributions(){

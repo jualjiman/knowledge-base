@@ -57,6 +57,7 @@ class ProfileSerializer(ModelSerializer):
            'thumbnail',
            'area',
            'favorite_subjects',
+           'can_contribute',
         )
 
 
