@@ -311,7 +311,7 @@ app.controller('ContributionsCtrl', [
         };
 
         $scope.generatePreview = function(){
-            $scope.post.previewContent = marked($scope.post.content);
+            angular.element("#post-preview").html(marked($scope.post.content));
         };
 
         $scope.loadSubjects = function(){
