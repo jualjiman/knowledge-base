@@ -52,8 +52,8 @@ app.controller('ContributionsCtrl', [
 ])
 
 .controller('CreatePostCtrl', [
-    '$scope', '$state', '$stateParams','Area', 'Subject', 'User', 'ProfileContribution', 'toastr',
-    function($scope, $state, $stateParams, Area, Subject, User, ProfileContribution, toastr){
+    '$scope', '$state', '$stateParams','Area', 'Subject', 'User', 'ProfileContribution', 'toastr', 'marked',
+    function($scope, $state, $stateParams, Area, Subject, User, ProfileContribution, toastr, marked){
         $scope.post = {
             isActive: true
         };
@@ -136,6 +136,10 @@ app.controller('ContributionsCtrl', [
             });
         };
 
+        $scope.generatePreview = function(){
+            $scope.post.previewContent = marked($scope.post.content);
+        };
+
         function reloadSelectFields(){
             setTimeout(function(){
                 $('select').material_select();
@@ -151,8 +155,8 @@ app.controller('ContributionsCtrl', [
 ])
 
 .controller('CreateContributionCtrl', [
-    '$scope', '$state', 'Area', 'Subject', 'User', 'ProfileContribution', 'toastr',
-    function($scope, $state, Area, Subject, User, ProfileContribution, toastr){
+    '$scope', '$state', 'Area', 'Subject', 'User', 'ProfileContribution', 'toastr', 'marked',
+    function($scope, $state, Area, Subject, User, ProfileContribution, toastr, marked){
         $scope.post = {
             isActive: true  
         };
@@ -220,6 +224,10 @@ app.controller('ContributionsCtrl', [
             });
         };
 
+        $scope.generatePreview = function(){
+            $scope.post.previewContent = marked($scope.post.content);
+        };
+
         function reloadSelectFields(){
             setTimeout(function(){
                 $('select').material_select();
@@ -234,8 +242,8 @@ app.controller('ContributionsCtrl', [
 ])
 
 .controller('EditContributionCtrl', [
-    '$scope', '$state', '$stateParams', 'Area', 'Subject', 'User', 'ProfileContribution', 'toastr',
-    function($scope, $state, $stateParams, Area, Subject, User, ProfileContribution, toastr){
+    '$scope', '$state', '$stateParams', 'Area', 'Subject', 'User', 'ProfileContribution', 'toastr', 'marked',
+    function($scope, $state, $stateParams, Area, Subject, User, ProfileContribution, toastr, marked){
 
         Area.get().$promise.then(function(response){
             $scope.areas = response.results;
@@ -300,6 +308,10 @@ app.controller('ContributionsCtrl', [
                 toastr.error(errorData.info, errorData.statusText);
                 return $state.go('panel.contributions');
             });
+        };
+
+        $scope.generatePreview = function(){
+            $scope.post.previewContent = marked($scope.post.content);
         };
 
         $scope.loadSubjects = function(){
