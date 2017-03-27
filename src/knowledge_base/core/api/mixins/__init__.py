@@ -88,11 +88,14 @@ class RetrieveModelMixin(object):
         self,
         request,
         pk=None,
+        instance=None,
         response_serializer='retrieve',
         *args,
         **kwargs
     ):
-        instance = self.get_object()
+        if instance is None:
+            instance = self.get_object()
+
         serializer = self.get_serializer(instance, action=response_serializer)
         return Response(serializer.data)
 
@@ -105,12 +108,14 @@ class UpdateModelMixin(object):
         self,
         request,
         pk=None,
+        instance=None,
         request_serializer='update',
         response_serializer='retrieve',
         *args,
         **kwargs
     ):
-        instance = self.get_object()
+        if instance is None:
+            instance = self.get_object()
 
         # Serializer that will be used to update the object.
         update_serializer = self.get_serializer(
@@ -138,12 +143,14 @@ class PartialUpdateModelMixin(object):
         self,
         request,
         pk=None,
+        instance=None,
         request_serializer='update',
         response_serializer='retrieve',
         *args,
         **kwargs
     ):
-        instance = self.get_object()
+        if instance is None:
+            instance = self.get_object()
 
         # Serializer that will be used to update the object.
         update_serializer = self.get_serializer(
@@ -167,8 +174,10 @@ class DestroyModelMixin(object):
     """
     Destroy a model instance.
     """
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
+    def destroy(self, request, pk=None, instance=None, *args, **kwargs):
+        if instance is None:
+            instance = self.get_object()
+
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
