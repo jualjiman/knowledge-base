@@ -189,7 +189,7 @@ class PostViewSet(
                     #
                     Q(author=self.request.user)
                 )
-            ).order_by('name')
+            ).distinct().order_by('name')
 
         return queryset.none()
 
@@ -246,6 +246,7 @@ class PostSearchViewSet(ListModelMixin, ViewSetMixin, HaystackGenericAPIView):
         queryset = super(PostSearchViewSet, self).get_queryset()
 
         queryset = queryset.filter(
+            Q(is_active=True) &
             #
             # If available users are defined, and the request user was
             # included.

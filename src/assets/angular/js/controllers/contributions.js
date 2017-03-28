@@ -1,6 +1,8 @@
 app.controller('ContributionsCtrl', [
-    '$scope', 'ProfileContribution', 'toastr',
-    function($scope, ProfileContribution, toastr){
+    '$scope', '$localStorage', 'ProfileContribution', 'toastr',
+    function($scope, $localStorage, ProfileContribution, toastr){
+
+        $scope.profileInfo = $localStorage.profileInfo;
 
         // Loading contributions.
         function loadContributions(){
@@ -137,7 +139,7 @@ app.controller('ContributionsCtrl', [
         };
 
         $scope.generatePreview = function(){
-            $scope.post.previewContent = marked($scope.post.content);
+            angular.element("#post-preview").html(marked($scope.post.content));
         };
 
         function reloadSelectFields(){
@@ -225,7 +227,7 @@ app.controller('ContributionsCtrl', [
         };
 
         $scope.generatePreview = function(){
-            $scope.post.previewContent = marked($scope.post.content);
+            angular.element("#post-preview").html(marked($scope.post.content));
         };
 
         function reloadSelectFields(){
@@ -311,7 +313,7 @@ app.controller('ContributionsCtrl', [
         };
 
         $scope.generatePreview = function(){
-            $scope.post.previewContent = marked($scope.post.content);
+            angular.element("#post-preview").html(marked($scope.post.content));
         };
 
         $scope.loadSubjects = function(){

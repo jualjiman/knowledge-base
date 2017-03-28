@@ -138,6 +138,18 @@ class PostCreateSerializer(ModelSerializer):
             'list_available_to',
         )
 
+    def validate(self, data):
+        request_user = self.context['request'].user
+
+        #
+        # A user can contribute only if it has the proper permission.
+        #
+        if not request_user.can_contribute:
+            raise serializers.ValidationError(
+                "This user doesn't have permissions to contribute."
+            )
+        return data
+
     def create(self, validated_data):
         list_available_to = validated_data.pop('list_available_to', None)
 
@@ -210,10 +222,12 @@ class PostSearchSerializer(haystack_serializers.HaystackSerializer):
             'subject',
             'author',
             'content_auto',
+            'available_to',
         )
 
         ignore_fields = (
             'content_auto',
+            'available_to',
         )
 
         field_aliases = {

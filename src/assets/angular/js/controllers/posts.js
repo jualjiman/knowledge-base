@@ -1,6 +1,7 @@
 app.controller('PostsCtrl', [
-        '$scope', '$stateParams', 'Post', 'Subject', 'Area',
-        function($scope, $stateParams, Post, Subject, Area){
+        '$scope', '$stateParams', '$localStorage', 'Post', 'Subject', 'Area',
+        function($scope, $stateParams, $localStorage, Post, Subject, Area){
+            $scope.profileInfo = $localStorage.profileInfo;
             Post.get(
                 {
                     areaId: $stateParams.areaId,
