@@ -11,6 +11,8 @@ class PostIndex(indexes.SearchIndex, indexes.Indexable):
     content = indexes.CharField(model_attr='content')
     author_id = indexes.IntegerField(model_attr='author__id')
     subject_id = indexes.IntegerField(model_attr='subject__id')
+    is_active = indexes.BooleanField(model_attr='is_active')
+
     available_to = indexes.MultiValueField()
     is_available_to = indexes.BooleanField()
 
