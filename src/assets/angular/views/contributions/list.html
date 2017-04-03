@@ -1,7 +1,7 @@
 <div class="col s6 remove-padding">
     <h5>Contribuciones</h5>
 </div>
-<div class="col s6 remove-padding" ng-if="profileInfo.canContribute == true">
+<div class="col s6 remove-padding" ng-if="profileInfo.canContribute">
     <div class="right main-actions">
         <button
             title="Agregar"
@@ -13,6 +13,12 @@
     </div>
 </div>
 
+<div class="col s12" ng-show="contributions.length == 0 && profileInfo.canContribute">
+    <p>No has hecho ninguna contribución :(</p>
+</div>
+<div class="col s12 remove-padding" ng-show="!profileInfo.canContribute">
+    <p>No tienes permiso para hacer contribuciones.</p>
+</div>
 <div ng-show="contributions.length > 0">
     <table class="striped">
         <thead>
@@ -56,9 +62,6 @@
             </tr>
         </tbody>
     </table>
-</div>
-<div class="col s12" ng-hide="contributions.length > 0">
-    <p>No has hecho ninguna contribución :(</p>
 </div>
 
 <div id="confirmation-modal" class="modal">

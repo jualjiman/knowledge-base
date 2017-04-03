@@ -203,11 +203,17 @@ app.config([
 
         return $urlRouterProvider.otherwise('/login');
     }
-]).run(['$rootScope', '$content', '$state',
-    function($rootScope, $content, $state){
+]).run(['$rootScope', '$content', '$state', '$localStorage', 'Profile',
+    function($rootScope, $content, $state, $localStorage, Profile){
         // Importing vo-content provider to the entire project.
         $rootScope.$content = $content;
 
+        // Loading user info.
+        $rootScope.$on('$stateChangeStart', function(evt, toState, toParams, fromState, fromParams) {
+            Profile.get().$promise.then(function(response){
+                $localStorage.profileInfo = response;
+            });
+        });
 
         $rootScope.$on('unauthorized', function() {
             $state.transitionTo('login');
