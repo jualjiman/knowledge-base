@@ -200,3 +200,7 @@ main {
     color: #26a69a;
 }
 
+.toast-top-right {
+    top: 30pt !important;
+    right: 4pt !important;   
+}
