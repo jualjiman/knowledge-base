@@ -210,9 +210,11 @@ app.config([
 
         // Loading user info.
         $rootScope.$on('$stateChangeStart', function(evt, toState, toParams, fromState, fromParams) {
-            Profile.get().$promise.then(function(response){
-                $localStorage.profileInfo = response;
-            });
+            if($localStorage.token){
+                Profile.get().$promise.then(function(response){
+                    $localStorage.profileInfo = response;
+                });
+            }
         });
 
         $rootScope.$on('unauthorized', function() {
