@@ -7,18 +7,23 @@ function prepareErrorMessagesWithTitles(response){
 }
 
 function prepareErrorMessages(response){
-    var info = "";
-    $.map(response.data, function(value, index) {
+    var info = [];
+    var infoCustomMessages = {
+        "CSRF Failed: CSRF token missing or incorrect.": "You need to close your admin session."
+    };
+
+    $.map(response.data, function(value) {
         if(Array.isArray(value)){
-            info = info + "\n" + value[0];
+            info.push(value[0]);
         } else {
-            info = info + "\n" + value;
+            info.push(value);
         }
     });
+    info = info.join("\n");
 
     return {
         "statusText": response.statusText,
-        "info": info
+        "info": infoCustomMessages[info] || info
     };
 }
 
