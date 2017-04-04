@@ -9,6 +9,7 @@ PACKAGES="$PACKAGES python python-setuptools python-pip python-dev"
 PACKAGES="$PACKAGES postgresql-9.3 postgresql-server-dev-9.3"
 PACKAGES="$PACKAGES nginx"
 PACKAGES="$PACKAGES default-jre"
+PACKAGES="$PACKAGES memcached"
 
 apt-get install -y $PACKAGES
 
