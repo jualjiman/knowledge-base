@@ -204,7 +204,7 @@ def runserver():
         >>>fab environment:vagrant runserver.
     """
     with virtualenv():
-        run('python manage.py runserver_plus 0.0.0.0:8000')
+        run('python manage.py runserver_plus')
 
 
 @contextmanager
