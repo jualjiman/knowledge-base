@@ -13,7 +13,7 @@ drf-nested-routers>=0.10,<0.11
 djangorestframework-camel-case
 
 # Solr
-drf-haystack==1.5.6
+drf-haystack==1.6.1
 django-haystack==2.5.1
 pysolr==3.5.0
 
