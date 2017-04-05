@@ -208,13 +208,19 @@ app.config([
         // Importing vo-content provider to the entire project.
         $rootScope.$content = $content;
 
-        // Loading user info.
         $rootScope.$on('$stateChangeStart', function(evt, toState, toParams, fromState, fromParams) {
+            // Loading user info.
             if($localStorage.token){
                 Profile.get().$promise.then(function(response){
                     $localStorage.profileInfo = response;
                 });
             }
+
+            // Loading information from previous state.
+            $state.previous = {
+                state: fromState,
+                params: fromParams
+            };
         });
 
         $rootScope.$on('unauthorized', function() {

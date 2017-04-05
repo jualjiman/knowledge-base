@@ -304,11 +304,11 @@ app.controller('ContributionsCtrl', [
 
             ProfileContribution.update({id: $stateParams.postId}, $scope.post).$promise.then(function(){
                 toastr.success('Publicación actualizada correctamente');
-                return $state.go('panel.contributions');
+                goToPreviousState();
             }).catch(function(response){
                 var errorData = prepareErrorMessages(response)
                 toastr.error(errorData.info, errorData.statusText);
-                return $state.go('panel.contributions');
+                goToPreviousState();
             });
         };
 
@@ -341,6 +341,13 @@ app.controller('ContributionsCtrl', [
                 $('select').material_select();
                 Materialize.updateTextFields();
             }, 300);
+        }
+
+        function goToPreviousState(){
+            if($state.previous.state.name !== ''){
+                return $state.go($state.previous.state.name, $state.previous.params);
+            }
+            return $state.go('panel.contributions');
         }
 
         $('#content').keydown(textareaAllowTabs);
