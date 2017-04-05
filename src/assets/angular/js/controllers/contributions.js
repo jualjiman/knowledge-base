@@ -124,17 +124,11 @@ app.controller('ContributionsCtrl', [
 
             ProfileContribution.save($scope.post).$promise.then(function(){
                 toastr.success('Publicación creada correctamente');
-                return $state.go(
-                    'panel.posts',
-                    {
-                        areaId: $scope.post.area,
-                        subjectId: $scope.post.subject
-                    }
-                );
+                goToPreviousState();
             }).catch(function(response){
                 var errorData = prepareErrorMessages(response)
                 toastr.error(errorData.info, errorData.statusText);
-                return $state.go('panel.contributions');
+                goToPreviousState();
             });
         };
 
@@ -146,6 +140,13 @@ app.controller('ContributionsCtrl', [
             setTimeout(function(){
                 $('select').material_select();
             }, 300);
+        }
+
+        function goToPreviousState(){
+            if($state.previous.state.name !== ''){
+                return $state.go($state.previous.state.name, $state.previous.params);
+            }
+            return $state.go('panel.contributions');
         }
 
         $('#content').keydown(textareaAllowTabs);
@@ -218,11 +219,11 @@ app.controller('ContributionsCtrl', [
 
             ProfileContribution.save($scope.post).$promise.then(function(){
                 toastr.success('Publicación creada correctamente');
-                return $state.go('panel.contributions');
+                goToPreviousState();
             }).catch(function(response){
                 var errorData = prepareErrorMessages(response)
                 toastr.error(errorData.info, errorData.statusText);
-                return $state.go('panel.contributions');
+                goToPreviousState();
             });
         };
 
@@ -234,6 +235,13 @@ app.controller('ContributionsCtrl', [
             setTimeout(function(){
                 $('select').material_select();
             }, 300);
+        }
+
+        function goToPreviousState(){
+            if($state.previous.state.name !== ''){
+                return $state.go($state.previous.state.name, $state.previous.params);
+            }
+            return $state.go('panel.contributions');
         }
 
         $('#content').keydown(textareaAllowTabs);
