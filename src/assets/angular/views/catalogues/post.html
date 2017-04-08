@@ -24,6 +24,13 @@
     </div>
 </div>
 
+<div class="col s12 remove-padding" ng-if="profileInfo.id === post.author.id && !post.isActive">
+    <div class="chip inactive-post-chip">
+        Tu contribución no es pública, sólo tú puedes verla
+        <i class="close material-icons">close</i>
+    </div>
+</div>
+
 <div class="col s12 remove-padding">
     <div class="markdown" marked="post.content"></div>
 </div>

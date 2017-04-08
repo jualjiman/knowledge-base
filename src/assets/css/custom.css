@@ -204,3 +204,7 @@ main {
     top: 30pt !important;
     right: 4pt !important;   
 }
+
+.inactive-post-chip {
+    background-color: #ffb3b3;
+}
