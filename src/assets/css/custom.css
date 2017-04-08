@@ -206,5 +206,9 @@ main {
 }
 
 .inactive-post-chip {
-    background-color: #ffb3b3;
+    background-color: #ffdeb3;
+}
+
+.ac-users-autocomplete {
+    padding-top: 10px;
 }

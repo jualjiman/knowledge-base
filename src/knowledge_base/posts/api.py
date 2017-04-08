@@ -172,19 +172,29 @@ class PostViewSet(
                 Q(subject=self.kwargs[self.parent_lookup_field]) &
                 (
                     #
-                    # If the post is active or is inactive but the request user
-                    # is the author.
+                    # If the post is active
                     #
                     Q(is_active=True) |
                     (
+                        #
+                        # Or if is inactive but the request user is the author.
+                        #
                         Q(is_active=False) &
                         Q(author=self.request.user)
+                    ) |
+                    (
+                        #
+                        # Or if is inactive but the request user has edit
+                        # permissions.
+                        #
+                        Q(is_active=False) &
+                        Q(editable_to=self.request.user)
                     )
                 ) &
                 (
                     #
-                    # If available users are defined, and the request user was
-                    # included.
+                    # If available to users are defined, and the request user
+                    # was included.
                     #
                     (
                         Q(available_to__isnull=False) &
@@ -254,18 +264,28 @@ class PostSearchViewSet(ListModelMixin, ViewSetMixin, HaystackGenericAPIView):
         queryset = queryset.filter(
             (
                 #
-                # If the post is active or is inactive but the request user
-                # is the author.
+                # If the post is active
                 #
                 Q(is_active=True) |
                 (
+                    #
+                    # Or if is inactive but the request user is the author.
+                    #
                     Q(is_active=False) &
                     Q(author_id=self.request.user.id)
+                ) |
+                (
+                    #
+                    # Or if is inactive but the request user has edit
+                    # permissions.
+                    #
+                    Q(is_active=False) &
+                    Q(editable_to=self.request.user.id)
                 )
             ) &
             (
                 #
-                # If available users are defined, and the request user was
+                # If available to users are defined, and the request user was
                 # included.
                 #
                 (
@@ -330,10 +350,14 @@ class ProfilePostViewSet(
     def get_queryset(self, *args, **kwargs):
         #
         # This set of endpoints are used only to manage the posts of the
-        # request user, so only those post should be visible in all cases.
+        # request user or those where he has permissions to edit, so only
+        # those post should be visible in all cases.
         #
         request_user = self.request.user
-        queryset = Post.objects.filter(author=request_user).order_by(
+        queryset = Post.objects.filter(
+            Q(author=request_user) |
+            Q(editable_to=request_user)
+        ).distinct().order_by(
             'subject__area',
             'subject',
             'name',

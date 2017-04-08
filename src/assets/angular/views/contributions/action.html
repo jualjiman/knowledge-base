@@ -10,7 +10,7 @@
 <form name="postForm" ng-submit="save()" novalidate>
 
     <div class="input-field col s12 l11">
-        <input ng-model="post.name" type="text" name="text" required>
+        <input ng-model="post.name" type="text" name="text" required focus>
         <label for="title" class="">Titulo</label>
     </div>
 
@@ -57,14 +57,26 @@
 
     <div class="input-field col s12 l11">
         <div class="autocomplete" id="multiple">
-            <div class="ac-users"></div>
+            <div class="aac-users ac-users-autocomplete"></div>
             <div class="ac-input">
-                <input type="text" id="multipleInput" placeholder="Si agregas usuarios en este campo, solo estará disponible para ellos" data-activates="multipleDropdown" data-beloworigin="true" autocomplete="off">
+                <input type="text" id="availableToField" placeholder="Si agregas usuarios en este campo, solo estará disponible para ellos" data-activates="availableMultipleDropdown" data-beloworigin="true" autocomplete="off">
             </div>
-            <ul id="multipleDropdown" class="dropdown-content ac-dropdown"></ul>
+            <ul id="availableMultipleDropdown" class="dropdown-content ac-dropdown"></ul>
             <input type="hidden" name="multipleHidden" />
         </div>
-        <label class="active" for="multipleInput">Disponible para:</label>
+        <label class="active" for="availableToField">Disponible para:</label>
+    </div>
+
+    <div class="input-field col s12 l11">
+        <div class="autocomplete" id="multiple">
+            <div class="eac-users ac-users-autocomplete"></div>
+            <div class="ac-input">
+                <input type="text" id="editableToField" placeholder="Si necesitas que alguien mas pueda editar esta publicación, agregalo aqui" data-activates="editableMultipleDropdown" data-beloworigin="true" autocomplete="off">
+            </div>
+            <ul id="editableMultipleDropdown" class="dropdown-content ac-dropdown"></ul>
+            <input type="hidden" name="multipleHidden" />
+        </div>
+        <label class="active" for="editableToField">Editable para:</label>
     </div>
 
     <div class="input-field col s12 l11">
