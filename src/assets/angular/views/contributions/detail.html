@@ -11,7 +11,7 @@
         {{ post.lastModified | date:'dd/MM/yyyy HH:mm'}}
     </div>
 </div>
-<div class="col s2 remove-padding" ng-if="profileInfo.id === post.author.id">
+<div class="col s2 remove-padding" ng-if="profileInfo.id === post.author.id || hasEditPermissions">
     <div class="right main-actions">
         <button
            title="Editar"
@@ -20,6 +20,19 @@
             name="action">
             <i class="material-icons">edit</i>
          </button>
+    </div>
+</div>
+
+<div class="col s12 remove-padding" ng-if="hasEditPermissions">
+    <div class="chip inactive-post-chip">
+        Tienes permisos de edicion para esta contribución.
+        <i class="close material-icons">close</i>
+    </div>
+</div>
+<div class="col s12 remove-padding" ng-if="(profileInfo.id === post.author.id || hasEditPermissions) && !post.isActive">
+    <div class="chip inactive-post-chip">
+        Esta contribución no es pública, solo usuarios con permisos de edición y el autor pueden verla.
+        <i class="close material-icons">close</i>
     </div>
 </div>
 

@@ -16,6 +16,9 @@ class PostIndex(indexes.SearchIndex, indexes.Indexable):
     available_to = indexes.MultiValueField()
     is_available_to = indexes.BooleanField()
 
+    editable_to = indexes.MultiValueField()
+    is_editable_to = indexes.BooleanField()
+
     subject_name = indexes.CharField(model_attr='subject__name')
     area_name = indexes.CharField(model_attr='subject__area__name')
 
@@ -36,5 +39,16 @@ class PostIndex(indexes.SearchIndex, indexes.Indexable):
             return True
         return False
 
+    def prepare_editable_to(self, obj):
+        return [
+            user.id
+            for user in obj.editable_to.all()
+        ]
+
+    def prepare_is_editable_to(self, obj):
+        if obj.editable_to.all().count() > 0:
+            return True
+        return False
+
     def index_queryset(self, using=None):
-        return self.get_model().objects.filter(is_active=True)
+        return self.get_model().objects.all()

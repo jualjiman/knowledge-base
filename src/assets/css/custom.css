@@ -204,3 +204,11 @@ main {
     top: 30pt !important;
     right: 4pt !important;   
 }
+
+.inactive-post-chip {
+    background-color: #ffdeb3;
+}
+
+.ac-users-autocomplete {
+    padding-top: 10px;
+}

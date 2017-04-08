@@ -29,8 +29,8 @@ app.controller('PostsCtrl', [
     ])
 
     .controller('PostCtrl', [
-        '$scope', '$stateParams', '$localStorage', 'Post', 'Subject', 'Area',
-        function($scope, $stateParams, $localStorage, Post, Subject, Area){
+        '$scope', '$stateParams', '$filter', '$localStorage', 'Post', 'Subject', 'Area',
+        function($scope, $stateParams, $filter, $localStorage, Post, Subject, Area){
 
             $scope.profileInfo = $localStorage.profileInfo;
 
@@ -42,6 +42,10 @@ app.controller('PostsCtrl', [
                 }
             ).$promise.then(function(response){
                 $scope.post = response;
+                $scope.hasEditPermissions = $filter('hasEditPermissions')(
+                    $scope.post,
+                    $scope.profileInfo.id
+                );
             });
 
             Subject.get(

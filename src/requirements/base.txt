@@ -17,6 +17,9 @@ drf-haystack==1.6.1
 django-haystack==2.5.1
 pysolr==3.5.0
 
+# Memcache
+python-memcached==1.53
+
 # Packages
 ipython
 Werkzeug

@@ -97,5 +97,13 @@ class Post(CatalogueMixin):
     )
     available_to = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
-        blank=True
+        blank=True,
+        related_name=u'available_posts',
+        verbose_name='users who can view the post.'
+    )
+    editable_to = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        related_name=u'editable_posts',
+        verbose_name='users who can edit the post.'
     )

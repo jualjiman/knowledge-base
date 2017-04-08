@@ -78,6 +78,7 @@ class PostSerializer(ModelSerializer):
     subject = SubjectURISerializer()
     author = ProfileURISerializer()
     available_to = SearchUserSerializer(many=True)
+    editable_to = SearchUserSerializer(many=True)
 
     class Meta:
         model = Post
@@ -92,6 +93,7 @@ class PostSerializer(ModelSerializer):
             'created_date',
             'last_modified',
             'available_to',
+            'editable_to',
         )
 
 
@@ -124,6 +126,9 @@ class PostCreateSerializer(ModelSerializer):
     list_available_to = serializers.ListField(
         required=False
     )
+    list_editable_to = serializers.ListField(
+        required=False
+    )
 
     class Meta:
         model = Post
@@ -136,6 +141,7 @@ class PostCreateSerializer(ModelSerializer):
             'subject',
             'is_active',
             'list_available_to',
+            'list_editable_to',
         )
 
     def validate(self, data):
@@ -152,9 +158,11 @@ class PostCreateSerializer(ModelSerializer):
 
     def create(self, validated_data):
         list_available_to = validated_data.pop('list_available_to', None)
+        list_editable_to = validated_data.pop('list_editable_to', None)
 
         instance = super(PostCreateSerializer, self).create(validated_data)
 
+        # Managing available to users.
         if list_available_to:
             user_model = get_user_model()
             users = user_model.objects.filter(
@@ -166,10 +174,23 @@ class PostCreateSerializer(ModelSerializer):
 
             instance.save()
 
+        # Managing editable to users.
+        if list_editable_to:
+            user_model = get_user_model()
+            users = user_model.objects.filter(
+                id__in=list_editable_to
+            )
+
+            for user in users:
+                instance.editable_to.add(user)
+
+            instance.save()
+
         return instance
 
     def update(self, instance, validated_data):
         list_available_to = validated_data.pop('list_available_to', None)
+        list_editable_to = validated_data.pop('list_editable_to', None)
 
         instance = super(PostCreateSerializer, self).update(
             instance,
@@ -180,7 +201,9 @@ class PostCreateSerializer(ModelSerializer):
         # Deleting current users to save new ones.
         #
         instance.available_to.through.objects.filter(post=instance).delete()
+        instance.editable_to.through.objects.filter(post=instance).delete()
 
+        # Managing available to users.
         if list_available_to:
             user_model = get_user_model()
             users = user_model.objects.filter(
@@ -189,6 +212,18 @@ class PostCreateSerializer(ModelSerializer):
 
             for user in users:
                 instance.available_to.add(user)
+
+            instance.save()
+
+        # Managing editable to users.
+        if list_editable_to:
+            user_model = get_user_model()
+            users = user_model.objects.filter(
+                id__in=list_editable_to
+            )
+
+            for user in users:
+                instance.editable_to.add(user)
 
             instance.save()
 

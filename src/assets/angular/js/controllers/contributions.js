@@ -27,13 +27,17 @@ app.controller('ContributionsCtrl', [
 ])
 
 .controller('ContributionCtrl', [
-    '$scope', '$stateParams', '$localStorage', 'ProfileContribution', 'Subject', 'Area',
-    function($scope, $stateParams, $localStorage, ProfileContribution, Subject, Area){
+    '$scope', '$stateParams', '$filter','$localStorage', 'ProfileContribution', 'Subject', 'Area',
+    function($scope, $stateParams, $filter, $localStorage, ProfileContribution, Subject, Area){
 
         $scope.profileInfo = $localStorage.profileInfo;
 
         ProfileContribution.get({id: $stateParams.postId}).$promise.then(function(response){
             $scope.post = response;
+            $scope.hasEditPermissions = $filter('hasEditPermissions')(
+                $scope.post,
+                $scope.profileInfo.id
+            );
 
             Subject.get(
                 {
@@ -95,17 +99,39 @@ app.controller('ContributionsCtrl', [
         $scope.post.subject = parseInt($stateParams.subjectId);
 
         //
-        // Autocomplete field.
+        // Autocomplete fields.
         //
-        $scope.availableTo = $('#multipleInput').materialize_autocomplete({
+        // Available to
+        $scope.availableTo = angular.element('#availableToField').materialize_autocomplete({
+            limit: 5,
             multiple: {
                 enable: true
             },
             appender: {
-                el: '.ac-users'
+                el: '.aac-users'
             },
             dropdown: {
-                el: '#multipleDropdown'
+                el: '#availableMultipleDropdown'
+            },
+            getData: function(value, callback){
+                User.get({q: value}).$promise.then(function(response){
+                    var data = response.results;
+                    callback(value, data);
+                });
+            }
+        });
+
+        // Editable to
+        $scope.editableTo = angular.element('#editableToField').materialize_autocomplete({
+            limit: 5,
+            multiple: {
+                enable: true
+            },
+            appender: {
+                el: '.eac-users'
+            },
+            dropdown: {
+                el: '#editableMultipleDropdown'
             },
             getData: function(value, callback){
                 User.get({q: value}).$promise.then(function(response){
@@ -117,9 +143,14 @@ app.controller('ContributionsCtrl', [
 
         $scope.save = function(){
             $scope.post.listAvailableTo = [];
+            $scope.post.listEditableTo = [];
 
             angular.forEach($scope.availableTo.value, function(item){
                 $scope.post.listAvailableTo.push(item.id);
+            });
+
+            angular.forEach($scope.editableTo.value, function(item){
+                $scope.post.listEditableTo.push(item.id);
             });
 
             ProfileContribution.save($scope.post).$promise.then(function(){
@@ -138,7 +169,7 @@ app.controller('ContributionsCtrl', [
 
         function reloadSelectFields(){
             setTimeout(function(){
-                $('select').material_select();
+                angular.element('select').material_select();
             }, 300);
         }
 
@@ -149,10 +180,10 @@ app.controller('ContributionsCtrl', [
             return $state.go('panel.contributions');
         }
 
-        $('#content').keydown(textareaAllowTabs);
+        angular.element('#content').keydown(textareaAllowTabs);
 
         // Initializing materialize fields.
-        $('ul.tabs').tabs();
+        angular.element('ul.tabs').tabs();
 
     }
 ])
@@ -190,17 +221,39 @@ app.controller('ContributionsCtrl', [
         };
 
         //
-        // Autocomplete field.
+        // Autocomplete fields.
         //
-        $scope.availableTo = $('#multipleInput').materialize_autocomplete({
+        // Available to
+        $scope.availableTo = angular.element('#availableToField').materialize_autocomplete({
+            limit: 5,
             multiple: {
                 enable: true
             },
             appender: {
-                el: '.ac-users'
+                el: '.aac-users'
             },
             dropdown: {
-                el: '#multipleDropdown'
+                el: '#availableMultipleDropdown'
+            },
+            getData: function(value, callback){
+                User.get({q: value}).$promise.then(function(response){
+                    var data = response.results;
+                    callback(value, data);
+                });
+            }
+        });
+
+        // Editable to
+        $scope.editableTo = angular.element('#editableToField').materialize_autocomplete({
+            limit: 5,
+            multiple: {
+                enable: true
+            },
+            appender: {
+                el: '.eac-users'
+            },
+            dropdown: {
+                el: '#editableMultipleDropdown'
             },
             getData: function(value, callback){
                 User.get({q: value}).$promise.then(function(response){
@@ -212,9 +265,14 @@ app.controller('ContributionsCtrl', [
 
         $scope.save = function(){
             $scope.post.listAvailableTo = [];
+            $scope.post.listEditableTo = [];
 
             angular.forEach($scope.availableTo.value, function(item){
                 $scope.post.listAvailableTo.push(item.id);
+            });
+
+            angular.forEach($scope.editableTo.value, function(item){
+                $scope.post.listEditableTo.push(item.id);
             });
 
             ProfileContribution.save($scope.post).$promise.then(function(){
@@ -233,7 +291,7 @@ app.controller('ContributionsCtrl', [
 
         function reloadSelectFields(){
             setTimeout(function(){
-                $('select').material_select();
+                angular.element('select').material_select();
             }, 300);
         }
 
@@ -244,10 +302,10 @@ app.controller('ContributionsCtrl', [
             return $state.go('panel.contributions');
         }
 
-        $('#content').keydown(textareaAllowTabs);
+        angular.element('#content').keydown(textareaAllowTabs);
 
         // Initializing materialize fields.
-        $('ul.tabs').tabs();
+        angular.element('ul.tabs').tabs();
     }
 ])
 
@@ -272,17 +330,19 @@ app.controller('ContributionsCtrl', [
                 $scope.post.subject = response.subject.id;
 
                 //
-                // Autocomplete field.
+                // Autocomplete fields.
                 //
-                $scope.availableTo = $('#multipleInput').materialize_autocomplete({
+                // Available to
+                $scope.availableTo = angular.element('#availableToField').materialize_autocomplete({
+                    limit: 5,
                     multiple: {
                         enable: true
                     },
                     appender: {
-                        el: '.ac-users'
+                        el: '.aac-users'
                     },
                     dropdown: {
-                        el: '#multipleDropdown'
+                        el: '#availableMultipleDropdown'
                     },
                     getData: function(value, callback){
                         User.get({q: value}).$promise.then(function(response){
@@ -296,18 +356,45 @@ app.controller('ContributionsCtrl', [
                     $scope.availableTo.setValue(item);
                 });
 
+                // Editable to
+                $scope.editableTo = angular.element('#editableToField').materialize_autocomplete({
+                    limit: 5,
+                    multiple: {
+                        enable: true
+                    },
+                    appender: {
+                        el: '.eac-users'
+                    },
+                    dropdown: {
+                        el: '#editableMultipleDropdown'
+                    },
+                    getData: function(value, callback){
+                        User.get({q: value}).$promise.then(function(response){
+                            var data = response.results;
+                            callback(value, data);
+                        });
+                    }
+                });
 
+                angular.forEach(response.editableTo, function(item){
+                    $scope.editableTo.setValue(item);
+                });
                 // Initializing select fields.
                 reloadSelectFields();
-                $('ul.tabs').tabs();
+                angular.element('ul.tabs').tabs();
             });
         });
 
         $scope.save = function(){
             $scope.post.listAvailableTo = [];
+            $scope.post.listEditableTo = [];
 
             angular.forEach($scope.availableTo.value, function(item){
                 $scope.post.listAvailableTo.push(item.id);
+            });
+
+            angular.forEach($scope.editableTo.value, function(item){
+                $scope.post.listEditableTo.push(item.id);
             });
 
             ProfileContribution.update({id: $stateParams.postId}, $scope.post).$promise.then(function(){
@@ -346,7 +433,7 @@ app.controller('ContributionsCtrl', [
 
         function reloadSelectFields(){
             setTimeout(function(){
-                $('select').material_select();
+                angular.element('select').material_select();
                 Materialize.updateTextFields();
             }, 300);
         }
@@ -358,6 +445,6 @@ app.controller('ContributionsCtrl', [
             return $state.go('panel.contributions');
         }
 
-        $('#content').keydown(textareaAllowTabs);
+        angular.element('#content').keydown(textareaAllowTabs);
     }
 ]);
