@@ -32,6 +32,13 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+
 
 # Debug toolbar
 INTERNAL_IPS = ('10.0.2.2',)

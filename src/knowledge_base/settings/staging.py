@@ -80,3 +80,13 @@ if 'HAYSTACK_CONNECTION_URL' in os.environ:
             'URL': os.environ['HAYSTACK_CONNECTION_URL']
         },
     }
+
+# Cache
+if 'MEMCACHED_URL' in os.environ:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'LOCATION': os.environ['MEMCACHED_URL'],
+            'KEY_PREFIX': 'kb::'
+        }
+    }

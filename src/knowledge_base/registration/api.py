@@ -5,7 +5,8 @@ from rest_framework.decorators import detail_route
 from rest_framework.permissions import AllowAny
 
 from knowledge_base.api.v1.routers import router
-from knowledge_base.core.api import mixins, viewsets
+from knowledge_base.core.api import viewsets
+from knowledge_base.core.api.mixins import base as base_mixins
 from knowledge_base.core.api.routers.single import SingleObjectRouter
 from knowledge_base.registration.serializers import (
     RegistrationProfileSerializer,
@@ -14,7 +15,7 @@ from knowledge_base.registration.serializers import (
 
 
 class RegistrationViewset(
-    mixins.CreateModelMixin,
+    base_mixins.CreateModelMixin,
     viewsets.GenericViewSet
 ):
 

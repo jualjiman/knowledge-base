@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from knowledge_base.api.v1.routers import router
-from knowledge_base.core.api import mixins
+from knowledge_base.core.api.mixins import base as base_mixins
 from knowledge_base.core.api.routers.single import SingleObjectRouter
 from knowledge_base.core.api.viewsets import GenericViewSet
 
@@ -20,9 +20,11 @@ from knowledge_base.users.serializers import (
 from knowledge_base.utils.urlresolvers import get_query_params
 
 
-class ProfileViewSet(mixins.RetrieveModelMixin,
-                     mixins.PartialUpdateModelMixin,
-                     GenericViewSet):
+class ProfileViewSet(
+    base_mixins.RetrieveModelMixin,
+    base_mixins.PartialUpdateModelMixin,
+    GenericViewSet
+):
 
     serializer_class = ProfileSerializer
     retrieve_serializer_class = ProfileSerializer
@@ -153,7 +155,7 @@ class ProfileViewSet(mixins.RetrieveModelMixin,
             user.save()
 
 
-class SearchUserViewSet(mixins.ListModelMixin, GenericViewSet):
+class SearchUserViewSet(base_mixins.ListModelMixin, GenericViewSet):
 
     serializer_class = SearchUserSerializer
     list_serializer_class = SearchUserSerializer

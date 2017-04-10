@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ViewSetMixin
 
 from knowledge_base.api.v1.routers import router
-from knowledge_base.core.api import mixins
+from knowledge_base.core.api.mixins import cache as cache_mixins
 from knowledge_base.core.api.viewsets import GenericViewSet
 from knowledge_base.core.api.viewsets.nested import NestedViewset
 
@@ -18,10 +18,12 @@ from knowledge_base.posts.serializers import PostSearchSerializer
 
 
 class AreaViewSet(
-    mixins.RetrieveModelMixin,
-    mixins.ListModelMixin,
+    cache_mixins.RetrieveCachedModelMixin,
+    cache_mixins.ListCachedModelMixin,
+    cache_mixins.BaseCacheMixin,
     GenericViewSet
 ):
+    cache_class_group_key = "area"
     queryset = Area.objects.filter(is_active=True).order_by('name')
 
     permission_classes = [IsAuthenticated, ]
@@ -74,11 +76,13 @@ class AreaViewSet(
 
 
 class SubjectViewSet(
-    mixins.RetrieveModelMixin,
-    mixins.ListModelMixin,
+    cache_mixins.RetrieveCachedModelMixin,
+    cache_mixins.ListCachedModelMixin,
+    cache_mixins.BaseCacheMixin,
     NestedViewset
 ):
 
+    cache_class_group_key = "subject"
     permission_classes = [IsAuthenticated, ]
 
     serializers_class = serializers.SubjectSerializer
@@ -146,11 +150,13 @@ class SubjectViewSet(
 
 
 class PostViewSet(
-    mixins.RetrieveModelMixin,
-    mixins.ListModelMixin,
+    cache_mixins.RetrieveCachedModelMixin,
+    cache_mixins.ListCachedModelMixin,
+    cache_mixins.BaseCacheMixin,
     NestedViewset
 ):
 
+    cache_class_group_key = "post"
     permission_classes = [IsAuthenticated, ]
 
     serializers_class = serializers.PostSerializer
@@ -332,13 +338,15 @@ class PostSearchViewSet(ListModelMixin, ViewSetMixin, HaystackGenericAPIView):
 
 
 class ProfilePostViewSet(
-    mixins.RetrieveModelMixin,
-    mixins.ListModelMixin,
-    mixins.CreateModelMixin,
-    mixins.PartialUpdateModelMixin,
-    mixins.DestroyModelMixin,
+    cache_mixins.RetrieveCachedModelMixin,
+    cache_mixins.ListCachedModelMixin,
+    cache_mixins.CreateCachedModelMixin,
+    cache_mixins.PartialUpdateCachedModelMixin,
+    cache_mixins.DestroyCachedModelMixin,
+    cache_mixins.BaseCacheMixin,
     GenericViewSet
 ):
+    cache_class_group_key = "profile-posts"
     permission_classes = [IsAuthenticated, ]
 
     serializers_class = serializers.PostSerializer

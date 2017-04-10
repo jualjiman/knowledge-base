@@ -87,6 +87,6 @@ def get_cache_expiration_time(time=43200):
     environment, then, the cache will expirate in 1 seg, else, it will expirate
     in default time (43200 seg) or in the given time.
     """
-    if settings.DEBUG:
-        return 1
+    # if settings.DEBUG:
+    #     return 1
     return time
