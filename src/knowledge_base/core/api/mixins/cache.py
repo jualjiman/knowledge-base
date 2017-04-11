@@ -11,6 +11,7 @@ from ..exceptions import ImproperlyConfigured, MissingConfiguration
 from ...cache.utils import (
     get_cache_expiration_time,
     get_from_cache,
+    get_kwargs_keys,
     get_query_params_keys,
     save_to_cache
 )
@@ -50,12 +51,14 @@ class ListCachedModelMixin(ListModelMixin):
         cache_class_group_key = self.get_cache_class_group_key()
         method_prefix_key = 'list'
         identifier_key = 'many'
-        query_params_keys = get_query_params_keys(request.query_params)
+        kwargs_keys = get_query_params_keys(self.kwargs)
+        query_params_keys = get_kwargs_keys(request.query_params)
+        complete_id_key = identifier_key + kwargs_keys + query_params_keys
 
         cached_info = get_from_cache(
             group_key=cache_class_group_key,
             prefix_key=method_prefix_key,
-            identifier_key=identifier_key + query_params_keys
+            identifier_key=complete_id_key
         )
 
         if not cached_info:
@@ -70,7 +73,7 @@ class ListCachedModelMixin(ListModelMixin):
             save_to_cache(
                 group_key=cache_class_group_key,
                 prefix_key=method_prefix_key,
-                identifier_key=identifier_key + query_params_keys,
+                identifier_key=complete_id_key,
                 info=response.data,
                 timeout=get_cache_expiration_time()
             )
@@ -96,12 +99,14 @@ class RetrieveCachedModelMixin(RetrieveModelMixin):
         cache_class_group_key = self.get_cache_class_group_key()
         method_prefix_key = 'retrieve'
         identifier_key = self.kwargs['pk']
-        query_params_keys = get_query_params_keys(request.query_params)
+        kwargs_keys = get_query_params_keys(self.kwargs)
+        query_params_keys = get_kwargs_keys(request.query_params)
+        complete_id_key = identifier_key + kwargs_keys + query_params_keys
 
         cached_info = get_from_cache(
             group_key=cache_class_group_key,
             prefix_key=method_prefix_key,
-            identifier_key=identifier_key + query_params_keys
+            identifier_key=complete_id_key
         )
 
         if not cached_info:
@@ -116,7 +121,7 @@ class RetrieveCachedModelMixin(RetrieveModelMixin):
             save_to_cache(
                 group_key=cache_class_group_key,
                 prefix_key=method_prefix_key,
-                identifier_key=identifier_key + query_params_keys,
+                identifier_key=complete_id_key,
                 info=response.data,
                 timeout=get_cache_expiration_time()
             )
@@ -142,7 +147,9 @@ class UpdateCachedModelMixin(UpdateModelMixin):
         cache_class_group_key = self.get_cache_class_group_key()
         method_prefix_key = 'retrieve'
         identifier_key = self.kwargs['pk']
-        query_params_keys = get_query_params_keys(request.query_params)
+        kwargs_keys = get_query_params_keys(self.kwargs)
+        query_params_keys = get_kwargs_keys(request.query_params)
+        complete_id_key = identifier_key + kwargs_keys + query_params_keys
 
         response = super(UpdateCachedModelMixin, self).update(
             request,
@@ -159,7 +166,7 @@ class UpdateCachedModelMixin(UpdateModelMixin):
         save_to_cache(
             group_key=cache_class_group_key,
             prefix_key=method_prefix_key,
-            identifier_key=identifier_key + query_params_keys,
+            identifier_key=complete_id_key,
             info=response.data,
             timeout=get_cache_expiration_time()
         )
@@ -184,7 +191,9 @@ class PartialUpdateCachedModelMixin(PartialUpdateModelMixin):
         cache_class_group_key = self.get_cache_class_group_key()
         method_prefix_key = 'retrieve'
         identifier_key = self.kwargs['pk']
-        query_params_keys = get_query_params_keys(request.query_params)
+        kwargs_keys = get_query_params_keys(self.kwargs)
+        query_params_keys = get_kwargs_keys(request.query_params)
+        complete_id_key = identifier_key + kwargs_keys + query_params_keys
 
         response = super(PartialUpdateCachedModelMixin, self).partial_update(
             request,
@@ -201,7 +210,7 @@ class PartialUpdateCachedModelMixin(PartialUpdateModelMixin):
         save_to_cache(
             group_key=cache_class_group_key,
             prefix_key=method_prefix_key,
-            identifier_key=identifier_key + query_params_keys,
+            identifier_key=complete_id_key,
             info=response.data,
             timeout=get_cache_expiration_time()
         )

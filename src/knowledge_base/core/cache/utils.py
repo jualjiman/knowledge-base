@@ -74,8 +74,19 @@ def get_query_params_keys(query_params):
     """
     Retrieves query params as a string to be part of the identifier key.
     """
-    keys = ''
+    keys = 'qp:::'
     for key, value in query_params.iteritems():
+        keys += '::{0}:{1}'.format(key, value)
+
+    return keys
+
+
+def get_kwargs_keys(kwargs):
+    """
+    Retrieves kwargs as a string to be part of the identifier key.
+    """
+    keys = 'kw:::'
+    for key, value in kwargs.iteritems():
         keys += '::{0}:{1}'.format(key, value)
 
     return keys
@@ -87,6 +98,6 @@ def get_cache_expiration_time(time=43200):
     environment, then, the cache will expirate in 1 seg, else, it will expirate
     in default time (43200 seg) or in the given time.
     """
-    # if settings.DEBUG:
-    #     return 1
+    if settings.DEBUG:
+        return 1
     return time
