@@ -14,8 +14,7 @@ def autodiscover():
             import_module('.'.join((app, 'api')))
         except ImportError as e:
             if e.message != "No module named api":
-                print app
-                print e
-                print "------------"
+                message = '{} in app "{}".'.format(e.message, app)
+                raise ImportError(message)
             else:
                 pass
