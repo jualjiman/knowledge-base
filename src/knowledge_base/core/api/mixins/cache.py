@@ -239,11 +239,18 @@ class BaseCacheMixin(object):
 
     def get_cache_class_group_key(self):
         cache_class_group_key = self.cache_class_group_key
+        origin_viewset = str(self.head)
 
         if cache_class_group_key is None:
-            raise MissingConfiguration("cache_class_group_key")
+            raise MissingConfiguration(
+                configuration='cache_class_group_key',
+                hint=origin_viewset
+            )
 
         if not isinstance(cache_class_group_key, str):
-            raise ImproperlyConfigured("cache_class_group_key")
+            raise ImproperlyConfigured(
+                configuration='cache_class_group_key',
+                hint=origin_viewset
+            )
 
         return cache_class_group_key

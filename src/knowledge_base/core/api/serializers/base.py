@@ -2,6 +2,8 @@
 from rest_framework import serializers
 from rest_framework.reverse import reverse
 
+from ..exceptions import ImproperlyConfigured
+
 
 class AbsoluteUriMixin(object):
     """
@@ -85,6 +87,12 @@ class ModelSerializer(DynamicFieldsMixin, AbsoluteUriMixin,
         Returns a list with the properties that will be lookup by
         get_resource_uri function
         """
+        if not isinstance(self.custom_lookup_fields, dict):
+            raise ImproperlyConfigured(
+                configuration='custom_lookup_fields',
+                hint='dict object was expected'
+            )
+
         custom_lookup_fields = {}
         for key, string_values in self.custom_lookup_fields.iteritems():
             values = string_values.split('__')
@@ -121,7 +129,13 @@ class ModelSerializer(DynamicFieldsMixin, AbsoluteUriMixin,
             for key, values in lookup_fields.iteritems():
                 current_value = obj
                 for field in values:
-                    current_value = getattr(current_value, field)
+                    try:
+                        current_value = getattr(current_value, field)
+                    except AttributeError:
+                        raise ImproperlyConfigured(
+                            configuration='custom_lookup_fields',
+                            hint='"{}" field not found'.format(field)
+                        )
 
                 kwargs[key] = current_value
 
