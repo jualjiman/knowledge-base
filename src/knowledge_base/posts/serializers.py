@@ -213,8 +213,6 @@ class PostCreateSerializer(ModelSerializer):
             for user in users:
                 instance.available_to.add(user)
 
-            instance.save()
-
         # Managing editable to users.
         if list_editable_to:
             user_model = get_user_model()
@@ -225,7 +223,8 @@ class PostCreateSerializer(ModelSerializer):
             for user in users:
                 instance.editable_to.add(user)
 
-            instance.save()
+        # saving instance changes to reflect lists changes.
+        instance.save()
 
         return instance
 
