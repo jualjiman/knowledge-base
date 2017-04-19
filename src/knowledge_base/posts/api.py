@@ -157,6 +157,7 @@ class PostViewSet(
 ):
 
     cache_class_group_key = "post"
+    cache_unique_by_user = True
     permission_classes = [IsAuthenticated, ]
 
     serializers_class = serializers.PostSerializer
@@ -347,6 +348,7 @@ class ProfilePostViewSet(
     GenericViewSet
 ):
     cache_class_group_key = "profile-posts"
+    cache_unique_by_user = True
     permission_classes = [IsAuthenticated, ]
 
     serializers_class = serializers.PostSerializer

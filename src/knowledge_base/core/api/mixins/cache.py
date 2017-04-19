@@ -10,6 +10,7 @@ from .base import (
 from ..exceptions import ImproperlyConfigured, MissingConfiguration
 from ...cache.utils import (
     get_cache_expiration_time,
+    get_complete_identifier_key,
     get_from_cache,
     get_kwargs_keys,
     get_query_params_keys,
@@ -49,11 +50,19 @@ class ListCachedModelMixin(ListModelMixin):
         **kwargs
     ):
         cache_class_group_key = self.get_cache_class_group_key()
+        cache_unique_by_user = self.get_cache_unique_by_user()
         method_prefix_key = 'list'
         identifier_key = 'many'
         kwargs_keys = get_query_params_keys(self.kwargs)
         query_params_keys = get_kwargs_keys(request.query_params)
-        complete_id_key = identifier_key + kwargs_keys + query_params_keys
+
+        complete_id_key = get_complete_identifier_key(
+            request,
+            identifier_key,
+            kwargs_keys,
+            query_params_keys,
+            cache_unique_by_user
+        )
 
         cached_info = get_from_cache(
             group_key=cache_class_group_key,
@@ -97,11 +106,18 @@ class RetrieveCachedModelMixin(RetrieveModelMixin):
         **kwargs
     ):
         cache_class_group_key = self.get_cache_class_group_key()
+        cache_unique_by_user = self.get_cache_unique_by_user()
         method_prefix_key = 'retrieve'
         identifier_key = self.kwargs['pk']
         kwargs_keys = get_query_params_keys(self.kwargs)
         query_params_keys = get_kwargs_keys(request.query_params)
-        complete_id_key = identifier_key + kwargs_keys + query_params_keys
+        complete_id_key = get_complete_identifier_key(
+            request,
+            identifier_key,
+            kwargs_keys,
+            query_params_keys,
+            cache_unique_by_user
+        )
 
         cached_info = get_from_cache(
             group_key=cache_class_group_key,
@@ -145,11 +161,18 @@ class UpdateCachedModelMixin(UpdateModelMixin):
         **kwargs
     ):
         cache_class_group_key = self.get_cache_class_group_key()
+        cache_unique_by_user = self.get_cache_unique_by_user()
         method_prefix_key = 'retrieve'
         identifier_key = self.kwargs['pk']
         kwargs_keys = get_query_params_keys(self.kwargs)
         query_params_keys = get_kwargs_keys(request.query_params)
-        complete_id_key = identifier_key + kwargs_keys + query_params_keys
+        complete_id_key = get_complete_identifier_key(
+            request,
+            identifier_key,
+            kwargs_keys,
+            query_params_keys,
+            cache_unique_by_user
+        )
 
         response = super(UpdateCachedModelMixin, self).update(
             request,
@@ -189,11 +212,18 @@ class PartialUpdateCachedModelMixin(PartialUpdateModelMixin):
         **kwargs
     ):
         cache_class_group_key = self.get_cache_class_group_key()
+        cache_unique_by_user = self.get_cache_unique_by_user()
         method_prefix_key = 'retrieve'
         identifier_key = self.kwargs['pk']
         kwargs_keys = get_query_params_keys(self.kwargs)
         query_params_keys = get_kwargs_keys(request.query_params)
-        complete_id_key = identifier_key + kwargs_keys + query_params_keys
+        complete_id_key = get_complete_identifier_key(
+            request,
+            identifier_key,
+            kwargs_keys,
+            query_params_keys,
+            cache_unique_by_user
+        )
 
         response = super(PartialUpdateCachedModelMixin, self).partial_update(
             request,
@@ -236,6 +266,7 @@ class BaseCacheMixin(object):
     Base class of cache functionality.
     """
     cache_class_group_key = None
+    cache_unique_by_user = False
 
     def get_cache_class_group_key(self):
         cache_class_group_key = self.cache_class_group_key
@@ -254,3 +285,15 @@ class BaseCacheMixin(object):
             )
 
         return cache_class_group_key
+
+    def get_cache_unique_by_user(self):
+        cache_unique_by_user = self.cache_unique_by_user
+        origin_viewset = str(self.head)
+
+        if not isinstance(cache_unique_by_user, bool):
+            raise ImproperlyConfigured(
+                configuration='cache_unique_by_user',
+                hint=origin_viewset
+            )
+
+        return cache_unique_by_user

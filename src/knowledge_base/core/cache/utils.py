@@ -74,7 +74,7 @@ def get_query_params_keys(query_params):
     """
     Retrieves query params as a string to be part of the identifier key.
     """
-    keys = 'qp:::'
+    keys = '::qp:'
     for key, value in query_params.iteritems():
         keys += '::{0}:{1}'.format(key, value)
 
@@ -85,11 +85,26 @@ def get_kwargs_keys(kwargs):
     """
     Retrieves kwargs as a string to be part of the identifier key.
     """
-    keys = 'kw:::'
+    keys = '::kw'
     for key, value in kwargs.iteritems():
         keys += '::{0}:{1}'.format(key, value)
 
     return keys
+
+
+def get_complete_identifier_key(
+    request,
+    identifier_key,
+    kwargs_keys,
+    query_params_keys,
+    unique_by_user
+):
+    complete_id_key = identifier_key + kwargs_keys + query_params_keys
+
+    if unique_by_user:
+        complete_id_key += "::ru:{}".format(request.user.id)
+
+    return complete_id_key
 
 
 def get_cache_expiration_time(time=43200):
