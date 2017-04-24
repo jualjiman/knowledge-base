@@ -1,80 +1,84 @@
-<div class="col s6 remove-padding">
-    <h5>Contribuciones</h5>
-</div>
-<div class="col s6 remove-padding" ng-if="profileInfo.canContribute">
-    <div class="right main-actions">
-        <button
-            title="Agregar"
-            ui-sref="panel.addContribution"
-            class="btn waves-effect waves-light"
-            name="action">
-            <i class="material-icons">library_add</i>
-        </button>
+<div class="col s12 header-content">
+    <div class="col s6 remove-padding">
+        <h5>Contribuciones</h5>
+    </div>
+    <div class="col s6 remove-padding" ng-if="profileInfo.canContribute">
+        <div class="right main-actions">
+            <button
+                title="Agregar"
+                ui-sref="panel.addContribution"
+                class="btn waves-effect waves-light"
+                name="action">
+                <i class="material-icons">library_add</i>
+            </button>
+        </div>
     </div>
 </div>
 
-<div class="col s12" ng-show="contributions.length == 0 && profileInfo.canContribute">
-    <p>No has hecho ninguna contribución :(</p>
-</div>
-<div class="col s12 remove-padding" ng-show="!profileInfo.canContribute">
-    <p>No tienes permiso para hacer contribuciones.</p>
-</div>
-<div ng-show="contributions.length > 0">
-    <table class="striped">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Resumen</th>
-                <th>Tema</th>
-                <th>Área</th>
-                <th>Disponible</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <tr ng-repeat="post in contributions">
-                <td>
-                    <a ui-sref="panel.contribution({postId: post.id})">{{ post.name }}</a>
-                </td>
-                <td>{{ post.resume }}</td>
-                <td>{{ post.subject.name }}</td>
-                <td>{{ post.subject.area.name }}</td>
-                <td>
-                    <i class="material-icons color-green" ng-show="post.isActive">check</i>
-                    <i class="material-icons color-red" ng-hide="post.isActive">clear</i>
-                </td>
-                <td>
-                    <button
-                       title="Editar"
-                       ui-sref="panel.editContribution({postId: post.id})"
-                        class="btn-flat waves-effect waves-light"
-                        name="action">
-                        <i class="material-icons">edit</i>
-                     </button>
-                     <button
-                        title="Eliminar"
-                        class="btn-flat waves-effect waves-light"
-                        ng-click="confirmDelete(post.id)">
-                        <i class="material-icons">delete</i>
-                     </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<div id="confirmation-modal" class="modal">
-    <div class="modal-content">
-        <h4>Eliminar contribución?</h4>
-        <p>Estas seguro de que deseas eliminar la publicación?</p>
+<div class="col s12 main-content">
+    <div class="col s12" ng-show="contributions.length == 0 && profileInfo.canContribute">
+        <p>No has hecho ninguna contribución :(</p>
     </div>
-    <div class="modal-footer">
-        <button class="modal-action modal-close waves-effect waves-green btn-flat">
-            Confirmar
-        </button>
-        <button class="modal-action modal-close waves-effect waves-green btn-flat" ng-click="$('#confirmation-modal').modal('close');">
-            Cancelar
-        </button>
+    <div class="col s12 remove-padding" ng-show="!profileInfo.canContribute">
+        <p>No tienes permiso para hacer contribuciones.</p>
+    </div>
+    <div ng-show="contributions.length > 0">
+        <table class="striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Resumen</th>
+                    <th>Tema</th>
+                    <th>Área</th>
+                    <th>Disponible</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr ng-repeat="post in contributions">
+                    <td>
+                        <a ui-sref="panel.contribution({postId: post.id})">{{ post.name }}</a>
+                    </td>
+                    <td>{{ post.resume }}</td>
+                    <td>{{ post.subject.name }}</td>
+                    <td>{{ post.subject.area.name }}</td>
+                    <td>
+                        <i class="material-icons color-green" ng-show="post.isActive">check</i>
+                        <i class="material-icons color-red" ng-hide="post.isActive">clear</i>
+                    </td>
+                    <td>
+                        <button
+                           title="Editar"
+                           ui-sref="panel.editContribution({postId: post.id})"
+                            class="btn-flat waves-effect waves-light"
+                            name="action">
+                            <i class="material-icons">edit</i>
+                         </button>
+                         <button
+                            title="Eliminar"
+                            class="btn-flat waves-effect waves-light"
+                            ng-click="confirmDelete(post.id)">
+                            <i class="material-icons">delete</i>
+                         </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="confirmation-modal" class="modal">
+        <div class="modal-content">
+            <h4>Eliminar contribución?</h4>
+            <p>Estas seguro de que deseas eliminar la publicación?</p>
+        </div>
+        <div class="modal-footer">
+            <button class="modal-action modal-close waves-effect waves-green btn-flat">
+                Confirmar
+            </button>
+            <button class="modal-action modal-close waves-effect waves-green btn-flat" ng-click="$('#confirmation-modal').modal('close');">
+                Cancelar
+            </button>
+        </div>
     </div>
 </div>

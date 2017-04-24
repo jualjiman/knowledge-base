@@ -1,31 +1,35 @@
-<h5>Resultados</h5>
-<h6>{{ totalMatches }} coincidencia(s) para "{{ q }}"</h6>
-
-<div ng-show="matches.length > 0">
-    <table class="striped">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Resumen</th>
-                <th>Tema</th>
-                <th>Área</th>
-                <th>Autor</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <tr ng-repeat="post in matches">
-                <td>
-                    <a ui-sref="panel.post({areaId: post.subject.area.id, subjectId: post.subject.id, id: post.id})">{{ post.name }}</a>
-                </td>
-                <td>{{ post.resume }}</td>
-                <td>{{ post.subject.name }}</td>
-                <td>{{ post.subject.area.name }}</td>
-                <td>{{ post.author.name }}</td>
-            </tr>
-        </tbody>
-    </table>
+<div class="col s12 header-content">
+    <h5>Resultados</h5>
+    <h6>{{ totalMatches }} coincidencia(s) para "{{ q }}"</h6>
 </div>
-<div class="col s12" ng-hide="matches.length > 0">
-    <p>No encontramos ninguna coincidencia :(</p>
+
+<div class="col s12 main-content">
+    <div ng-show="matches.length > 0">
+        <table class="striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Resumen</th>
+                    <th>Tema</th>
+                    <th>Área</th>
+                    <th>Autor</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr ng-repeat="post in matches">
+                    <td>
+                        <a ui-sref="panel.post({areaId: post.subject.area.id, subjectId: post.subject.id, id: post.id})">{{ post.name }}</a>
+                    </td>
+                    <td>{{ post.resume }}</td>
+                    <td>{{ post.subject.name }}</td>
+                    <td>{{ post.subject.area.name }}</td>
+                    <td>{{ post.author.name }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col s12" ng-hide="matches.length > 0">
+        <p>No encontramos ninguna coincidencia :(</p>
+    </div>
 </div>

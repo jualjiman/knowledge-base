@@ -1,95 +1,99 @@
-<h5 ng-hide="post.id">Agregar publicación</h5>
-<h5 ng-show="post.id">Editar publicación</h5>
+<div class="col s12 header-content">
+    <h5 ng-hide="post.id">Agregar publicación</h5>
+    <h5 ng-show="post.id">Editar publicación</h5>
 
-<div class="breadcrumb-box">
-    <a ui-sref="panel.contribution" class="breadcrumb">Contribuciones</a>
-    <span class="breadcrumb" ng-hide="post.id">Agregar contribución</span>
-    <span class="breadcrumb" ng-show="post.id">Editar contribución</span>
+    <div class="breadcrumb-box">
+        <a ui-sref="panel.contribution" class="breadcrumb">Contribuciones</a>
+        <span class="breadcrumb" ng-hide="post.id">Agregar contribución</span>
+        <span class="breadcrumb" ng-show="post.id">Editar contribución</span>
+    </div>
 </div>
 
-<form name="postForm" ng-submit="save()" novalidate>
+<div class="col s12 main-content remove-padding">
+    <form name="postForm" ng-submit="save()" novalidate>
 
-    <div class="input-field col s12 l11">
-        <input ng-model="post.name" type="text" name="text" required focus>
-        <label for="title" class="">Titulo</label>
-    </div>
-
-    <div class="input-field col s12 l11">
-        <select
-            ng-model="post.area"
-            ng-options="area.id as area.name for area in areas"
-            ng-change="loadSubjects();"
-            required>
-            <option ng-selected="true" value="">Selecciona un area</option>
-        </select>
-        <label>Area</label>
-    </div>
-
-    <div class="input-field col s12 l11">
-        <select
-            ng-model="post.subject"
-            ng-options="subject.id as subject.name for subject in subjects"
-            required>
-            <option ng-selected="true" value="">Selecciona un tema</option>
-        </select>
-        <label>Tema</label>
-    </div>
-
-    <div class="input-field col s12 l11">
-        <textarea maxlength="150" name="resume" ng-model="post.resume" class="materialize-textarea"></textarea>
-        <label for="resume">Resumen (150 char)</label>
-    </div>
-
-    
-    <div class="col s12 l11 tabs-container">
-        <ul id="tabs-swipe-demo" class="tabs">
-            <li class="tab col s3"><a class="active" href="#post-content">Contenido</a></li>
-            <li class="tab col s3"><a href="#post-preview" ng-click="generatePreview()">Preview</a></li>
-        </ul>
-        <div id="post-content" class="post-tab col s12">
-            <div class="input-field">
-                <textarea name="content" id="content" ng-model="post.content" class="materialize-textarea" required></textarea>
-                <label for="content">Markdown soportado</label>
-            </div>
+        <div class="input-field col s12 l11">
+            <input ng-model="post.name" type="text" name="text" required focus>
+            <label for="title" class="">Titulo</label>
         </div>
-        <div id="post-preview" class="markdown post-tab col s12"></div>
-    </div>
 
-    <div class="input-field col s12 l11">
-        <div class="autocomplete" id="multiple">
-            <div class="aac-users users-autocomplete"></div>
-            <div class="ac-input">
-                <input type="text" id="availableToField" placeholder="Si agregas usuarios en este campo, solo estará disponible para ellos" data-activates="availableMultipleDropdown" data-beloworigin="true" autocomplete="off">
-            </div>
-            <ul id="availableMultipleDropdown" class="dropdown-content ac-dropdown"></ul>
-            <input type="hidden" name="multipleHidden" />
+        <div class="input-field col s12 l11">
+            <select
+                ng-model="post.area"
+                ng-options="area.id as area.name for area in areas"
+                ng-change="loadSubjects();"
+                required>
+                <option ng-selected="true" value="">Selecciona un area</option>
+            </select>
+            <label>Area</label>
         </div>
-        <label class="active" for="availableToField">Disponible para:</label>
-    </div>
 
-    <div class="input-field col s12 l11">
-        <div class="autocomplete" id="multiple">
-            <div class="eac-users users-autocomplete"></div>
-            <div class="ac-input">
-                <input type="text" id="editableToField" placeholder="Si necesitas que alguien mas pueda editar esta publicación, agregalo aqui" data-activates="editableMultipleDropdown" data-beloworigin="true" autocomplete="off">
-            </div>
-            <ul id="editableMultipleDropdown" class="dropdown-content ac-dropdown"></ul>
-            <input type="hidden" name="multipleHidden" />
+        <div class="input-field col s12 l11">
+            <select
+                ng-model="post.subject"
+                ng-options="subject.id as subject.name for subject in subjects"
+                required>
+                <option ng-selected="true" value="">Selecciona un tema</option>
+            </select>
+            <label>Tema</label>
         </div>
-        <label class="active" for="editableToField">Editable para:</label>
-    </div>
 
-    <div class="input-field col s12 l11">
-        <input ng-model="post.isActive" type="checkbox" id="isActive"/>
-        <label for="isActive">Disponible</label>
-    </div>
-    
-    <div class="col s12 l11 right-align">
-        <button
-            class="btn waves-effect waves-light"
-            type="submit"
-            ng-disabled="postForm.$invalid">
-            Guardar
-        </button>
-    </div>
-</form>
+        <div class="input-field col s12 l11">
+            <textarea maxlength="150" name="resume" ng-model="post.resume" class="materialize-textarea"></textarea>
+            <label for="resume">Resumen (150 char)</label>
+        </div>
+
+        
+        <div class="col s12 l11 tabs-container">
+            <ul id="tabs-swipe-demo" class="tabs">
+                <li class="tab col s3"><a class="active" href="#post-content">Contenido</a></li>
+                <li class="tab col s3"><a href="#post-preview" ng-click="generatePreview()">Preview</a></li>
+            </ul>
+            <div id="post-content" class="post-tab col s12">
+                <div class="input-field">
+                    <textarea name="content" id="content" ng-model="post.content" class="materialize-textarea" required></textarea>
+                    <label for="content">Markdown soportado</label>
+                </div>
+            </div>
+            <div id="post-preview" class="markdown post-tab col s12"></div>
+        </div>
+
+        <div class="input-field col s12 l11">
+            <div class="autocomplete" id="multiple">
+                <div class="aac-users users-autocomplete"></div>
+                <div class="ac-input">
+                    <input type="text" id="availableToField" placeholder="Si agregas usuarios en este campo, solo estará disponible para ellos" data-activates="availableMultipleDropdown" data-beloworigin="true" autocomplete="off">
+                </div>
+                <ul id="availableMultipleDropdown" class="dropdown-content ac-dropdown"></ul>
+                <input type="hidden" name="multipleHidden" />
+            </div>
+            <label class="active" for="availableToField">Disponible para:</label>
+        </div>
+
+        <div class="input-field col s12 l11">
+            <div class="autocomplete" id="multiple">
+                <div class="eac-users users-autocomplete"></div>
+                <div class="ac-input">
+                    <input type="text" id="editableToField" placeholder="Si necesitas que alguien mas pueda editar esta publicación, agregalo aqui" data-activates="editableMultipleDropdown" data-beloworigin="true" autocomplete="off">
+                </div>
+                <ul id="editableMultipleDropdown" class="dropdown-content ac-dropdown"></ul>
+                <input type="hidden" name="multipleHidden" />
+            </div>
+            <label class="active" for="editableToField">Editable para:</label>
+        </div>
+
+        <div class="input-field col s12 l11">
+            <input ng-model="post.isActive" type="checkbox" id="isActive"/>
+            <label for="isActive">Disponible</label>
+        </div>
+        
+        <div class="col s12 l11 right-align">
+            <button
+                class="btn waves-effect waves-light"
+                type="submit"
+                ng-disabled="postForm.$invalid">
+                Guardar
+            </button>
+        </div>
+    </form>
+</div>

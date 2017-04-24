@@ -1,42 +1,46 @@
-<div class="breadcrumb-box">
-    <a ui-sref="panel.areas" class="breadcrumb">Areas</a>
-    <a ui-sref="panel.subjects({areaId: area.id})" class="breadcrumb">{{ area.name }}</a>
-    <a ui-sref="panel.posts({areaId: area.id, subjectId: subject.id})" class="breadcrumb">{{ subject.name }}</a>
+<div class="col s12 header-content remove-padding">
+    <div class="col s12 breadcrumb-box">
+        <a ui-sref="panel.areas" class="breadcrumb">Areas</a>
+        <a ui-sref="panel.subjects({areaId: area.id})" class="breadcrumb">{{ area.name }}</a>
+        <a ui-sref="panel.posts({areaId: area.id, subjectId: subject.id})" class="breadcrumb">{{ subject.name }}</a>
+    </div>
+
+    <div class="col s10">
+        <h5>{{ post.name }}</h5>
+        <div class="chip" title="{{ post.author.email }}">
+            <img ng-show="post.author.thumbnail" src="{{ post.author.thumbnail }}" alt="Contact Person">
+            {{ post.author.name }} |
+            {{ post.lastModified | date:'dd/MM/yyyy HH:mm'}}
+        </div>
+    </div>
+
+    <div class="col s2" ng-if="profileInfo.id === post.author.id || hasEditPermissions">
+        <div class="right main-actions">
+            <button
+               title="Editar"
+               ui-sref="panel.editContribution({postId: post.id})"
+                class="btn waves-effect waves-light"
+                name="action">
+                <i class="material-icons">edit</i>
+             </button>
+        </div>
+    </div>
+
+    <div class="col s12" ng-if="hasEditPermissions">
+        <div class="chip inactive-post-chip">
+            Tienes permisos de edicion para esta contribución.
+            <i class="close material-icons">close</i>
+        </div>
+    </div>
+    <div class="col s12" ng-if="(profileInfo.id === post.author.id || hasEditPermissions) && !post.isActive">
+        <div class="chip inactive-post-chip">
+            Esta contribución no es pública, solo usuarios con permisos de edición y el autor pueden verla.
+            <i class="close material-icons">close</i>
+        </div>
+    </div>
 </div>
 
-<div class="col s10 remove-padding">
-    <h5>{{ post.name }}</h5>
-    <div class="chip" title="{{ post.author.email }}">
-        <img ng-show="post.author.thumbnail" src="{{ post.author.thumbnail }}" alt="Contact Person">
-        {{ post.author.name }} |
-        {{ post.lastModified | date:'dd/MM/yyyy HH:mm'}}
-    </div>
-</div>
-<div class="col s2 remove-padding" ng-if="profileInfo.id === post.author.id || hasEditPermissions">
-    <div class="right main-actions">
-        <button
-           title="Editar"
-           ui-sref="panel.editContribution({postId: post.id})"
-            class="btn waves-effect waves-light"
-            name="action">
-            <i class="material-icons">edit</i>
-         </button>
-    </div>
-</div>
-
-<div class="col s12 remove-padding" ng-if="hasEditPermissions">
-    <div class="chip inactive-post-chip">
-        Tienes permisos de edicion para esta contribución.
-        <i class="close material-icons">close</i>
-    </div>
-</div>
-<div class="col s12 remove-padding" ng-if="(profileInfo.id === post.author.id || hasEditPermissions) && !post.isActive">
-    <div class="chip inactive-post-chip">
-        Esta contribución no es pública, solo usuarios con permisos de edición y el autor pueden verla.
-        <i class="close material-icons">close</i>
-    </div>
-</div>
-
-<div class="col s12 remove-padding">
+<div class="col s12 main-content">
     <div class="markdown" marked="post.content"></div>
 </div>
+
