@@ -1,57 +1,61 @@
-<h5>Editar perfil</h5>
+<div class="col s12 header-content">
+    <h5>Editar perfil</h5>
+</div>
 
-<form name="ProfileForm" ng-submit="save()" novalidate>
-    
-    <div class="form-profile-image">
-        <img class="circle" src="{{ profile.thumbnail }}">
+<div class="col s12 main-content">
+    <form name="ProfileForm" ng-submit="save()" novalidate>
 
-        <label
-            for="profile-change-image"
-            data-tooltip="Cambiar imagen">
-            <i class="material-icons">attachment</i>
-            <input
-                id="profile-change-image"
-                profile-image-upload
-                data-value="profile.thumbnail"
-                type="file"/>
-        </label>
+        <div class="form-profile-image">
+            <img class="circle" src="{{ profile.thumbnail }}">
 
-        <label data-tooltip="Eliminar imagen">
-            <i class="material-icons" ng-click="deleteImage($event)">delete</i>
-        </label>
-    </div>
+            <label
+                for="profile-change-image"
+                data-tooltip="Cambiar imagen">
+                <i class="material-icons">attachment</i>
+                <input
+                    id="profile-change-image"
+                    profile-image-upload
+                    data-value="profile.thumbnail"
+                    type="file"/>
+            </label>
 
-    <div class="input-field col s12 l11">
-        <input ng-model="profile.name" type="text" required>
-        <label for="name" class="">Nombre</label>
-    </div>
+            <label data-tooltip="Eliminar imagen">
+                <i class="material-icons" ng-click="deleteImage($event)">delete</i>
+            </label>
+        </div>
 
-    <div class="input-field col s12 l11">
-        <textarea maxlength="250" ng-model="profile.description" class="materialize-textarea"></textarea>
-        <label for="textarea1">Biografia (250 char)</label>
-    </div>
+        <div class="input-field col s12 l11">
+            <input ng-model="profile.name" type="text" required>
+            <label for="name" class="">Nombre</label>
+        </div>
 
-    <div class="input-field col s12 l11">
-        <input ng-model="profile.email" type="email" required>
-        <label for="name" class="">Email</label>
-    </div>
+        <div class="input-field col s12 l11">
+            <textarea maxlength="250" ng-model="profile.description" class="materialize-textarea"></textarea>
+            <label for="textarea1">Biografia (250 char)</label>
+        </div>
 
-    <div class="input-field col s12 l11">
-        <select
-            ng-model="profile.area"
-            ng-options="area.id as area.name for area in areas">
-            <option ng-selected="true" value="">Selecciona un area</option>
-        </select>
-        <label>Area</label>
-    </div>
-    
-    <div class="col s12 l11 right-align">
-        <button
-            class="btn waves-effect waves-light"
-            type="submit"
-            ng-disabled="ProfileForm.$invalid">
-            Guardar
-        </button>
-    </div>
+        <div class="input-field col s12 l11">
+            <input ng-model="profile.email" type="email" required>
+            <label for="name" class="">Email</label>
+        </div>
 
-</form>
+        <div class="input-field col s12 l11">
+            <select
+                ng-model="profile.area"
+                ng-options="area.id as area.name for area in areas">
+                <option ng-selected="true" value="">Selecciona un area</option>
+            </select>
+            <label>Area</label>
+        </div>
+
+        <div class="col s12 l11 right-align">
+            <button
+                class="btn waves-effect waves-light"
+                type="submit"
+                ng-disabled="ProfileForm.$invalid">
+                Guardar
+            </button>
+        </div>
+
+    </form>
+</div>
