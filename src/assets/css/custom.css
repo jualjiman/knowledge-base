@@ -212,3 +212,8 @@ main {
 .users-autocomplete {
     padding-top: 10px;
 }
+
+h6.header-reference {
+    font-size: 0.8rem;
+    color: #8d8d8d;
+}
