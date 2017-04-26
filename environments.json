@@ -23,13 +23,27 @@
             "/var/www/vhosts/kb.pythonballz.com/env/nvm/nvm.sh"
         ]
     },
+    "production": {
+        "user": "kb",
+        "group": "kb",
+        "hosts": ["pensadero.vincoorbis.com"],
+        "site_dir": "/var/www/vhosts/pensadero.vincoorbis.com/public/",
+        "uploads_dir": "/var/www/pensadero.vincoorbis.com/storage/media",
+        "django_settings": "knowledge_base.settings.production",
+        "command_prefixes": [
+            "/var/www/vhosts/pensadero.vincoorbis.com/env/python/bin/activate",
+            "/var/www/vhosts/pensadero.vincoorbis.com/env/envvars",
+            "/var/www/vhosts/pensadero.vincoorbis.com/env/nvm/nvm.sh"
+        ]
+    },
     "solr": {
         "user": "solr",
         "group": "solr",
         "hosts": ["kb.pythonballz.com"],
         "schema_local_path": "src/templates/search_configuration/solr.xml",
         "schema_remote_path": {
-            "staging": "/opt/solr/example/solr/kb/conf/schema.xml"
+            "staging": "/opt/solr/example/solr/kb/conf/schema.xml",
+            "production": "/opt/solr/example/solr/kb/conf/schema.xml"
         }
     }
 }
