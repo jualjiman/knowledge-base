@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from django.urls.exceptions import NoReverseMatch
+
 from rest_framework import serializers
 from rest_framework.reverse import reverse
 
@@ -139,8 +141,17 @@ class ModelSerializer(DynamicFieldsMixin, AbsoluteUriMixin,
 
                 kwargs[key] = current_value
 
-        return reverse(
-            url,
-            request=request,
-            kwargs=kwargs
-        )
+        try:
+            reverse(
+                url,
+                request=request,
+                kwargs=kwargs
+            )
+        except NoReverseMatch:
+            raise ImproperlyConfigured(
+                configuration='resource_uri configuration',
+                hint=(
+                    'Checkout for your resource_uri configuration, '
+                    'cant resolve "{}"'
+                ).format(url)
+            )

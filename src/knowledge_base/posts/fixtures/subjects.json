@@ -1,0 +1,14 @@
+[
+{
+    "model": "posts.subject",
+    "pk": 1,
+    "fields": {
+        "created_date": "2017-01-22T22:06:15.113Z",
+        "last_modified": "2017-01-22T22:06:15.113Z",
+        "name": "Best practices",
+        "is_active": true,
+        "category": 1,
+        "description": "Best practices when using python APIs."
+    }
+}
+]

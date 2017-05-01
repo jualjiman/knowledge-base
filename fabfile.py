@@ -71,7 +71,9 @@ def load_dummy_data(*args):
     Loads the dummy data for developing.
     """
     loaddata(
-        'areas_subjects.json',
+        'areas.json',
+        'categories.json',
+        'subjects.json',
         'dummy_superuser.json',
         'posts.json',
     )

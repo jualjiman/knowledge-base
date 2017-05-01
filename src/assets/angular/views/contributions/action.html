@@ -3,7 +3,7 @@
     <h5 ng-show="post.id">Editar publicación</h5>
 
     <div class="breadcrumb-box">
-        <a ui-sref="panel.contribution" class="breadcrumb">Contribuciones</a>
+        <a ui-sref="panel.contributions" class="breadcrumb">Contribuciones</a>
         <span class="breadcrumb" ng-hide="post.id">Agregar contribución</span>
         <span class="breadcrumb" ng-show="post.id">Editar contribución</span>
     </div>
@@ -21,11 +21,22 @@
             <select
                 ng-model="post.area"
                 ng-options="area.id as area.name for area in areas"
-                ng-change="loadSubjects();"
+                ng-change="loadCategories();"
                 required>
                 <option ng-selected="true" value="">Selecciona un area</option>
             </select>
             <label>Area</label>
+        </div>
+
+        <div class="input-field col s12 l11">
+            <select
+                ng-model="post.category"
+                ng-options="category.id as category.name for category in categories"
+                ng-change="loadSubjects();"
+                required>
+                <option ng-selected="true" value="">Selecciona una categoría</option>
+            </select>
+            <label>Categoría</label>
         </div>
 
         <div class="input-field col s12 l11">

@@ -193,6 +193,8 @@
 
     <field name="subject_id" type="long" indexed="true" stored="true" multiValued="false" />
 
+    <field name="category_name" type="text_en" indexed="true" stored="true" multiValued="false" />
+
     <field name="area_name" type="text_en" indexed="true" stored="true" multiValued="false" />
 
     <field name="subject_name" type="text_en" indexed="true" stored="true" multiValued="false" />

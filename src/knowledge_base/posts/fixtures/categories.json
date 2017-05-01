@@ -1,0 +1,14 @@
+[
+{
+    "model": "posts.category",
+    "pk": 1,
+    "fields": {
+        "created_date": "2017-01-22T22:06:15.113Z",
+        "last_modified": "2017-01-22T22:06:15.113Z",
+        "name": "API",
+        "is_active": true,
+        "area": 1,
+        "description": "Standarization of Python API good practices."
+    }
+}
+]

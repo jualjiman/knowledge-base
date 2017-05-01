@@ -100,21 +100,30 @@ app.config([
                 views: {
                     "content": {
                         templateUrl: $contentProvider.url('angular/views/catalogues/areas.html'),
-                        controller: "AreaCtrl"
+                        controller: "AreasCtrl"
+                    }
+                }
+            })
+            .state('panel.categories', {
+                url: '/areas/:areaId/categories',
+                views: {
+                    "content": {
+                        templateUrl: $contentProvider.url('angular/views/catalogues/categories.html'),
+                        controller: "CategoriesCtrl"
                     }
                 }
             })
             .state('panel.subjects', {
-                url: '/areas/:areaId/subjects',
+                url: '/areas/:areaId/categories/:categoryId/subjects',
                 views: {
                     "content": {
                         templateUrl: $contentProvider.url('angular/views/catalogues/subjects.html'),
-                        controller: "SubjectCtrl"
+                        controller: "SubjectsCtrl"
                     }
                 }
             })
             .state('panel.posts', {
-                url: '/areas/:areaId/subjects/:subjectId/posts',
+                url: '/areas/:areaId/categories/:categoryId/subjects/:subjectId/posts',
                 views: {
                     "content": {
                         templateUrl: $contentProvider.url('angular/views/catalogues/posts.html'),
@@ -123,7 +132,7 @@ app.config([
                 }
             })
             .state('panel.post', {
-                url: '/areas/:areaId/subjects/:subjectId/posts/:id',
+                url: '/areas/:areaId/subjects/:subjectId/categories/:categoryId/posts/:id',
                 views: {
                     "content": {
                         templateUrl: $contentProvider.url('angular/views/catalogues/post.html'),
@@ -143,7 +152,7 @@ app.config([
             })
 
             .state('panel.addPost', {
-                url: '/areas/:areaId/subjects/:subjectId/add-contribution',
+                url: '/areas/:areaId/categories/:categoryId/subjects/:subjectId/add-contribution',
                 views: {
                     "content": {
                         templateUrl: $contentProvider.url('angular/views/contributions/action.html'),

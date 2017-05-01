@@ -1,4 +1,4 @@
-app.controller('AreaCtrl', [
+app.controller('AreasCtrl', [
     '$scope', 'Area',
     function($scope, Area){
         Area.get().$promise.then(function(response){

@@ -13,7 +13,7 @@ from knowledge_base.core.api.viewsets import GenericViewSet
 from knowledge_base.core.api.viewsets.nested import NestedViewset
 
 from knowledge_base.posts import serializers
-from knowledge_base.posts.models import Area, Post, Subject
+from knowledge_base.posts.models import Area, Category, Post, Subject
 from knowledge_base.posts.serializers import PostSearchSerializer
 
 
@@ -75,6 +75,80 @@ class AreaViewSet(
         return super(AreaViewSet, self).retrieve(request, pk)
 
 
+class CategoryViewSet(
+    cache_mixins.RetrieveCachedModelMixin,
+    cache_mixins.ListCachedModelMixin,
+    cache_mixins.BaseCacheMixin,
+    NestedViewset
+):
+
+    cache_class_group_key = "category"
+    permission_classes = [IsAuthenticated, ]
+
+    serializers_class = serializers.CategorySerializer
+    list_serializer_class = serializers.CategoryURISerializer
+    retrieve_serializer_class = serializers.CategorySerializer
+
+    parent_model = Area
+    parent_model_name = 'Area'
+    parent_lookup_field = 'area_pk'
+
+    def get_queryset(self, *args, **kwargs):
+        """
+        Return active subjects for specific area or all items.
+        """
+        queryset = Category.objects.filter(is_active=True)
+
+        if self.parent_lookup_field in self.kwargs:
+            queryset = queryset.filter(
+                area=self.kwargs[self.parent_lookup_field]
+            )
+
+        return queryset.order_by('name')
+
+    def list(self, request, *args, **kwargs):
+        """
+        Return a list of subjects that belongs to specific area.
+        ---
+        response_serializer: serializers.CategoryURISerializer
+        responseMessages:
+            - code: 200
+              message: OK
+            - code: 403
+              message: FORBIDDEN
+            - code: 404
+              message: NOT FOUND
+            - code: 500
+              message: INTERNAL SERVER ERROR
+        consumes:
+            - application/json
+        produces:
+            - application/json
+        """
+        return super(CategoryViewSet, self).list(request, *args, **kwargs)
+
+    def retrieve(self, request, pk=None, *args, **kwargs):
+        """
+        Get a data for a subject that belongs to specific area.
+        ---
+        response_serializer: serializers.CategorySerializer
+        responseMessages:
+            - code: 200
+              message: OK
+            - code: 403
+              message: FORBIDDEN
+            - code: 404
+              message: NOT FOUND
+            - code: 500
+              message: INTERNAL SERVER ERROR
+        consumes:
+            - application/json
+        produces:
+            - application/json
+        """
+        return super(CategoryViewSet, self).retrieve(request, *args, **kwargs)
+
+
 class SubjectViewSet(
     cache_mixins.RetrieveCachedModelMixin,
     cache_mixins.ListCachedModelMixin,
@@ -90,8 +164,8 @@ class SubjectViewSet(
     retrieve_serializer_class = serializers.SubjectSerializer
 
     parent_model = Area
-    parent_model_name = 'Area'
-    parent_lookup_field = 'area_pk'
+    parent_model_name = 'Category'
+    parent_lookup_field = 'category_pk'
 
     def get_queryset(self, *args, **kwargs):
         """
@@ -101,7 +175,7 @@ class SubjectViewSet(
 
         if self.parent_lookup_field in self.kwargs:
             queryset = queryset.filter(
-                area=self.kwargs[self.parent_lookup_field]
+                category=self.kwargs[self.parent_lookup_field]
             )
 
         return queryset.order_by('name')
@@ -368,7 +442,8 @@ class ProfilePostViewSet(
             Q(author=request_user) |
             Q(editable_to=request_user)
         ).distinct().order_by(
-            'subject__area',
+            'subject__category__area',
+            'subject__category',
             'subject',
             'name',
         )
@@ -497,23 +572,32 @@ class ProfilePostViewSet(
         return super(ProfilePostViewSet, self).retrieve(request, pk)
 
 router.register(
-    r'areas',
-    AreaViewSet,
-    base_name='area'
-)
-
-router.register(
     r'posts/search',
     PostSearchViewSet,
     base_name="post-search"
 )
 
+router.register(
+    r'areas',
+    AreaViewSet,
+    base_name='area'
+)
+
 router.register_nested(
     r'areas',
+    r'categories',
+    CategoryViewSet,
+    parent_lookup_name='area',
+    base_name='category'
+)
+
+router.register_nested(
+    r'categories',
     r'subjects',
     SubjectViewSet,
-    parent_lookup_name='area',
-    base_name='subject'
+    parent_lookup_name='category',
+    base_name='subject',
+    depth_level=2
 )
 
 router.register_nested(
@@ -522,7 +606,7 @@ router.register_nested(
     PostViewSet,
     parent_lookup_name='subject',
     base_name='post',
-    depth_level=2
+    depth_level=3
 )
 
 #

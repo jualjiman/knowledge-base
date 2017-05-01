@@ -85,13 +85,28 @@ app
             );
         }
     ])
+
+    .factory('Category', [
+        '$resource',
+        function ($resource) {
+            return $resource(
+                '/api/v1/areas/:areaId/categories/:id',
+                {
+                    areaId: '@areaId',
+                    id: '@id'
+                }
+            );
+        }
+    ])
+
     .factory('Subject', [
         '$resource',
         function ($resource) {
             return $resource(
-                '/api/v1/areas/:areaId/subjects/:id',
+                '/api/v1/areas/:areaId/categories/:categoryId/subjects/:id',
                 {
                     areaId: '@areaId',
+                    categoryId: '@categoryId',
                     id: '@id'
                 }
             );
@@ -102,9 +117,10 @@ app
         '$resource',
         function ($resource) {
             return $resource(
-                '/api/v1/areas/:areaId/subjects/:subjectId/posts/:id',
+                '/api/v1/areas/:areaId/categories/:categoryId/subjects/:subjectId/posts/:id',
                 {
                     areaId: '@areaId',
+                    categoryId: '@categoryId',
                     subjectId: '@subjectId',
                     id: '@id',
                     q: '@q'

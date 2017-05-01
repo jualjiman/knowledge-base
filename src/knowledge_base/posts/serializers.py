@@ -6,7 +6,7 @@ from drf_haystack import serializers as haystack_serializers
 from rest_framework import serializers
 
 from knowledge_base.core.api.serializers import ModelSerializer
-from knowledge_base.posts.models import Area, Post, Subject
+from knowledge_base.posts.models import Area, Category, Post, Subject
 from knowledge_base.posts.search_indexes import PostIndex
 
 
@@ -37,11 +37,11 @@ class AreaURISerializer(ModelSerializer):
         )
 
 
-class SubjectSerializer(ModelSerializer):
+class CategorySerializer(ModelSerializer):
     area = AreaURISerializer()
 
     class Meta:
-        model = Subject
+        model = Category
         fields = (
             'id',
             'name',
@@ -50,7 +50,7 @@ class SubjectSerializer(ModelSerializer):
         )
 
 
-class SubjectURISerializer(ModelSerializer):
+class CategoryURISerializer(ModelSerializer):
     custom_lookup_fields = {
         "pk": 'pk',
         "area_pk": 'area__pk',
@@ -58,12 +58,44 @@ class SubjectURISerializer(ModelSerializer):
     area = AreaURISerializer()
 
     class Meta:
-        model = Subject
+        model = Category
         fields = (
             'id',
             'name',
             'description',
             'area',
+            'resource_uri',
+        )
+
+
+class SubjectSerializer(ModelSerializer):
+    category = CategoryURISerializer()
+
+    class Meta:
+        model = Subject
+        fields = (
+            'id',
+            'name',
+            'description',
+            'category',
+        )
+
+
+class SubjectURISerializer(ModelSerializer):
+    custom_lookup_fields = {
+        'pk': 'pk',
+        'category_pk': 'category__pk',
+        'area_pk': 'category__area__pk',
+    }
+    category = CategoryURISerializer()
+
+    class Meta:
+        model = Subject
+        fields = (
+            'id',
+            'name',
+            'description',
+            'category',
             'resource_uri',
         )
 
@@ -102,9 +134,10 @@ class PostURISerializer(ModelSerializer):
     from knowledge_base.users.serializers import ProfileURISerializer
 
     custom_lookup_fields = {
-        "pk": 'pk',
-        "subject_pk": 'subject__pk',
-        "area_pk": 'subject__area__pk',
+        'pk': 'pk',
+        'subject_pk': 'subject__pk',
+        'category_pk': 'subject__category__pk',
+        'area_pk': 'subject__category__area__pk',
     }
     subject = SubjectURISerializer()
     author = ProfileURISerializer()
