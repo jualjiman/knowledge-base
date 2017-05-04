@@ -8,6 +8,14 @@ a {
     color: #0084d4;
 }
 
+table {
+    font-size: 13px;
+}
+
+td.clasification {
+    font-size: 80%;
+}
+
 #header {
     background: #f5f5f5;
     color: white;

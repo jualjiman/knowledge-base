@@ -1,95 +1,87 @@
 app.controller('PostsCtrl', [
-        '$scope', '$stateParams', '$localStorage', 'Post', 'Subject', 'Area',
-        function($scope, $stateParams, $localStorage, Post, Subject, Area){
-            $scope.profileInfo = $localStorage.profileInfo;
-            Post.get(
-                {
-                    areaId: $stateParams.areaId,
-                    subjectId: $stateParams.subjectId
-                }
-            ).$promise.then(function(response){
-                $scope.posts = response.results;
-            });
+    '$scope', '$stateParams', '$localStorage', 'Post', 'Subject',
+    function($scope, $stateParams, $localStorage, Post, Subject){
+        $scope.profileInfo = $localStorage.profileInfo;
+        Post.get(
+            {
+                areaId: $stateParams.areaId,
+                categoryId: $stateParams.categoryId,
+                subjectId: $stateParams.subjectId
+            }
+        ).$promise.then(function(response){
+            $scope.posts = response.results;
+        });
 
-            Subject.get(
-                {
-                    areaId: $stateParams.areaId,
-                    id: $stateParams.subjectId
-                }
-            ).$promise.then(function(response){
-                $scope.subject = response;
-            });
+        Subject.get(
+            {
+                areaId: $stateParams.areaId,
+                categoryId: $stateParams.categoryId,
+                id: $stateParams.subjectId
+            }
+        ).$promise.then(function(response){
+            $scope.subject = response;
+        });
+    }
+])
 
-            Area.get(
-                {id: $stateParams.areaId}
-            ).$promise.then(function(response){
-                $scope.area = response;
-            });
-        }
-    ])
+.controller('PostCtrl', [
+    '$scope', '$stateParams', '$filter', '$localStorage', 'Post', 'Subject',
+    function($scope, $stateParams, $filter, $localStorage, Post, Subject){
 
-    .controller('PostCtrl', [
-        '$scope', '$stateParams', '$filter', '$localStorage', 'Post', 'Subject', 'Area',
-        function($scope, $stateParams, $filter, $localStorage, Post, Subject, Area){
+        $scope.profileInfo = $localStorage.profileInfo;
 
-            $scope.profileInfo = $localStorage.profileInfo;
+        Post.get(
+            {
+                areaId: $stateParams.areaId,
+                categoryId: $stateParams.categoryId,
+                subjectId: $stateParams.subjectId,
+                id: $stateParams.id
+            }
+        ).$promise.then(function(response){
+            $scope.post = response;
+            $scope.hasEditPermissions = $filter('hasEditPermissions')(
+                $scope.post,
+                $scope.profileInfo.id
+            );
+        });
 
-            Post.get(
-                {
-                    areaId: $stateParams.areaId,
-                    subjectId: $stateParams.subjectId,
-                    id: $stateParams.id
-                }
-            ).$promise.then(function(response){
-                $scope.post = response;
-                $scope.hasEditPermissions = $filter('hasEditPermissions')(
-                    $scope.post,
-                    $scope.profileInfo.id
-                );
-            });
+        Subject.get(
+            {
+                areaId: $stateParams.areaId,
+                categoryId: $stateParams.categoryId,
+                id: $stateParams.subjectId
+            }
+        ).$promise.then(function(response){
+            $scope.subject = response;
+        });
+    }
+])
 
-            Subject.get(
-                {
-                    areaId: $stateParams.areaId,
-                    id: $stateParams.subjectId
-                }
-            ).$promise.then(function(response){
-                $scope.subject = response;
-            });
+.controller('HeaderSearchCtrl', [
+    '$scope','$state' ,'$stateParams', 'Post',
+    function($scope, $state, $stateParams, Post){
+        $scope.q = '';
 
-            Area.get(
-                {id: $stateParams.areaId}
-            ).$promise.then(function(response){
-                $scope.area = response;
-            });
-        }
-    ])
-
-    .controller('HeaderSearchCtrl', [
-        '$scope','$state' ,'$stateParams', 'Post',
-        function($scope, $state, $stateParams, Post){
+        $scope.submit = function(){
+            $state.go('panel.searchPosts', {q: $scope.q});
             $scope.q = '';
+        };
+    }
+])
 
-            $scope.submit = function(){
-                $state.go('panel.searchPosts', {q: $scope.q});
-                $scope.q = '';
-            };
-        }
-    ])
+.controller('SearchPostsCtrl', [
+    '$scope', '$stateParams', 'Post',
+    function($scope, $stateParams, Post){
 
-    .controller('SearchPostsCtrl', [
-        '$scope', '$stateParams', 'Post',
-        function($scope, $stateParams, Post){
+        $scope.q = $stateParams.q;
 
-            $scope.q = $stateParams.q;
-
-            Post.search(
-                {
-                    q: $stateParams.q,
-                }
-            ).$promise.then(function(response){
-                $scope.matches = response.results;
-                $scope.totalMatches = response.count;
-            });
-        }
-    ]);
+        Post.search(
+            {
+                q: $stateParams.q,
+            }
+        ).$promise.then(function(response){
+            $scope.matches = response.results;
+            $scope.totalMatches = response.count;
+        });
+    }
+]);

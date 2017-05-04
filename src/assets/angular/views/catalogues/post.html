@@ -1,8 +1,9 @@
 <div class="col s12 header-content remove-padding">
     <div class="col s12 breadcrumb-box">
         <a ui-sref="panel.areas" class="breadcrumb">Areas</a>
-        <a ui-sref="panel.subjects({areaId: area.id})" class="breadcrumb">{{ area.name }}</a>
-        <a ui-sref="panel.posts({areaId: area.id, subjectId: subject.id})" class="breadcrumb">{{ subject.name }}</a>
+        <a ui-sref="panel.categories({areaId: subject.category.area.id})" class="breadcrumb">{{ subject.category.area.name }}</a>
+        <a ui-sref="panel.subjects({areaId: subject.category.area.id, categoryId: subject.category.id})" class="breadcrumb">{{ subject.category.name }}</a>
+        <a ui-sref="panel.posts({areaId: subject.category.area.id, categoryId: subject.category.id, subjectId: subject.id})" class="breadcrumb">{{ subject.name }}</a>
     </div>
 
     <div class="col s10">

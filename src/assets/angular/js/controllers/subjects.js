@@ -1,16 +1,23 @@
-app.controller('SubjectCtrl', [
-        '$scope', '$stateParams', 'Subject', 'Area',
-        function($scope, $stateParams, Subject, Area){
-            Subject.get(
-                {areaId: $stateParams.areaId}
-            ).$promise.then(function(response){
-                $scope.subjects = response.results;
-            });
+app.controller('SubjectsCtrl', [
+    '$scope', '$stateParams', '$localStorage', 'Subject', 'Category',
+    function($scope, $stateParams, $localStorage, Subject, Category){
+        $scope.profileInfo = $localStorage.profileInfo;
+        Subject.get(
+            {
+                areaId: $stateParams.areaId,
+                categoryId: $stateParams.categoryId
+            }
+        ).$promise.then(function(response){
+            $scope.subjects = response.results;
+        });
 
-            Area.get(
-                {id: $stateParams.areaId}
-            ).$promise.then(function(response){
-                $scope.area = response;
-            });
-        }
-    ]);
+        Category.get(
+            {
+                areaId: $stateParams.areaId,
+                id: $stateParams.categoryId
+            }
+        ).$promise.then(function(response){
+            $scope.category = response;
+        });
+    }
+]);

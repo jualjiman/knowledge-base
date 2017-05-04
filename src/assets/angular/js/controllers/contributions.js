@@ -27,8 +27,8 @@ app.controller('ContributionsCtrl', [
 ])
 
 .controller('ContributionCtrl', [
-    '$scope', '$stateParams', '$filter','$localStorage', 'ProfileContribution', 'Subject', 'Area',
-    function($scope, $stateParams, $filter, $localStorage, ProfileContribution, Subject, Area){
+    '$scope', '$stateParams', '$filter','$localStorage', 'ProfileContribution', 'Subject',
+    function($scope, $stateParams, $filter, $localStorage, ProfileContribution, Subject){
 
         $scope.profileInfo = $localStorage.profileInfo;
 
@@ -41,25 +41,20 @@ app.controller('ContributionsCtrl', [
 
             Subject.get(
                 {
-                    areaId: response.subject.area.id,
+                    areaId: response.subject.category.area.id,
+                    categoryId: response.subject.category.id,
                     id: response.subject.id
                 }
             ).$promise.then(function(response){
                 $scope.subject = response;
-            });
-
-            Area.get(
-                {id: response.subject.area.id}
-            ).$promise.then(function(response){
-                $scope.area = response;
             });
         });    
     }
 ])
 
 .controller('CreatePostCtrl', [
-    '$scope', '$state', '$stateParams','Area', 'Subject', 'User', 'ProfileContribution', 'toastr', 'marked',
-    function($scope, $state, $stateParams, Area, Subject, User, ProfileContribution, toastr, marked){
+    '$scope', '$state', '$stateParams','Area', 'Category', 'Subject', 'User', 'ProfileContribution', 'toastr', 'marked',
+    function($scope, $state, $stateParams, Area, Category, Subject, User, ProfileContribution, toastr, marked){
         $scope.post = {
             isActive: true
         };
@@ -67,16 +62,45 @@ app.controller('ContributionsCtrl', [
         Area.get().$promise.then(function(response){
             $scope.areas = response.results;
 
+            //
+            // Adding preloaded fields.
+            //
             reloadSelectFields();
             $scope.post.area = parseInt($stateParams.areaId);
+
+            $scope.loadCategories();
+            $scope.post.category = parseInt($stateParams.categoryId);
+
             $scope.loadSubjects();
+            $scope.post.subject = parseInt($stateParams.subjectId);
         });
 
-        $scope.loadSubjects = function(){
+        $scope.loadCategories = function(){
             if($scope.post.area){
-                Subject.get(
+                Category.get(
                     {
                         areaId: $scope.post.area
+                    }
+                ).$promise.then(function(response){
+                    $scope.categories = response.results;
+                    //
+                    // this function should be executed here, because
+                    // material select field should be updated when data is ready.
+                    //
+                    reloadSelectFields();
+                });
+            } else {
+                $scope.categories = null;
+                reloadSelectFields();
+            }
+        };
+
+        $scope.loadSubjects = function(){
+            if($scope.post.category){
+                Subject.get(
+                    {
+                        areaId: $scope.post.area,
+                        categoryId: $scope.post.category
                     }
                 ).$promise.then(function(response){
                     $scope.subjects = response.results;
@@ -92,12 +116,6 @@ app.controller('ContributionsCtrl', [
             }
         };
         
-        //
-        // Adding preloaded subject field.
-        //
-        $scope.loadSubjects();
-        $scope.post.subject = parseInt($stateParams.subjectId);
-
         //
         // Autocomplete fields.
         //
@@ -189,8 +207,8 @@ app.controller('ContributionsCtrl', [
 ])
 
 .controller('CreateContributionCtrl', [
-    '$scope', '$state', 'Area', 'Subject', 'User', 'ProfileContribution', 'toastr', 'marked',
-    function($scope, $state, Area, Subject, User, ProfileContribution, toastr, marked){
+    '$scope', '$state', 'Area', 'Category', 'Subject', 'User', 'ProfileContribution', 'toastr', 'marked',
+    function($scope, $state, Area, Category, Subject, User, ProfileContribution, toastr, marked){
         $scope.post = {
             isActive: true  
         };
@@ -200,11 +218,32 @@ app.controller('ContributionsCtrl', [
             reloadSelectFields();
         });
 
-        $scope.loadSubjects = function(){
+        $scope.loadCategories = function(){
             if($scope.post.area){
-                Subject.get(
+                Category.get(
                     {
                         areaId: $scope.post.area
+                    }
+                ).$promise.then(function(response){
+                    $scope.categories = response.results;
+                    //
+                    // this function should be executed here, because
+                    // material select field should be updated when data is ready.
+                    //
+                    reloadSelectFields();
+                });
+            } else {
+                $scope.categories = null;
+                reloadSelectFields();
+            }
+        };
+
+        $scope.loadSubjects = function(){
+            if($scope.post.category){
+                Subject.get(
+                    {
+                        areaId: $scope.post.area,
+                        categoryId: $scope.post.category
                     }
                 ).$promise.then(function(response){
                     $scope.subjects = response.results;
@@ -310,8 +349,8 @@ app.controller('ContributionsCtrl', [
 ])
 
 .controller('EditContributionCtrl', [
-    '$scope', '$state', '$stateParams', 'Area', 'Subject', 'User', 'ProfileContribution', 'toastr', 'marked',
-    function($scope, $state, $stateParams, Area, Subject, User, ProfileContribution, toastr, marked){
+    '$scope', '$state', '$stateParams', 'Area', 'Subject', 'Category', 'User', 'ProfileContribution', 'toastr', 'marked',
+    function($scope, $state, $stateParams, Area, Subject, Category, User, ProfileContribution, toastr, marked){
 
         Area.get().$promise.then(function(response){
             $scope.areas = response.results;
@@ -319,12 +358,17 @@ app.controller('ContributionsCtrl', [
             ProfileContribution.get({id: $stateParams.postId}).$promise.then(function(response){
                 $scope.post = {
                     id: response.id,
-                    area: response.subject.area.id,
+                    area: response.subject.category.area.id,
+                    category: response.subject.category.id,
+                    subject: response.subject.id,
                     content: response.content,
                     resume: response.resume,
                     name: response.name,
                     isActive: response.isActive
                 };
+
+                $scope.loadCategories();
+                $scope.post.category = response.subject.category.id;
 
                 $scope.loadSubjects();
                 $scope.post.subject = response.subject.id;
@@ -411,11 +455,32 @@ app.controller('ContributionsCtrl', [
             angular.element("#post-preview").html(marked($scope.post.content));
         };
 
-        $scope.loadSubjects = function(){
+        $scope.loadCategories = function(){
             if($scope.post.area){
-                Subject.get(
+                Category.get(
                     {
                         areaId: $scope.post.area
+                    }
+                ).$promise.then(function(response){
+                    $scope.categories = response.results;
+                    //
+                    // this function should be executed here, because
+                    // material select field should be updated when data is ready.
+                    //
+                    reloadSelectFields();
+                });
+            } else {
+                $scope.categories = null;
+                reloadSelectFields();
+            }
+        };
+
+        $scope.loadSubjects = function(){
+            if($scope.post.category){
+                Subject.get(
+                    {
+                        areaId: $scope.post.area,
+                        categoryId: $scope.post.category
                     }
                 ).$promise.then(function(response){
                     $scope.subjects = response.results;

@@ -28,8 +28,8 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Resumen</th>
-                    <th>Tema</th>
-                    <th>Área</th>
+                    <th>Clasificacíon</th>
+                    <th>Autor</th>
                     <th>Disponible</th>
                     <th>Acciones</th>
                 </tr>
@@ -41,8 +41,8 @@
                         <a ui-sref="panel.contribution({postId: post.id})">{{ post.name }}</a>
                     </td>
                     <td>{{ post.resume }}</td>
-                    <td>{{ post.subject.name }}</td>
-                    <td>{{ post.subject.area.name }}</td>
+                    <td class="clasification">{{ post.subject.category.area.name }} > {{ post.subject.category.name }} > {{ post.subject.name }}
+                    <td>{{ post.author.name }}</td>
                     <td>
                         <i class="material-icons color-green" ng-show="post.isActive">check</i>
                         <i class="material-icons color-red" ng-hide="post.isActive">clear</i>

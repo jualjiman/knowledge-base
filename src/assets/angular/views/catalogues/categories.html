@@ -1,0 +1,34 @@
+<div class="col s12 header-content">
+    <div class="breadcrumb-box">
+        <a ui-sref="panel.areas" class="breadcrumb">Areas</a>
+        <span class="breadcrumb">{{ area.name }}</span>
+    </div>
+
+    <h6 class="header-reference">Categorías del área:</h6>
+    <h5>{{ area.name }}</h5>
+    <h6><i>{{ area.description }}</i></h6>
+</div>
+
+<div class="col s12 main-content">
+    <div ng-show="categories.length > 0">
+        <table class="striped">
+            <thead>
+                <tr>
+                    <th data-field="name">Nombre</th>
+                    <th data-field="description">Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="category in categories">
+                    <td>
+                        <a ui-sref="panel.subjects({areaId: category.area.id, categoryId: category.id})">{{ category.name }}</a>
+                    </td>
+                    <td>{{ category.description }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col s12" ng-hide="categories.length > 0">
+        <p>No existe ninguna categoría para el area {{ area.name }} :(</p>
+    </div>
+</div>

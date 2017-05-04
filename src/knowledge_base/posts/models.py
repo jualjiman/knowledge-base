@@ -63,13 +63,33 @@ class Area(CatalogueMixin):
         }
 
 
-class Subject(CatalogueMixin):
+class Category(CatalogueMixin):
     """
-    Subjects that belongs to each area.
+    Category that belongs to each area.
     """
     area = models.ForeignKey(
         Area,
-        related_name='subjects'
+        related_name='categories'
+    )
+    description = models.TextField(
+        max_length=250,
+        null=True,
+        blank=True
+    )
+
+    class Meta:
+        verbose_name = 'category'
+        verbose_name_plural = 'categories'
+
+
+class Subject(CatalogueMixin):
+    """
+    Subject that belongs to each area.
+    """
+    category = models.ForeignKey(
+        Category,
+        related_name='subjects',
+        default=1
     )
     description = models.TextField(
         max_length=250,

@@ -1,12 +1,13 @@
 <div class="col s12 header-content">
     <div class="breadcrumb-box">
         <a ui-sref="panel.areas" class="breadcrumb">Areas</a>
-        <span class="breadcrumb">{{ area.name }}</span>
+        <a ui-sref="panel.categories({areaId: category.area.id})" class="breadcrumb">{{ category.area.name }}</a>
+        <span class="breadcrumb">{{ category.name }}</span>
     </div>
 
-    <h6 class="header-reference">Temas del área:</h6>
-    <h5>{{ area.name }}</h5>
-    <h6><i>{{ area.description }}</i></h6>
+    <h6 class="header-reference">Temas de la categoría:</h6>
+    <h5>{{ category.name }}</h5>
+    <h6><i>{{ category.description }}</i></h6>
 </div>
 
 <div class="col s12 main-content">
@@ -21,7 +22,7 @@
             <tbody>
                 <tr ng-repeat="subject in subjects">
                     <td>
-                        <a ui-sref="panel.posts({areaId: subject.area.id, subjectId: subject.id})">{{ subject.name }}</a>
+                        <a ui-sref="panel.posts({areaId: subject.category.area.id, categoryId: subject.category.id, subjectId: subject.id})">{{ subject.name }}</a>
                     </td>
                     <td>{{ subject.description }}</td>
                 </tr>

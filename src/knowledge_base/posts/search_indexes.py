@@ -20,7 +20,8 @@ class PostIndex(indexes.SearchIndex, indexes.Indexable):
     is_editable_to = indexes.BooleanField()
 
     subject_name = indexes.CharField(model_attr='subject__name')
-    area_name = indexes.CharField(model_attr='subject__area__name')
+    category_name = indexes.CharField(model_attr='subject__category__name')
+    area_name = indexes.CharField(model_attr='subject__category__area__name')
 
     text = indexes.CharField(document=True, use_template=True)
     content_auto = indexes.EdgeNgramField(use_template=True)
