@@ -86,7 +86,7 @@ class Category(CatalogueMixin):
 
     def get_full_name(self):
         area = Area.objects.get(id=self.area_id)
-        return u"%s > %s" % (area.name, self.name)
+        return u"{0} > {1}".format(area.name, self.name)
 
 
 class Subject(CatalogueMixin):
@@ -109,7 +109,7 @@ class Subject(CatalogueMixin):
 
     def get_full_name(self):
         category = Category.objects.get(id=self.category_id)
-        return u"%s > %s" % (category.name, self.name)
+        return u"{0} > {1}".format(category.name, self.name)
 
 
 class Post(CatalogueMixin):
