@@ -37,7 +37,7 @@ class SubjectAdmin(admin.ModelAdmin):
     list_display = (
         'name',
         'description',
-        'category',
+        '_category',
         'area',
         'is_active'
     )
@@ -52,6 +52,10 @@ class SubjectAdmin(admin.ModelAdmin):
         'category__area',
     )
 
+    def _category(self, instance):
+        return instance.category.name
+
+
     def area(self, instance):
         return instance.category.area.name
 
@@ -59,7 +63,7 @@ class SubjectAdmin(admin.ModelAdmin):
 class PostAdmin(admin.ModelAdmin):
     list_display = (
         'name',
-        'subject',
+        '_subject',
         'category',
         'area',
         'author',
@@ -77,6 +81,9 @@ class PostAdmin(admin.ModelAdmin):
         'subject',
         'name',
     )
+
+    def _subject(self, instance):
+        return instance.subject.name
 
     def category(self, instance):
         return instance.subject.category.name

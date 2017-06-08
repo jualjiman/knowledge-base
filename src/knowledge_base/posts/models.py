@@ -81,6 +81,13 @@ class Category(CatalogueMixin):
         verbose_name = 'category'
         verbose_name_plural = 'categories'
 
+    def __unicode__(self):
+        return self.get_full_name()
+
+    def get_full_name(self):
+        area = Area.objects.get(id=self.area_id)
+        return u"%s > %s" % (area.name, self.name)
+
 
 class Subject(CatalogueMixin):
     """
@@ -96,6 +103,13 @@ class Subject(CatalogueMixin):
         null=True,
         blank=True
     )
+
+    def __unicode__(self):
+        return self.get_full_name()
+
+    def get_full_name(self):
+        category = Category.objects.get(id=self.category_id)
+        return u"%s > %s" % (category.name, self.name)
 
 
 class Post(CatalogueMixin):
