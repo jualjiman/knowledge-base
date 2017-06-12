@@ -37,7 +37,7 @@ class SubjectAdmin(admin.ModelAdmin):
     list_display = (
         'name',
         'description',
-        'category',
+        '_category',
         'area',
         'is_active'
     )
@@ -52,15 +52,19 @@ class SubjectAdmin(admin.ModelAdmin):
         'category__area',
     )
 
+    def _category(self, instance):
+        return instance.category.name.encode('utf-8')
+
+
     def area(self, instance):
-        return instance.category.area.name
+        return instance.category.area.name.encode('utf-8')
 
 
 class PostAdmin(admin.ModelAdmin):
     list_display = (
         'name',
-        'subject',
-        'category',
+        '_subject',
+        '_category',
         'area',
         'author',
         'is_active'
@@ -78,11 +82,14 @@ class PostAdmin(admin.ModelAdmin):
         'name',
     )
 
-    def category(self, instance):
-        return instance.subject.category.name
+    def _subject(self, instance):
+        return instance.subject.name.encode('utf-8')
+
+    def _category(self, instance):
+        return instance.subject.category.name.encode('utf-8')
 
     def area(self, instance):
-        return instance.subject.category.area.name
+        return instance.subject.category.area.name.encode('utf-8')
 
 
 admin.site.register(Area, AreaAdmin)

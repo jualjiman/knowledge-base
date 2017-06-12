@@ -441,3 +441,17 @@ def replace_solr_schema(core):
         env.schema_remote_path[core]
     )
     run('sudo systemctl restart solr')
+
+
+@task
+def dropdb():
+    """Drop database.
+
+    Drop database without create it again
+
+    Usage:
+        >>>fab environment:vagrant dropdb.
+    """
+    urun('dropdb knowledge_base')
+
+
