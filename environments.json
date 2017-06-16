@@ -24,8 +24,8 @@
         ]
     },
     "production": {
-        "user": "kb",
-        "group": "kb",
+        "user": "pensadero",
+        "group": "pensadero",
         "hosts": ["pensadero.vincoorbis.com"],
         "site_dir": "/var/www/vhosts/pensadero.vincoorbis.com/public/",
         "uploads_dir": "/var/www/pensadero.vincoorbis.com/storage/media",
@@ -39,11 +39,11 @@
     "solr": {
         "user": "solr",
         "group": "solr",
-        "hosts": ["kb.pythonballz.com"],
+        "hosts": ["pensadero.vincoorbis.com"],
         "schema_local_path": "src/templates/search_configuration/solr.xml",
         "schema_remote_path": {
             "staging": "/opt/solr/example/solr/kb/conf/schema.xml",
-            "production": "/opt/solr/example/solr/kb/conf/schema.xml"
+            "production": "/opt/solr/example/solr/pensadero/conf/schema.xml"
         }
     }
 }
