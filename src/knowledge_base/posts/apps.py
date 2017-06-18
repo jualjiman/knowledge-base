@@ -34,3 +34,20 @@ class PostsAppConfig(AppConfig):
             signals.remove_post_index,
             sender=model
         )
+
+        #
+        # Signals that also clear cache.
+        #
+        string_models = ['Area', 'Category', 'Subject']
+        for string_model in string_models:
+            model = self.get_model(string_model)
+
+            post_save.connect(
+                signals.clear_cache_at_saving,
+                sender=model
+            )
+
+            post_delete.connect(
+                signals.clear_cache_at_saving,
+                sender=model
+            )
