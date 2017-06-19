@@ -90,3 +90,13 @@ if 'MEMCACHED_URL' in os.environ:
             'KEY_PREFIX': 'kb::'
         }
     }
+
+
+# Celery config
+if 'AMQP_URL' in os.environ:
+    BROKER_URL = os.environ['AMQP_URL']
+    CELERY_RESULT_BACKEND = BROKER_URL
+    BROKER_TRANSPORT_OPTIONS = {
+        'fanout_prefix': True,
+        'fanout_patterns': True,
+    }

@@ -10,6 +10,7 @@ PACKAGES="$PACKAGES postgresql-9.3 postgresql-server-dev-9.3"
 PACKAGES="$PACKAGES nginx"
 PACKAGES="$PACKAGES default-jre"
 PACKAGES="$PACKAGES memcached"
+PACKAGES="$PACKAGES rabbitmq-server"
 
 apt-get install -y $PACKAGES
 

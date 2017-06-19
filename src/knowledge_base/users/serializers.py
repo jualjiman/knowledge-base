@@ -58,6 +58,7 @@ class ProfileSerializer(ModelSerializer):
            'area',
            'favorite_subjects',
            'can_contribute',
+           'is_notificable_by_area',
         )
 
 
@@ -71,6 +72,7 @@ class ProfileUpdateSerializer(ModelSerializer):
            'name',
            'description',
            'area',
+           'is_notificable_by_area',
         )
 
 

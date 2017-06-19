@@ -105,6 +105,18 @@ def createdb():
 
 
 @task
+def dropdb():
+    """Drop database.
+
+    Drop database without create it again
+
+    Usage:
+        >>>fab environment:vagrant dropdb.
+    """
+    urun('dropdb knowledge_base')
+
+
+@task
 def resetdb():
     """Restore database.
 
@@ -444,14 +456,9 @@ def replace_solr_schema(core):
 
 
 @task
-def dropdb():
-    """Drop database.
-
-    Drop database without create it again
-
-    Usage:
-        >>>fab environment:vagrant dropdb.
+def run_celery():
     """
-    urun('dropdb knowledge_base')
-
-
+    Starts the celery worker inside the Vagrant VM.
+    """
+    with virtualenv():
+        run('celery -B -A knowledge_base worker -l info')

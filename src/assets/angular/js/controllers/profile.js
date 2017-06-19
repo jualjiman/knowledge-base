@@ -54,7 +54,8 @@ app
                 name: response.name,
                 description: response.description,
                 email: response.email,
-                thumbnail: response.thumbnail
+                thumbnail: response.thumbnail,
+                isNotificableByArea: response.isNotificableByArea
             };
 
             // Area is not a mandatory field.
@@ -67,7 +68,6 @@ app
             }
 
             return $scope.profile;
-            
         };
 
         function reloadSelectFields(){

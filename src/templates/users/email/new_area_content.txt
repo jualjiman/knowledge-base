@@ -1,0 +1,10 @@
+Nuevo contenido en tu área
+
+Hola {{ user_full_name }},
+
+Nos gustaría informarte que existe nuevo contenido para tu área ({{ user_area }}):
+
+{{ post_title }}
+{{ post_frontend_url }}
+
+Si tienes problemas con el enlace, te sugerimos pegarlo en la barra de direcciones de tu navegador.

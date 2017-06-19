@@ -132,6 +132,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         null=True
     )
 
+    is_notificable_by_area = models.BooleanField(
+        default=False
+    )
+
     @property
     def thumbnail_settings(self):
         """
@@ -155,13 +159,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         """
         Return full name user:
         """
-        return u'{0}'.format(self.name)
+        return u'{0}'.format(self.name.encode('utf-8'))
 
     def get_short_name(self):
         """
         Return short name user:
         """
-        return self.name
+        return self.name.encode('utf-8')
 
     def send_email(self, subject, body, html=None, from_email=None, **kwargs):
         """

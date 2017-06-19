@@ -55,6 +55,7 @@ class RegistrationProfileSerializer(serializers.ModelSerializer):
         # Constructs the context to be passed to the renderer.
         context = {
             'activation_link': url,
+            'user_full_name': user.get_full_name()
         }
         # Renders the plain text message.
         message_text = render_to_string(

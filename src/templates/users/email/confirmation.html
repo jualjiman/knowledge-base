@@ -1,5 +1,11 @@
-<h1>Activa tu cuenta</h1>
+<h2>Activa tu cuenta</h2>
 
-<a href="{{ activation_link }}">{{ activation_link }}</a>
+<p>Hola {{ user_full_name }},</p>
 
-<p>Si tienes problemas con el enlace te sugerimos pegarlo en la barra de direcciones de tu navegador.</p>
+<p>
+Gracias por utilizar el Pensadero, enseguida esta tu liga de activacion de cuenta:
+</p>
+
+<a href="{{ activation_link }}" target="_blank">{{ activation_link }}</a>
+
+<p>Si tienes problemas con el enlace, te sugerimos pegarlo en la barra de direcciones de tu navegador.</p>

@@ -1,5 +1,9 @@
 Activa tu cuenta
 
+Hola {{ user_full_name }},
+
+gracias por utilizar el Pensadero, enseguida esta tu liga de activacion de cuenta:
+
 Enlace: {{ activation_link }}
 
-Si tienes problemas con el enlace te sugerimos pegarlo en la barra de direcciones de tu navegador.
+Si tienes problemas con el enlace, te sugerimos pegarlo en la barra de direcciones de tu navegador.

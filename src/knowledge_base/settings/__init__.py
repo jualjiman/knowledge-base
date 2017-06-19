@@ -166,6 +166,8 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'America/Mexico_City'
 
+CELERY_TIME_ZONE = TIME_ZONE
+
 USE_I18N = True
 
 USE_L10N = True
@@ -211,3 +213,9 @@ HAYSTACK_CONNECTIONS = {
         'URL': 'http://localhost:8983/solr/collection1/'
     },
 }
+
+
+# Celery config
+BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+
+CELERY_RESULT_BACKEND = BROKER_URL

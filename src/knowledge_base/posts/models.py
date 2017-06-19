@@ -3,6 +3,7 @@ import os
 from hashlib import md5
 
 from django.conf import settings
+from django.contrib.sites.models import Site
 from django.db import models
 
 from knowledge_base.core.db.models import CatalogueMixin
@@ -141,3 +142,22 @@ class Post(CatalogueMixin):
         related_name=u'editable_posts',
         verbose_name='users who can edit the post.'
     )
+
+    def get_frontend_url(self):
+        current_site = Site.objects.get_current()
+
+        domain_url = 'http://{0}'.format(current_site.domain)
+
+        angular_url = (
+            '/#!/panel/areas/{0}/subjects/{1}/categories/{2}/posts/{3}'.format(
+                self.subject.category.area.id,
+                self.subject.category.id,
+                self.subject.id,
+                self.id
+            )
+        )
+
+        return '{0}{1}'.format(
+            domain_url,
+            angular_url
+        )
