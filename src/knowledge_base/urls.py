@@ -26,7 +26,7 @@ urlpatterns = static(
 )
 
 urlpatterns += [
-    url(r'^admin/', admin.site.urls),
+    url(r'^admin', admin.site.urls),
     url(
         r'^api/',
         include(
