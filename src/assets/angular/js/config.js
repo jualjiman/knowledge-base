@@ -17,6 +17,24 @@ app.config([
             }
         });
 
+        markedProvider.setRenderer({
+            link: function(url, title, text) {
+                var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+                var match = url.match(regExp);
+
+                if(!match){
+                    return "<a href='" + url + "'" + (title ? " title='" + text + "'" : '') + " target='_blank'>" + text + "</a>";
+                }
+
+                return (
+                    '<a href="' + url + '" target="_blank"><p><strong>' + text + '</p></a>' +
+                    '<div style="position:relative;height:0;padding-bottom:56.25%">' +
+                    '<iframe src="https://www.youtube.com/embed/' + match[7] + '?ecver=2" width="640" height="360" frameborder="0" style="position:absolute;width:100%;height:100%;left:0" allowfullscreen></iframe>' +
+                    '</div>'
+                );
+            }
+        });
+
         // Toastr configurations.
         angular.extend(toastrConfig, {
             target: 'body',

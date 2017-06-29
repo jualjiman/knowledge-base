@@ -26,7 +26,7 @@
     "production": {
         "user": "pensadero",
         "group": "pensadero",
-        "hosts": ["barryallen.vincolabs.com"],
+        "hosts": ["pensadero.vincoorbis.com"],
         "site_dir": "/var/www/vhosts/pensadero.vincoorbis.com/public/",
         "uploads_dir": "/var/www/pensadero.vincoorbis.com/storage/media",
         "django_settings": "knowledge_base.settings.production",

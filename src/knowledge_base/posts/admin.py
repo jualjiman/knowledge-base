@@ -55,7 +55,6 @@ class SubjectAdmin(admin.ModelAdmin):
     def _category(self, instance):
         return instance.category.name.encode('utf-8')
 
-
     def area(self, instance):
         return instance.category.area.name.encode('utf-8')
 

@@ -62,6 +62,9 @@ class Area(CatalogueMixin):
             "thumbnail_field": "thumbnail"
         }
 
+    class Meta:
+        ordering = ['name']
+
 
 class Category(CatalogueMixin):
     """
@@ -80,6 +83,7 @@ class Category(CatalogueMixin):
     class Meta:
         verbose_name = 'category'
         verbose_name_plural = 'categories'
+        ordering = ['area__name', 'name']
 
     def __unicode__(self):
         return self.get_full_name()
@@ -103,6 +107,13 @@ class Subject(CatalogueMixin):
         null=True,
         blank=True
     )
+
+    class Meta:
+        ordering = [
+            'category__area__name',
+            'category__name',
+            'name'
+        ]
 
     def __unicode__(self):
         return self.get_full_name()
@@ -141,3 +152,11 @@ class Post(CatalogueMixin):
         related_name=u'editable_posts',
         verbose_name='users who can edit the post.'
     )
+
+    class Meta:
+        ordering = [
+            'subject__category__area__name',
+            'subject__category__name',
+            'subject__name',
+            'name'
+        ]
